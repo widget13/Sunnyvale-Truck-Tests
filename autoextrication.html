@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="dark light">
+<title>Truck Auto Extrication Proficiency Test - Official Proctor Guide & Evaluator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { background-color: #0f172a; color: #f8fafc; padding-bottom: calc(120px + env(safe-area-inset-bottom)); -webkit-tap-highlight-color: transparent; }
+  /* iPhone: 16px inputs stop Safari from zooming the page when a field is tapped */
+  input, textarea, select { font-size: 16px !important; }
+  button, .nav-btn, .btn-score { touch-action: manipulation; }
+  .footer-bar { padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important; padding-left: max(16px, env(safe-area-inset-left)) !important; padding-right: max(16px, env(safe-area-inset-right)) !important; }
+  #timerDock { bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
+  header { padding-top: max(12px, env(safe-area-inset-top)) !important; }
+  
+  header { 
+    background: #020617; 
+    border-bottom: 2px solid #334155; 
+    padding: 12px 16px; 
+    position: -webkit-sticky;
+    position: sticky; 
+    top: 0; 
+    z-index: 999; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+  }
+  .header-title h1 { font-size: 1.05rem; font-weight: 700; color: #fff; }
+  .header-title p { font-size: 0.75rem; color: #94a3b8; }
+  .score-badge { text-align: right; }
+  .score-scope { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; color: #94a3b8; font-weight: 700; }
+  .score-val { font-size: 1.15rem; font-weight: 800; color: #3b82f6; }
+  .score-status { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; }
+
+  /* Navigation Bar */
+  .nav-bar { 
+    display: flex; 
+    overflow-x: scroll; 
+    -webkit-overflow-scrolling: touch;
+    background: #1e293b; 
+    border-bottom: 2px solid #475569; 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 56px;
+    z-index: 990;
+    padding: 6px;
+    gap: 6px;
+  }
+  .nav-btn { 
+    flex: 0 0 auto;
+    padding: 10px 14px; 
+    background: #334155; 
+    border: 1px solid #475569; 
+    border-radius: 6px;
+    color: #cbd5e1; 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    cursor: pointer;
+  }
+  .nav-btn.tab-done { background: #bbf7d0; color: #052e16; border-color: #4ade80; }
+  .nav-btn.tab-exempt { opacity: 0.55; }
+  .nav-btn.tab-done::before { content: '\2713 '; }
+  .nav-btn.active.tab-done { background: #16a34a; color: #ffffff; border-color: #bbf7d0; box-shadow: 0 0 0 2px #bbf7d0; }
+  .nav-btn.active { 
+    background: #3b82f6; 
+    color: #ffffff; 
+    border-color: #60a5fa; 
+  }
+
+  #clearOverlay { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.92); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+  #clearOverlay.show { display: flex; }
+  #exportOverlay { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.92); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+  #exportOverlay.show { display: flex; }
+  #exportOverlay .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  #exportOverlay h2 { font-size: 1.1rem; margin-bottom: 10px; }
+  #exportOverlay p.opt { font-size: 0.82rem; line-height: 1.4; color: #cbd5e1; margin: 6px 0 14px; }
+  #exportOverlay p.warn { color: #fcd34d; }
+  #exportOverlay button { display: block; width: 100%; padding: 14px; border-radius: 6px; border: 0; font-size: 0.95rem; font-weight: 700; color: #fff; }
+  #clearOverlay .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%; }
+  #clearOverlay h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  #clearOverlay p { font-size: 0.9rem; line-height: 1.45; color: #cbd5e1; margin-bottom: 14px; }
+  #clearOverlay button { display: block; width: 100%; padding: 14px; margin-top: 8px; border-radius: 6px; border: 0; font-size: 0.95rem; font-weight: 700; color: #fff; }
+  #timerDock { display: none; position: fixed; right: 10px; bottom: 72px; z-index: 998; background: #020617; border: 2px solid #3b82f6; border-radius: 10px; padding: 6px 8px; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: calc(100vw - 20px); box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+  #timerDock.show { display: flex; }
+  #timerDock .t-label { font-size: 0.6rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; max-width: 62px; line-height: 1.1; }
+  #timerDock .t-time { font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; color: #f8fafc; min-width: 56px; text-align: center; }
+  #timerDock.running .t-time { color: #22c55e; }
+  #timerDock button { min-height: 42px; padding: 0 8px; border: 0; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #fff; background: #2563eb; }
+  #timerDock button.t-stop { background: #b91c1c; }
+  #timerDock button:disabled { opacity: 0.4; }
+  #timerDock.final .t-time { color: #fbbf24; }
+  #timerDock button.t-reset { background: #475569; }
+  #timerDock button.t-reset.confirm { background: #dc2626; }
+  .nav-btn.timer-running { border-color: #22c55e; box-shadow: inset 0 -3px 0 #22c55e; }
+  .container { max-width: 840px; margin: 0 auto; padding: 14px; }
+  .screen-tab { display: none; }
+  .screen-tab.active { display: block !important; }
+
+  .card { background: #1e293b; border: 1px solid #475569; border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+  .card-header { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: #fff; border-bottom: 1px solid #475569; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  
+  .box-alert { background: rgba(245, 158, 11, 0.15); border-left: 4px solid #f59e0b; padding: 12px; margin-bottom: 12px; border-radius: 4px; font-size: 0.85rem; line-height: 1.45; color: #fde68a; }
+  .box-alert strong { color: #f59e0b; }
+  .box-alert > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.88rem; }
+  .box-info { background: rgba(59, 130, 246, 0.15); border-left: 4px solid #3b82f6; padding: 12px; margin-bottom: 12px; border-radius: 4px; font-size: 0.85rem; line-height: 1.45; color: #bfdbfe; }
+  .box-info strong { color: #60a5fa; }
+  .box-info > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.88rem; }
+  .autosave-banner { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #86efac; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+  /* Sub-evolution Header with Toggle */
+  .sub-evo-header {
+    background: #0b1329;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 16px 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sub-evo-title { font-size: 0.95rem; font-weight: 700; color: #93c5fd; }
+  .sub-evo-subtitle { font-size: 0.75rem; color: #94a3b8; display: block; margin-top: 2px; }
+  
+  /* Status Toggle Buttons */
+  .toggle-status-group { display: flex; gap: 6px; }
+  .btn-toggle-status {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid #475569;
+    background: #1e293b;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .btn-toggle-status.active-tested { background: #2563eb; color: #fff; border-color: #60a5fa; }
+  .btn-toggle-status.active-exempt { background: #64748b; color: #f8fafc; border-color: #94a3b8; }
+
+  .sub-evo-container.is-exempt {
+    opacity: 0.4;
+    pointer-events: none;
+    position: relative;
+  }
+
+  /* Scored Task Rows */
+  .task-row { background: #334155; border: 1px solid #475569; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+  .task-row.safety-critical { border-left: 5px solid #ef4444; }
+  .task-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .task-title { font-weight: 700; font-size: 0.92rem; color: #fff; }
+  .safety-pill { background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-right: 4px; vertical-align: middle; }
+  .task-weight { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
+  .task-desc { font-size: 0.82rem; color: #e2e8f0; margin-bottom: 10px; line-height: 1.35; background: #1e293b; padding: 8px; border-radius: 4px; }
+  .task-desc strong { color: #38bdf8; }
+
+  /* Touch Scoring Buttons */
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-score { 
+    flex: 1; 
+    min-width: 70px;
+    padding: 12px 6px; 
+    border: 1px solid #64748b; 
+    background: #0f172a; 
+    color: #cbd5e1; 
+    border-radius: 6px; 
+    font-weight: 800; 
+    font-size: 0.88rem; 
+    cursor: pointer; 
+    text-align: center; 
+  }
+  .btn-score.selected-0 { background: #ef4444 !important; color: #fff !important; border-color: #b91c1c !important; }
+  .btn-score.selected-1 { background: #f59e0b !important; color: #000 !important; border-color: #d97706 !important; }
+  .btn-score.selected-2 { background: #22c55e !important; color: #fff !important; border-color: #15803d !important; }
+  .btn-score.btn-clear { flex: 0.4; background: #1e293b; color: #94a3b8; font-size: 0.72rem; }
+
+  /* Partial Deduction Text Box */
+    .print-score-pill {
+    display: none;
+    font-size: 0.78rem;
+  }
+  .partial-notes-wrap {
+    margin-top: 8px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    padding: 8px;
+    display: none;
+  }
+  .partial-notes-wrap label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fde68a;
+    margin-bottom: 4px;
+  }
+  .partial-notes-wrap input {
+    width: 100%;
+    padding: 8px;
+    background: #020617;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.82rem;
+  }
+
+  /* Aerial Trainee Flown Yes/No Prompt */
+  .fly-prompt-wrap {
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  .fly-prompt-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #93c5fd;
+    margin-bottom: 6px;
+  }
+  .fly-btn-group { display: flex; gap: 8px; }
+  .fly-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #cbd5e1;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .fly-btn.active-yes { background: #2563eb; color: #fff; border-color: #60a5fa; }
+  .fly-btn.active-no { background: #475569; color: #fff; border-color: #94a3b8; }
+  .fly-sub-box {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #3b82f6;
+    display: none;
+  }
+
+  /* Inputs */
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: #94a3b8; }
+  .form-group input, .form-group textarea { 
+    width: 100%; 
+    padding: 12px; 
+    background: #0f172a; 
+    border: 1px solid #475569; 
+    border-radius: 6px; 
+    color: #fff; 
+    font-size: 0.95rem; 
+  }
+
+  .form-group input[type="date"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 46px;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: left;
+  }
+  .form-group input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+
+  /* Navigation Buttons */
+  .btn-nav-action { 
+    display: block; 
+    width: 100%; 
+    padding: 14px; 
+    margin-top: 14px; 
+    background: #3b82f6; 
+    color: #fff; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: 800; 
+    font-size: 0.95rem; 
+    cursor: pointer; 
+    text-align: center; 
+  }
+  .btn-pdf { background: #22c55e; }
+  .btn-reset { background: #dc2626; margin-top: 10px; }
+
+  /* Bottom Sticky Bar */
+  .footer-bar { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    background: #020617; 
+    border-top: 2px solid #475569; 
+    padding: 10px 16px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    z-index: 999; 
+  }
+  .footer-btn { 
+    padding: 10px 16px; 
+    background: #3b82f6; 
+    color: #fff; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: 700; 
+    font-size: 0.85rem; 
+    cursor: pointer;
+  }
+
+  .airdrop-reminder { background: rgba(14, 165, 233, 0.15); border: 1px solid #0284c7; border-radius: 6px; padding: 12px; margin-bottom: 14px; font-size: 0.86rem; line-height: 1.45; }
+  .airdrop-reminder strong { color: #38bdf8; }
+  .airdrop-reminder > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.92rem; }
+  .airdrop-reminder ol { padding-left: 18px; margin-top: 6px; color: #e2e8f0; }
+  .airdrop-reminder li { margin-bottom: 4px; }
+
+  /* Digital Signature Pads */
+  .sig-section {
+    margin-top: 18px;
+    border-top: 2px solid #475569;
+    padding-top: 14px;
+  }
+  .sig-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .sig-block {
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+  .sig-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .sig-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #93c5fd;
+    white-space: normal;
+    flex: 1 1 180px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .btn-clear-sig {
+    background: #334155;
+    border: 1px solid #64748b;
+    color: #cbd5e1;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .sig-canvas-wrap {
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    position: relative;
+    touch-action: none;
+  }
+  .sig-canvas {
+    display: block;
+    width: 100%;
+    height: 90px;
+    cursor: crosshair;
+  }
+  .sig-line-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+    border-bottom: 1px dashed #94a3b8;
+    pointer-events: none;
+  }
+  .sig-text-sub {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  
+  /* Proctor Section Notes Formatting (Screen & Print) */
+  .print-note-mirror { display: none; }
+  .pdf-notes-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #2563eb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+  }
+  .pdf-notes-title {
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: #0f172a;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pdf-notes-text {
+    font-size: 0.84rem;
+    color: #1e293b;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Preserves proctor line breaks, lists, and indentations */
+    word-break: break-word;
+  }
+
+/* Live PDF Document Sheet Preview (Screen 10) */
+  .pdf-sheet {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+    border: 2px solid #94a3b8;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .pdf-sheet-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .pdf-header-block {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .pdf-dept-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: 0.5px;
+  }
+  .pdf-sub-title {
+    font-size: 0.82rem;
+    color: #475569;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .pdf-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px 16px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    color: #1e293b;
+  }
+  .pdf-score-box {
+    background: #f1f5f9;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .pdf-score-main {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #0f172a;
+  }
+  .pdf-section-title {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin: 14px 0 8px 0;
+  }
+  .pdf-audit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .pdf-audit-list li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdf-audit-list li > span:first-child { flex: 1 1 auto; min-width: 0; }
+  .pdf-audit-list li > span:last-child { flex: 0 0 auto; text-align: right; }
+  .aud-status { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 112px; }
+  .aud-badge { display: inline-block; min-width: 112px; text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; padding: 3px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .aud-badge.pass { color: #15803d; background: #dcfce7; border-color: #86efac; }
+  .aud-badge.fail { color: #b91c1c; background: #fee2e2; border-color: #fca5a5; }
+  .aud-badge.none { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
+  .aud-score { font-size: 0.72rem; color: #475569; font-weight: 600; white-space: nowrap; }
+  .pdf-notes-content {
+    background: #f8fafc;
+    border-left: 3px solid #64748b;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    color: #334155;
+    line-height: 1.45;
+  }
+
+    /* DUAL PRINT ENGINE: SUMMARY RECORD (DEFAULT) OR FULL TEST (SUPERVISOR) */
+  @media print {
+    body { 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+    #earlyEndCard, header, .nav-bar, .footer-bar, .btn-group, .btn-nav-action, .box-alert, .box-info, 
+    .autosave-banner, .btn-reset, .airdrop-reminder, .toggle-status-group, .btn-clear-sig, 
+    .sig-line-hint, .fly-btn-group, .fly-prompt-wrap, .pdf-sheet-badge { 
+      display: none !important; 
+    }
+
+    /* DEFAULT: 1-2 PAGE SUMMARY RECORD ONLY */
+    body:not(.print-full-test) .screen-tab { 
+      display: none !important; 
+    }
+    body:not(.print-full-test) #scr_summary { 
+      display: block !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+
+    /* SUPERVISOR OPTION: FULL COMPREHENSIVE TEST PACKET */
+    body.print-full-test .screen-tab { 
+      display: block !important; 
+      page-break-after: always;
+      padding: 0 !important;
+      margin: 0 0 20px 0 !important;
+    }
+    body.print-full-test #scr_summary { 
+      page-break-before: auto;
+    }
+    #clearOverlay, #exportOverlay, #summaryActionCard, #timerDock { display: none !important; }
+    body.print-full-test .card, body.print-full-test .task-row { 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+      border: 1px solid #999999 !important; 
+      page-break-inside: avoid; 
+    }
+    body.print-full-test .task-desc { 
+      background: #f8fafc !important; 
+      color: #000000 !important; 
+      border: 1px solid #e2e8f0 !important; 
+    }
+    body.print-full-test .task-title { color: #000000 !important; }
+    body.print-full-test .sub-evo-header { 
+      background: #f1f5f9 !important; 
+      border: 1px solid #64748b !important; 
+      color: #000000 !important; 
+      page-break-inside: avoid;
+    }
+    body.print-full-test .sub-evo-title { color: #000000 !important; }
+    body.print-full-test .print-score-pill { 
+      display: inline-block !important; 
+      margin-right: 6px; 
+    }
+    body.print-full-test .partial-notes-wrap { 
+      display: block !important; 
+      background: #ffffff !important; 
+      border: 1px dashed #666666 !important; 
+      color: #000000 !important; 
+      margin-top: 6px !important;
+    }
+    body.print-full-test .partial-notes-wrap input { 
+      border: none !important; 
+      background: transparent !important; 
+      color: #000000 !important; 
+      font-weight: 600 !important;
+      padding: 2px !important;
+    }
+
+    .container { 
+      max-width: 100% !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+    .pdf-sheet { 
+      box-shadow: none !important; 
+      border: none !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+    }
+    .pdf-header-block { border-bottom: 2px solid #000000 !important; }
+    .pdf-meta-grid, .pdf-score-box, .pdf-notes-content { 
+      background: #ffffff !important; 
+      border: 1px solid #666666 !important; 
+      color: #000000 !important; 
+    }
+    .sig-block { 
+      background: #ffffff !important; 
+      border: 1px solid #666666 !important; 
+      color: #000000 !important; 
+      page-break-inside: avoid; 
+    }
+    .sig-label { color: #000000 !important; font-weight: 800 !important; }
+    .sig-canvas-wrap { border: 1px solid #000000 !important; }
+    .sig-canvas { width: 100% !important; height: 75px !important; }
+    .sig-section { page-break-inside: avoid; }
+    body.print-full-test textarea { display: none !important; }
+    body.print-full-test .print-note-mirror {
+      display: block !important;
+      background: #ffffff !important;
+      border: 1px solid #999999 !important;
+      padding: 8px 12px !important;
+      font-size: 0.85rem !important;
+      color: #000000 !important;
+      white-space: pre-wrap !important;
+      margin-top: 6px !important;
+      min-height: 45px !important;
+      page-break-inside: avoid;
+    }
+    .pdf-notes-box {
+      background: #ffffff !important;
+      border: 1px solid #999999 !important;
+      border-left: 4px solid #000000 !important;
+      color: #000000 !important;
+      page-break-inside: avoid;
+    }
+    .pdf-notes-title { color: #000000 !important; }
+    .pdf-notes-text { color: #000000 !important; }
+
+  }</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <h1>Truck Auto Extrication Proficiency Test</h1>
+    <p>Prerequisite to the Phase 2 Test | Aerial Operator</p>
+  </div>
+  <div class="score-badge">
+    <div class="score-scope" id="topScope">OVERALL</div>
+    <div class="score-val" id="topScore">0 / 0</div>
+    <div class="score-status" id="topStatus">PASS</div>
+  </div>
+</header>
+
+<!-- TOP NAVIGATION BAR (10 SECTIONS: Admin + 8 Testing Sections + Summary) -->
+<div class="nav-bar" id="topNav">
+  <button class="nav-btn active" onclick="showScreen('scr_admin', this)">1. Admin</button>
+  <button class="nav-btn" onclick="showScreen('scr_a1', this)">2. Questions</button>
+  <button class="nav-btn" onclick="showScreen('scr_a2', this)">3. Evo 1 De-Energize</button>
+  <button class="nav-btn" onclick="showScreen('scr_a3', this)">4. Evo 2 Side-Lying</button>
+  <button class="nav-btn" onclick="showScreen('scr_a4', this)">5. Evo 3 Overturned</button>
+  <button class="nav-btn" onclick="showScreen('scr_a5', this)">6. Evo 4 Marrying</button>
+  <button class="nav-btn" onclick="showScreen('scr_a6', this)">7. Evo 5 Full Extrication</button>
+  <button class="nav-btn" onclick="showScreen('scr_a7', this)">8. Evo 6 Rapid Lift</button>
+  <button class="nav-btn" onclick="showScreen('scr_summary', this)">9. Finish &amp; PDF</button>
+</div></div>
+
+<div class="container">
+
+  <!-- SCREEN 1: ADMIN -->
+  <div id="scr_admin" class="screen-tab active">
+    <div class="autosave-banner">
+      <span>🛡️ Saved on this device only (nothing is uploaded)</span>
+      <span id="saveStatusIndicator" style="font-size:0.7rem; color:#cbd5e1;"></span>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">Testing Cadre & Candidate Information</div>
+      <div class="form-group">
+        <label>Truck Trainee Name</label>
+        <input type="text" id="traineeName" placeholder="Trainee Full Name" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Test Proctor Name & ID</label>
+        <input type="text" id="proctorName" placeholder="Proctor Name" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Truck Trainer</label>
+        <input type="text" id="trainerName" placeholder="Truck Trainer" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Supervising Lieutenant</label>
+        <input type="text" id="ltName" placeholder="Lieutenant" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Evaluation Date</label>
+        <input type="date" id="evalDate" oninput="saveDraft()">
+      </div>
+      
+    </div>
+
+            <!-- MANDATORY BRIEFING SCRIPT -->
+    <div class="box-alert">
+      <strong>MANDATORY BRIEFING TO TRAINEE (Read Aloud Verbatim Before Starting):</strong>
+      <p style="margin-bottom: 8px; line-height: 1.5;">Today, you will be asked a series of questions and tasked with completing six evolutions to demonstrate your understanding of auto extrication. To pass this proficiency test, you must answer the questions correctly and pass all six evolutions, scoring at least <strong style="color:inherit;">80% in every section</strong>.<br><br>Each section is graded on its own, so a strong score in one section does not make up for falling below 80% in another.</p>
+
+      <p style="margin-bottom: 8px; line-height: 1.5;"><strong>Impartiality:</strong> I will be your proctor for today&#39;s evaluation. Lieutenant [Name] is present as an overall supervisor to ensure this process is fair and impartial. Your Truck Trainer is also here in case I have any questions about the auto extrication training you have received.</p>
+
+      <div style="font-weight:700; color:#fff; background: rgba(0,0,0,0.3); padding: 10px 12px; border-radius: 4px; line-height: 1.45; margin: 10px 0;">
+        ⚠️ LIVE EMERGENCY RULE:<br>
+        At the beginning of each evolution, you will be given a scenario. Treat each evolution as an actual emergency scene. You are solely responsible for wearing the proper PPE for each scenario. We will not tell you what to wear. For any evolution, you may be told not to wear or use specific equipment at the proctor&#39;s discretion.
+      </div>
+
+      <p style="margin-bottom: 8px; line-height: 1.5;"><strong>Safety Stop:</strong> There are no real victims during any of these evolutions. If you encounter a simulated downed person, or someone goes down during a scenario, treat it as a true emergency and act accordingly.</p>
+
+      <p style="margin-bottom: 0; line-height: 1.5;"><em>Do you have any questions before we begin?</em></p>
+    </div>
+
+    <button class="btn-nav-action" style="margin-top: 14px; margin-bottom: 14px;" onclick="showScreen('scr_a1')">Next: Evolution - Auto Extrication Questions →</button>
+
+    <div class="box-info">
+      <strong>PROCTOR SCORING & ADMINISTRATION REFERENCE:</strong>
+      <ul style="padding-left:18px; line-height:1.55;">
+        <li style="margin-bottom: 4px;"><strong>About this test:</strong> The Truck Auto Extrication Proficiency Test is a mandatory prerequisite to the Phase 2 test. It is assessed by the Station 2 Truck Trainer together with a Station 2 HazMat Lieutenant or the Training Coordinator (TC).</li>
+        <li style="margin-bottom: 4px;"><strong>Scoring Rubric (2-point tasks):</strong> 2 Points (Full Credit: completes the task fully and correctly with no errors), 1 Point (Partial Credit: completes the task partially with minor, correctable errors), 0 Points (No Credit: fails to perform the task, omits it entirely, or performs it incorrectly).</li>
+        <li style="margin-bottom: 4px;"><strong>Partial Credit Notes:</strong> Whenever you assign 1 Point, entering a note is highly suggested to document the rationale for the debrief.</li>
+        <li style="margin-bottom: 4px;"><strong>Critical Safety Items (Red Border):</strong> These are the 1-point Pass / Fail tasks (gray on the paper form). If marked Fail to Complete, an automatic failure is recorded for that evolution.</li>
+        <li style="margin-bottom: 4px;"><strong>80% Section Threshold:</strong> The questions and each evolution independently require an 80% score to pass.</li>
+        <li style="margin-bottom: 4px;"><strong>Questions:</strong> Select questions at random. The score is calculated on the questions you actually ask.</li>
+        <li><strong>30-Day Retest Policy:</strong> A trainee who does not meet the minimum standard gets a single retest, which must be completed within 30 calendar days. Failure on the retest results in removal from the Truck Training Program.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCREEN: a1 -->
+  <div id="scr_a1" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Auto Extrication Questions: Auto Extrication Questions</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a1_tested" onclick="setEvoExempt('a1', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a1_exempt" onclick="setEvoExempt('a1', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>TO THE TRAINEE (Read Aloud Verbatim):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">We will now begin the verbal assessment portion of your evaluation. I will be posing questions designed to evaluate your comprehensive knowledge of auto extrication concepts and associated tactical practices. Please feel free to ask for clarification at any time.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR ADMINISTRATION INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">This section assesses the trainee&#39;s theoretical knowledge of auto extrication, expected to come from assigned readings, self-study, and instruction from their truck trainers. Not every question has to be asked. The trainee must score at least <strong>80% on the questions asked</strong>. Unasked questions do NOT count against the trainee. Tap <strong>Clear</strong> at any time to undo a score selection.</p>
+    </div>
+
+    <div id="a1_container" class="sub-evo-container">
+      <div id="a1_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Auto Extrication Questions Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a1" placeholder="Document the rationale for deductions and any additional questions asked..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a1"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a2')">Next: Evolution - Evolution 1: De-energization and Hood Access →</button>
+  </div>
+
+  <!-- SCREEN: a2 -->
+  <div id="scr_a2" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 1: De-energization and Hood Access: Vehicle De-energization and Hood Access</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a2_tested" onclick="setEvoExempt('a2', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a2_exempt" onclick="setEvoExempt('a2', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 1 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You have arrived on the scene of a single vehicle collision. You have been directed by your Lieutenant to immediately de-energize the vehicle.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 12 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 15 minutes (the paper form lists 10 minutes in the header and 15 minutes on the timed task)</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a2_container" class="sub-evo-container">
+      <div id="a2_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 1: De-energization and Hood Access Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a2" placeholder="Document hood access method, de-energization explanation, and any lost points for unlisted issues. Record the actual time..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a2"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a3')">Next: Evolution - Evolution 2: Side-Lying Vehicle Stabilization →</button>
+  </div>
+
+  <!-- SCREEN: a3 -->
+  <div id="scr_a3" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 2: Side-Lying Vehicle Stabilization: Side-Lying Vehicle Stabilization</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a3_tested" onclick="setEvoExempt('a3', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a3_exempt" onclick="setEvoExempt('a3', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 2 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting one vehicle is on its side with people trapped inside. Upon your arrival, IC directs you to stabilize the vehicle.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 19 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 15 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a3_container" class="sub-evo-container">
+      <div id="a3_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 2: Side-Lying Vehicle Stabilization Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a3" placeholder="Document chocking, strut placement, and strap observations. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a3"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a4')">Next: Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift) →</button>
+  </div>
+
+  <!-- SCREEN: a4 -->
+  <div id="scr_a4" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift): Overturned Vehicle Stabilization &amp; Roof Access (Cradle &amp; Lift)</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a4_tested" onclick="setEvoExempt('a4', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a4_exempt" onclick="setEvoExempt('a4', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 3 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting one vehicle on its roof with people trapped inside. Upon your arrival, IC directs you to stabilize the vehicle and remove the roof to get the patient out.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 21 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 30 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Safety observer:</strong> A safety observer must be monitoring the vehicle while the trainee ratchets. The trainee must stay off their knees.</li><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a4_container" class="sub-evo-container">
+      <div id="a4_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift) Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a4" placeholder="Document cradle set-up, ratcheting, step chock use, and clearance. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a4"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a5')">Next: Evolution - Evolution 4: Marrying Vehicles →</button>
+  </div>
+
+  <!-- SCREEN: a5 -->
+  <div id="scr_a5" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 4: Marrying Vehicles: Multi-Vehicle Stabilization (Marrying Vehicles)</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a5_tested" onclick="setEvoExempt('a5', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a5_exempt" onclick="setEvoExempt('a5', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 4 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting more than one vehicle involved, with the vehicles stacked or leaning on one another. Upon your arrival, IC directs you to stabilize the vehicles.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 11 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 30 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Note:</strong> The paper form repeats the Evolution 3 scenario (one vehicle on its roof, remove the roof) for this evolution. The scenario above was rewritten to match marrying vehicles. Change it if your Training Division wants different wording.</li><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a5_container" class="sub-evo-container">
+      <div id="a5_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 4: Marrying Vehicles Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a5" placeholder="Document how the vehicles were married and the stabilization used. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a5"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a6')">Next: Evolution - Evolution 5: Full Extrication →</button>
+  </div>
+
+  <!-- SCREEN: a6 -->
+  <div id="scr_a6" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 5: Full Extrication: Full Extrication</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a6_tested" onclick="setEvoExempt('a6', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a6_exempt" onclick="setEvoExempt('a6', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 5 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You are dispatched to an 11-80. Upon arriving at the scene of a complex motor vehicle collision, you observe a passenger vehicle resting on all four wheels, albeit with significant front-end damage.</p>
+    </div>
+    <div class="box-alert">
+      <strong>STATE AFTER THE 360 IS COMPLETED AND THEY ASK ABOUT PATIENT STATUS (They Should Look Into the Vehicle):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">After performing a 360-degree assessment and checking on the patients, you confirm that there are two individuals in the front seats, the driver and the passenger. The driver&#39;s legs are trapped under the dashboard, though the driver is conscious and breathing. The passenger, on the other hand, is unresponsive with shallow breathing.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 29 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 45 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Patient status:</strong> Read the patient status card above only after the trainee finishes the 360 and asks about the patients.</li><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a6_container" class="sub-evo-container">
+      <div id="a6_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 5: Full Extrication Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a6" placeholder="Document stabilization, glass, door, roof, dash work, and the backup tool answers. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a6"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_a7')">Next: Evolution - Evolution 6: Rapid Vehicle Lift →</button>
+  </div>
+
+  <!-- SCREEN: a7 -->
+  <div id="scr_a7" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Evolution 6: Rapid Vehicle Lift: Rapid Vehicle Lift for Patient Entrapment</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a7_tested" onclick="setEvoExempt('a7', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_a7_exempt" onclick="setEvoExempt('a7', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>EVOLUTION 6 SCENARIO (To Trainee):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">You are arriving on scene to a vehicle collision where a simulated patient is trapped underneath a vehicle. Time is critical due to potential injuries.</p>
+    </div>
+    <div class="box-info">
+      <strong>PROCTOR INSTRUCTIONS:</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 10 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 10 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+    </div>
+
+    <div id="a7_container" class="sub-evo-container">
+      <div id="a7_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Evolution 6: Rapid Vehicle Lift Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_a7" placeholder="Document stabilization, lift, and overall safety observations. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_a7"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_summary')">Review Summary &amp; Finish Test →</button>
+  </div>
+
+  <!-- SCREEN 10: SUMMARY & EXPORT -->
+  <div id="scr_summary" class="screen-tab">
+    <!-- Screen 10 Action Card -->
+    <div class="card" id="summaryActionCard" style="margin-bottom: 16px;">
+      <div class="card-header">
+        <span>Official Qualification Summary & Live PDF Preview</span>
+      </div>
+      
+      <div id="previewPrintWarn" class="box-alert" style="display:none;"><strong>Printing may be blocked in this preview.</strong> If the Export button does nothing, open this file in Safari or Chrome (not inside Claude's preview) and export from there.</div>
+      <div class="airdrop-reminder">
+        <strong>📱 Export Instructions (one PDF):</strong>
+        <ol>
+          <li>Review the <strong>Live PDF Document Preview</strong> below (scores, notes, signatures).</li>
+          <li>Tap <strong>📄 Export PDF</strong> and choose the complete packet or the overview only.</li>
+          <li><strong>iPhone:</strong> in the print sheet, pinch outward on the page preview to open the PDF, then tap Share and choose Mail, Messages, or Save to Files.<br><strong>Android:</strong> choose "Save as PDF", then share or email the saved file.</li>
+          <li>Confirm the PDF has everything. When you return to this page, tap <strong>"Yes, clear all data"</strong>.</li>
+        </ol>
+      </div>
+      
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+        <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="showExportChoice()">📄 Export PDF</button>
+      </div>
+    </div>
+
+    <!-- LIVE PDF DOCUMENT SHEET PREVIEW (EXACTLY WHAT PRINTS) -->
+    <div class="pdf-sheet" id="summaryPrintBlock">
+      <div class="pdf-sheet-badge">📄 LIVE PDF DOCUMENT PREVIEW</div>
+      
+      <div class="pdf-header-block">
+        <div>
+          <div class="pdf-dept-title">CITY OF SUNNYVALE DEPARTMENT OF PUBLIC SAFETY</div>
+          <div class="pdf-sub-title">Fire Training Division • Truck Auto Extrication Proficiency Test Qualification Record</div>
+        </div>
+        <div style="text-align:right; font-size:0.75rem; color:#475569;">
+          <strong>Apparatus:</strong> Station 2 Truck<br>
+          <strong>Doc Form:</strong> Auto Extrication Proficiency Eval
+        </div>
+      </div>
+
+      <div id="summaryBody"></div>
+      
+      <!-- DIGITAL SIGNATURE SECTION (TOUCH / STYLUS) -->
+      <div class="sig-section">
+        <div class="sig-title">Official Signatures & Field Acknowledgments</div>
+        
+        <!-- Trainee Signature (Required Only on Failure / Remediation) -->
+        <div class="sig-block" id="trainee_sig_block">
+          <div class="sig-label-row">
+            <span class="sig-label" id="trainee_sig_label">Truck Trainee Signature (Required Only if Retest / Failed):</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_trainee')">Clear / Redraw</button>
+          </div>
+          <div id="trainee_retest_warning" style="display:none; background:rgba(239, 68, 68, 0.2); border-left:4px solid #ef4444; padding:8px 10px; margin-bottom:8px; border-radius:4px; font-size:0.8rem; color:#fca5a5; line-height:1.4;">
+            <strong>MANDATORY 30-DAY RETEST ACKNOWLEDGMENT:</strong> Trainee signature is mandatory upon failure. Signing acknowledges debrief receipt and notification that you have exactly <strong>30 days</strong> from the test date (<strong id="retestTestDate">test date</strong>) to complete a retest. <strong style="color:#fecaca;">Retest must be completed on or before: <span id="retestDeadline">30 days after the test date</span>.</strong> Failure on the second attempt results in removal from the Truck Training Program.
+          </div>
+          <div id="trainee_pass_note" style="display:block; font-size:0.75rem; color:#86efac; margin-bottom:6px;">
+            ✓ Trainee signature is optional / waived when evaluation standard is met (Passed).
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_trainee" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub" id="trainee_sig_subtext">Required only if retest is needed. Verifies notification of 30-day retest policy.</div>
+        </div>
+
+        <!-- Proctor Signature -->
+        <div class="sig-block">
+          <div class="sig-label-row">
+            <span class="sig-label">Test Proctor Signature:</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_proctor')">Clear / Redraw</button>
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_proctor" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub">Certifies evaluation was administered in accordance with Department Standards.</div>
+        </div>
+
+        <!-- Lieutenant Signature -->
+        <div class="sig-block">
+          <div class="sig-label-row">
+            <span class="sig-label">Supervising Lieutenant Signature:</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_lt')">Clear / Redraw</button>
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_lt" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub">Supervisory verification of qualification record and score totals.</div>
+        </div>
+      </div>
+
+    </div><!-- END PDF SHEET -->
+
+    <div class="card" id="earlyEndCard" style="margin-top:14px;">
+      <button type="button" class="btn-nav-action" id="btn_early_end" style="margin-top:0; background:#475569;" onclick="toggleEarlyEnd()">⛔ Test ended early (injury, fatigue, or other reason)</button>
+      <div id="earlyEndBox" class="form-group" style="display:none; margin-top:10px;">
+        <label for="earlyEndReason" style="font-weight:700; color:#fcd34d;">Reason the test could not be finished (required):</label>
+        <textarea id="earlyEndReason" placeholder="Describe the reason: injury, tiredness, or other. Include the evolution where the test stopped and the time." oninput="onEarlyReasonInput()"></textarea>
+        <div id="earlyEndError" style="display:none; color:#fca5a5; font-size:0.82rem; font-weight:700; margin-top:6px;">A reason is required before you can export. Fill in the box above.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+      <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="showExportChoice()">📄 Export PDF</button>
+    </div>
+      <button class="btn-nav-action btn-reset" onclick="confirmReset()">⚠️ Clear All Data & Reset Test</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="footer-bar">
+  <div>
+    Overall: <strong id="footScore" style="color:#3b82f6;">0 / 0</strong> <span id="footStatus" style="color:#22c55e; font-weight:700;">PASS</span>
+  </div>
+  <button class="footer-btn" onclick="showScreen('scr_summary')">Finish & PDF →</button>
+</div>
+
+<div id="timerDock">
+  <div class="t-label" id="timerLabel">Timer</div>
+  <div class="t-time" id="timerTime">00:00</div>
+  <button type="button" id="timerToggle" onclick="toggleTimer()">Start</button>
+  <button type="button" class="t-stop" id="timerStop" onclick="stopTimer()">Stop</button>
+  <button type="button" class="t-reset" id="timerReset" onclick="resetTimer()">Reset</button>
+</div>
+
+<div id="exportOverlay">
+  <div class="box">
+    <h2>What do you want to export?</h2>
+    <button type="button" style="background:#2563eb;" onclick="hideExportChoice(); printFullEvaluationPacket();">Complete packet</button>
+    <p class="opt">The score summary first, then the full test with every task and question.</p>
+    <button type="button" style="background:#0d9488;" onclick="hideExportChoice(); printOverviewOnly();">Overview only</button>
+    <p class="opt warn">This will not show all the missed questions, just an overview of the score.</p>
+    <button type="button" style="background:#475569;" onclick="hideExportChoice()">Cancel</button>
+  </div>
+</div>
+
+<div id="clearOverlay">
+  <div class="box">
+    <h2>Is the PDF saved or sent?</h2>
+    <p>Make sure the PDF has the summary, the full test, and all signatures. Clearing removes this candidate's names, scores, notes and signatures from this device and cannot be undone.</p>
+    <button type="button" style="background:#dc2626;" onclick="clearNow()">Yes, clear all data for the next test</button>
+    <button type="button" style="background:#475569;" onclick="hideClearPrompt()">Not yet, keep the data</button>
+  </div>
+</div>
+
+<script>
+var tasksData = {
+  a1: [
+    { id: "a0_1", isQ: true, title: "When stabilizing an overturned vehicle using the \"cradle and lift\" method, what is the purpose of placing cribbing underneath the rear window points as the vehicle is being lifted?", desc: "<strong>Answer:</strong> This \"progressive cribbing\" ensures that if the lifting mechanism fails or shifts, the vehicle only drops a short distance (to the cribbing) instead of falling all the way down.", max: 2 },
+    { id: "a0_2", isQ: true, title: "What is \"marrying vehicles\" in an extrication context, and when would you perform this?", desc: "<strong>Answer:</strong> \"Marrying vehicles\" is the technique of connecting two or more vehicles involved in a collision, often with straps, chains, or heavy-duty winches, to create a single, more stable mass. It is performed when vehicles are stacked or leaning on one another.", max: 2 },
+    { id: "a0_3", isQ: true, title: "Describe the \"Dash Lift\" technique. When is it typically used, and what tools are commonly involved?", desc: "<strong>Answer:</strong> The \"Dash Lift\" (or Dash Roll) displaces the dashboard and steering column forward and upward, creating space to free a patient whose lower extremities are pinned under the dashboard. It is typically used for front-end impacts. Common tools are a hydraulic ram or hydraulic spreaders, with cribbing to capture the gained space.", max: 2 },
+    { id: "a0_4", isQ: true, title: "What is the significant hazard associated with Supplemental Restraint Systems (SRS), such as airbags and seatbelt pretensioners, during extrication, and how is it managed?", desc: "<strong>Answer:</strong> The hazard is unintended deployment during extrication, which can cause severe injury to rescuers or patients. It is managed primarily by de-energizing the vehicle electrical system (battery disconnection) and understanding the 5-10-20 rule (maintaining safe distances from undeployed airbags).", max: 2 },
+    { id: "a0_5", isQ: true, title: "What are three common methods for gaining access to the hood of a vehicle when the primary latch is inaccessible or inoperable?", desc: "<strong>Answer:</strong><br>• Cutting the hood (for example, a \"V\" cut or a \"box\" cut)<br>• Using hydraulic tools (for example, spreaders to pry open a seam)<br>• Removing the headlights to gain access to the latch mechanism or cables<br>• Using a pry tool (for example, a Halligan) to force the hood open", max: 2 },
+    { id: "a0_6", isQ: true, title: "Explain the \"peel and peek\" technique in auto extrication.", desc: "<strong>Answer:</strong> Pulling back or peeling away a section of sheet metal or trim (often with an axe, pry bar, or hydraulic tool) to expose inner components such as undeployed airbags, seatbelt pretensioners, wires, or high-strength steel areas before making a cut.", max: 2 },
+    { id: "a0_7", isQ: true, title: "What is the primary function of stabilization struts like the Rescue 42, and what key principle do they use?", desc: "<strong>Answer:</strong> They prevent vehicle movement (rocking, rolling, shifting) during extrication operations. They primarily use the tension buttress principle, creating a rigid support structure that transfers the vehicle weight to the ground and resists lateral forces.", max: 2 },
+    { id: "a0_8", isQ: true, title: "Describe the basic principle and purpose of using wheel chocks.", desc: "<strong>Answer:</strong> Wheel chocks are wedges or blocks placed snugly against the tires of a vehicle to prevent any forward, backward, or lateral movement, ensuring basic vehicle stability before other stabilization methods are applied.", max: 2 },
+    { id: "a0_9", isQ: true, title: "Explain the concept of \"de-energizing\" a vehicle. Why is it critical, and what are the main steps for a traditional internal combustion engine vehicle?", desc: "<strong>Answer:</strong> De-energizing means rendering the electrical and fuel systems inert to prevent ignition, unintended airbag deployment, or other electrical hazards. It is critical for responder and patient safety. Main steps: cut the negative battery cable first (leave a 1-inch gap in the wire), then cut the positive cable only after the negative is fully severed and isolated, and identify the SRS components.", max: 2 },
+    { id: "a0_10", isQ: true, title: "What is the maximum working load capacity of a standard Rescue 42 TeleCrib strut?", desc: "<strong>Answer:</strong> 18,000 lbs (9 tons), with a greater than 2:1 safety factor.", max: 2 },
+    { id: "a0_11", isQ: true, title: "What type of vehicle material poses the biggest challenge for eDraulic cutters, and why?", desc: "<strong>Answer:</strong> Boron steel (or Ultra-High Strength Steel, UHSS), commonly found in newer vehicle safety cages and pillars.", max: 2 },
+    { id: "a0_12", isQ: true, title: "Why is it crucial to ensure all slack is removed from the Rescue 42 strap once it is deployed and connected?", desc: "<strong>Answer:</strong> The effectiveness of the strap relies on maintaining tension. Any slack allows unwanted movement or settling of the vehicle, compromising the stability achieved by the struts and reducing the ability of the system to resist forces during extrication operations.", max: 2 },
+    { id: "a0_13", isQ: true, title: "According to Rescue 42, what is the stated weight capacity of the Rescue 42 red rescue straps?", desc: "<strong>Answer:</strong> 10,000 lb (4,536 kg).", max: 2 },
+    { id: "a0_14", isQ: true, title: "When using the ratchet strap, how many thicknesses of strap must be rotated onto the drum, and what position must the handle be in, to achieve its stated 10,000 lb strength?", desc: "<strong>Answer:</strong> Rotate the drum to get at least 3 thicknesses of strap, and the handle must be in the lock position.", max: 2 },
+    { id: "a0_15", isQ: true, title: "What type of glass is the Beluga Glass Cutter primarily designed to cut, and why is this important in modern vehicle extrication?", desc: "<strong>Answer:</strong> Laminated safety glass, which is now common in windshields and increasingly in side and rear windows. It is much more difficult and hazardous to remove with traditional methods (like a reciprocating saw or axe) because of its multiple layers and plastic interlayer.", max: 2 }
+  ],
+  a2: [
+    { id: "a1_1", title: "Total Time to Complete Evolution (15 Minutes)", desc: "Evolution is completed within 15 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a1_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a1_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a1_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a1_5", title: "Hood Access Demonstration", desc: "Used one primary technique for rapidly gaining access to the vehicle engine compartment through the hood (for example, strategic cutting, hydraulic tool application, headlight removal for access, or pry tool use).", max: 2 },
+    { id: "a1_6", title: "De-energization Explanation", desc: "Accurately explained de-energizing the vehicle, including steps like battery disconnection and identification of Supplemental Restraint System (SRS) components.", max: 1, safety: true, isPassFail: true },
+    { id: "a1_7", title: "Additional Hood Access Discussion", desc: "Discussed at least two additional tools or methods for accessing the vehicle hood, showing a broader understanding of extrication techniques.", max: 2 }
+  ],
+  a3: [
+    { id: "a2_1", title: "Total Time to Complete Evolution (15 Minutes)", desc: "Evolution is completed within 15 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a2_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a2_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a2_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a2_5", title: "Chocking & Basic Stabilization", desc: "Accurately placed wheel chocks (wedges or step chocks) against the (\"clean\") side of the vehicle, preventing unintended movement.", max: 2 },
+    { id: "a2_6", title: "Rescue 42 Deployment (Dirty Side)", desc: "Correctly deployed one short strut on the (\"dirty\") side of the vehicle.", max: 2 },
+    { id: "a2_7", title: "Rescue 42 Deployment (Clean Side)", desc: "Correctly deployed one long strut on the (\"clean\") side of the vehicle, creating a stable platform for access.", max: 2 },
+    { id: "a2_8", title: "Rescue 42 Alignment & Load Distribution", desc: "Ensured both Rescue 42 strut bases were properly aligned, promoting optimal load distribution and stability across the stabilization system.", max: 2 },
+    { id: "a2_9", title: "Transverse Strap Application (Rescue 42)", desc: "Properly installed a transverse strap connecting both Rescue 42 bases underneath the vehicle to enhance stability and prevent lateral movement.", max: 2 },
+    { id: "a2_10", title: "Strut Placement (Engine / Truck Compartment Area)", desc: "Strategically placed the Rescue 42 struts near the engine compartment and near the truck compartment, targeting the primary points of vehicle mass and structural integrity.", max: 2 }
+  ],
+  a4: [
+    { id: "a3_1", title: "Total Time to Complete Evolution (30 Minutes)", desc: "Evolution is completed within 30 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a3_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a3_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a3_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a3_5", title: "Chocking & Basic Stabilization", desc: "Placed two wedges in front of the vehicle, under the hood area, and two step chocks beneath the vehicle, positioned at the C-posts.", max: 2 },
+    { id: "a3_6", title: "Rescue 42 Deployment", desc: "Correctly deployed two long Rescue 42 struts, fully extended, one on each side of the rear of the vehicle.", max: 2 },
+    { id: "a3_7", title: "Vehicle Cradle Set-Up (Chain)", desc: "Correctly ran the stabilization chain from one strut to the other, underneath the vehicle. If applicable, the chain was routed through a small, non-door-mounted rear window.", max: 2 },
+    { id: "a3_8", title: "Vehicle Cradle Set-Up (Rescue 42 Straps)", desc: "Correctly placed two straps connecting the base of one strut to the base of the other, ensuring proper tensioning and securement of the cradle system.", max: 2 },
+    { id: "a3_9", title: "Vehicle Cradle Lift (Ratcheting)", desc: "With a safety observer monitoring the vehicle, began to ratchet one side. The trainee remained off their knees while performing this task.", max: 2 },
+    { id: "a3_10", title: "Vehicle Cradle Lift (Step Chocks)", desc: "Accurately recognized the upward movement and inserted step chocks to capture and secure the newly gained height, continuously stabilizing the vehicle.", max: 2 },
+    { id: "a3_11", title: "Vehicle Cradle Lift (Lift)", desc: "Alternated ratcheting each strut to lift the vehicle, while simultaneously and continuously inserting step chocks to capture gained height, until approximately 1 inch of clearance.", max: 2 }
+  ],
+  a5: [
+    { id: "a4_1", title: "Total Time to Complete Evolution (30 Minutes)", desc: "Evolution is completed within 30 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a4_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a4_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a4_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a4_5", title: "Stabilization - Safety Steps", desc: "Identified any immediate safety concerns regarding potential vehicle movement. Notified the team and promptly implemented temporary stabilization to mitigate the risk.", max: 1, safety: true, isPassFail: true },
+    { id: "a4_6", title: "Stabilization - Marrying", desc: "Effectively demonstrated techniques to marry two vehicles together, ensuring their stability. Used appropriate tension to remove suspension travel and secure both vehicles.", max: 1, safety: true, isPassFail: true },
+    { id: "a4_7", title: "Stabilization - Finishing", desc: "Successfully completed stabilization of both vehicles, applying all stabilization, auto cribs, and Rescue 42s. Demonstrated an understanding of final stabilization principles for complex incidents.", max: 2 }
+  ],
+  a6: [
+    { id: "a5_1", title: "Total Time to Complete Evolution (45 Minutes)", desc: "Evolution is completed within 45 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a5_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a5_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a5_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a5_5", title: "Stabilization - Safety Steps", desc: "Identified any immediate safety concerns regarding potential vehicle movement. Notified the team and promptly implemented temporary stabilization to mitigate the risk.", max: 1, safety: true, isPassFail: true },
+    { id: "a5_6", title: "Stabilization (Auto Cribs / Step Chocks / Cribbing)", desc: "Effectively used auto cribs, step chocks, or traditional cribbing to prevent side-to-side movement of the vehicle. Stabilization was placed under both A-pillars and forward of the rear tires.", max: 2 },
+    { id: "a5_7", title: "Stabilization (Tire Deflation)", desc: "Articulated the procedure for deflating the vehicle tires as a method to allow the vehicle to settle firmly onto the deployed stabilization equipment, enhancing overall stability.", max: 2 },
+    { id: "a5_8", title: "Stabilization (Check)", desc: "Performed a gentle and controlled rock test on the vehicle to confirm the effectiveness of the deployed stabilization and ensure there is no significant movement.", max: 2 },
+    { id: "a5_9", title: "De-Energization", desc: "Correctly cut the negative battery cable first, leaving a 1-inch gap in the wire. Then cut the positive battery cable only after the negative cable was fully severed and isolated.", max: 2 },
+    { id: "a5_10", title: "Glass Management (Patient Care)", desc: "Verbally explained the steps for patient protection during glass removal: covering the patient, and explicitly stating that a mask will be provided to the patient if using tools such as the Beluga.", max: 2 },
+    { id: "a5_11", title: "Glass Management (Front Windshield)", desc: "Used one of the hand tools to properly and safely remove the front windshield. If using the Beluga or a reciprocating saw, the trainee was observed wearing a mask for respiratory protection.", max: 2 },
+    { id: "a5_12", title: "Glass Management (Side and Rear Windows)", desc: "Used one of the hand tools (for example, Halligan, window punch, axe) to properly and safely remove the vehicle side and rear glass, crucially avoiding striking the simulated patient.", max: 1, safety: true, isPassFail: true },
+    { id: "a5_13", title: "Door(s) Removal", desc: "Created a purchase point in the door, then effectively used appropriate tools (for example, hydraulic spreaders, cutters, ram) to safely and completely remove the door from the vehicle. Throughout the operation, maintained a safe working position, never between the tool and the vehicle.", max: 1, safety: true, isPassFail: true },
+    { id: "a5_14", title: "Roof Removal", desc: "Performed the \"peel and peek\" on each pillar to verify no concealed hazards, and systematically cut each pillar one at a time using a variety of tools (for example, cutter, reciprocating saw). Communicated the strategy for roof displacement and gave clear directions on the designated location for the roof, ensuring a safe and organized operation.", max: 1, safety: true, isPassFail: true },
+    { id: "a5_15", title: "Dash Push - Required Cuts", desc: "Effectively made the appropriate cuts necessary to facilitate a dash push: above and below the hinge, and a relief cut. \"Peel and peek\" shall be performed in every location where cutting is being done.", max: 2 },
+    { id: "a5_16", title: "Dash Push or Lift", desc: "<strong>(Ram)</strong> Effectively used the hydraulic ram to incrementally push the dashboard away from the simulated patient, and promptly inserted appropriate cribbing into the created opening to capture the gained space and prevent the dash from retracting.<br><strong>(Lift)</strong> Effectively used the hydraulic spreaders to incrementally lift the dashboard away from the simulated patient. Promptly turned off the spreaders and removed the battery to prevent the dash from retracting onto the patient.", max: 2 },
+    { id: "a5_17", title: "Backup Tools Questions", desc: "Questions to ask: In the event of a power tool failure during an auto extrication, every primary powered tool on scene should have a designated hand-operated backup. For each of the following powered tools, the trainee identifies at least one traditional or manual backup tool that could still accomplish the task:<ul style=\"padding-left:18px; margin-top:4px;\"><li><strong>If the hydraulic spreaders fail?</strong><br><em>Backup tools: Hi-Lift jack, Nike spreader (or hydraulic jack with cribbing)</em></li><li><strong>If the hydraulic cutters fail?</strong><br><em>Backup tools: reciprocating saw, metal hand saw</em></li><li><strong>If the hydraulic ram fails?</strong><br><em>Backup tools: chain with Hi-Lift jack, grip hoist (or manual hydraulic jack with cribbing)</em></li></ul>", max: 2 }
+  ],
+  a7: [
+    { id: "a6_1", title: "Total Time to Complete Evolution (10 Minutes)", desc: "Evolution is completed within 10 minutes. Use the timer at the bottom right and write the actual time in the notes.", max: 1, safety: true, isPassFail: true },
+    { id: "a6_2", title: "Comprehensive Scene Assessment (360-Degree Size-Up)", desc: "Performed a 360-degree visual assessment, identifying potential hazards, additional vehicles or patients, and structural integrity issues.", max: 2 },
+    { id: "a6_3", title: "Personal Protective Equipment (PPE) & Tool Staging", desc: "Demonstrated correct selection and proper donning of all required PPE. Appropriately staged essential tools for immediate and efficient deployment.", max: 2 },
+    { id: "a6_4", title: "Effective Communication", desc: "Maintained clear, concise, and effective communication with team members, the trainer, and evaluators regarding scene safety and the initial action plan.", max: 2 },
+    { id: "a6_5", title: "Stabilization (Auto Cribs / Step Chocks / Cribbing)", desc: "Placed two step chocks on the side of the vehicle opposite the lifting operation. If time permitted, a wedge was also placed in front of and behind the front tire. The vehicle was confirmed to be in park with the parking brake engaged. Then deployed one or two auto cribs on the lifting side of the vehicle to capture vertical movement.", max: 1, safety: true, isPassFail: true },
+    { id: "a6_6", title: "Vehicle Lift", desc: "Correctly positioned and operated the spreaders at the appropriate point to effectively lift the vehicle, creating sufficient clearance to safely remove the patient.", max: 1, safety: true, isPassFail: true },
+    { id: "a6_7", title: "Overall Safety", desc: "Demonstrated overall safety awareness throughout the rapid lift operation. This included recognizing the risk of spreader instability if lifted too high, which could result in an uncontrolled descent onto the patient. Also diligently monitored the auto cribs, ensuring they were consistently capturing all space created by the spreaders to maintain continuous stabilization.", max: 1, safety: true, isPassFail: true }
+  ]
+};
+
+var userScores = {};
+var partialNotes = {};
+var flyResponses = {};
+var exemptSections = {};
+
+var memoryStorage = {};
+function safeGetItem(key) {
+  try {
+    if (window.localStorage) return window.localStorage.getItem(key);
+  } catch(e) {}
+  return memoryStorage[key] || null;
+}
+function safeSetItem(key, val) {
+  try {
+    if (window.localStorage) {
+      window.localStorage.setItem(key, val);
+      return;
+    }
+  } catch(e) {}
+  memoryStorage[key] = val;
+}
+function safeRemoveItem(key) {
+  try {
+    if (window.localStorage) {
+      window.localStorage.removeItem(key);
+      return;
+    }
+  } catch(e) {}
+  delete memoryStorage[key];
+}
+
+var STORAGE_KEY = 'TRUCK_TESTS_AUTOEXT_DRAFT';
+
+function setEvoExempt(sectionKey, isExempt) {
+  exemptSections[sectionKey] = isExempt;
+  
+  var btnTested = document.getElementById('btn_toggle_' + sectionKey + '_tested');
+  var btnExempt = document.getElementById('btn_toggle_' + sectionKey + '_exempt');
+  var container = document.getElementById(sectionKey + '_container');
+
+  if (isExempt) {
+    if (btnTested) { btnTested.className = 'btn-toggle-status'; }
+    if (btnExempt) { btnExempt.className = 'btn-toggle-status active-exempt'; }
+    if (container) { container.classList.add('is-exempt'); }
+  } else {
+    if (btnTested) { btnTested.className = 'btn-toggle-status active-tested'; }
+    if (btnExempt) { btnExempt.className = 'btn-toggle-status'; }
+    if (container) { container.classList.remove('is-exempt'); }
+  }
+
+  calculateTotals();
+  saveDraft();
+}
+
+function showScreen(screenId, btnElement) {
+  var screens = document.getElementsByClassName('screen-tab');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  var target = document.getElementById(screenId);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  var navBtns = document.getElementsByClassName('nav-btn');
+  for (var j = 0; j < navBtns.length; j++) {
+    navBtns[j].classList.remove('active');
+  }
+
+  if (btnElement) {
+    btnElement.classList.add('active');
+  } else {
+    for (var k = 0; k < navBtns.length; k++) {
+      if (navBtns[k].getAttribute('onclick').indexOf(screenId) !== -1) {
+        navBtns[k].classList.add('active');
+        navBtns[k].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        break;
+      }
+    }
+  }
+
+  window.scrollTo(0, 0);
+  timerResetArmed = null;
+  updateTimerDock();
+  visitedScreens[screenId] = true;
+  updateHeaderScore();
+  updateTabStates();
+  saveDraft();
+
+  if (screenId === 'scr_summary') {
+    renderSummary();
+  }
+}
+
+
+
+function getTaskDetails(taskId) {
+  var sectionNames = {
+    'a1': "Auto Extrication Questions",
+    'a2': "Evolution 1: De-energization and Hood Access",
+    'a3': "Evolution 2: Side-Lying Vehicle Stabilization",
+    'a4': "Evolution 3: Overturned Vehicle (Cradle & Lift)",
+    'a5': "Evolution 4: Marrying Vehicles",
+    'a6': "Evolution 5: Full Extrication",
+    'a7': "Evolution 6: Rapid Vehicle Lift"
+  };
+
+  for (var secKey in tasksData) {
+    var list = tasksData[secKey];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === taskId) {
+        var secLabel = sectionNames[secKey] || secKey;
+        return {
+          section: secLabel,
+          title: list[i].title,
+          fullLabel: secLabel + ' • ' + list[i].title
+        };
+      }
+    }
+  }
+  return { section: '', title: taskId, fullLabel: taskId };
+}
+
+
+function updatePrintTaskBadges() {
+  for (var secKey in tasksData) {
+    var tasks = tasksData[secKey];
+    for (var i = 0; i < tasks.length; i++) {
+      var t = tasks[i];
+      var badge = document.getElementById('print_badge_' + t.id);
+      if (!badge) continue;
+      
+      if (isTaskExempt(secKey)) {
+        badge.innerHTML = '<span style="color:#64748b; font-weight:700;">[EXEMPT / NOT TESTED]</span>';
+      } else if (userScores[t.id]) {
+        var val = userScores[t.id].val;
+        if (t.isPassFail || t.safety) {
+          badge.innerHTML = (val === 2) ? '<span style="color:#15803d; font-weight:800;">[COMPLETED - PASS]</span>' : '<span style="color:#b91c1c; font-weight:800;">[FAIL TO COMPLETE - CRITICAL FAIL]</span>';
+        } else {
+          var color = (val === 2) ? '#15803d' : ((val === 1) ? '#b45309' : '#b91c1c');
+          badge.innerHTML = '<span style="color:' + color + '; font-weight:800;">[AWARDED: ' + val + ' / ' + t.max + ' PTS]</span>';
+        }
+      } else {
+        badge.innerHTML = '<span style="color:#64748b;">[UNASKED / NOT EVALUATED]</span>';
+      }
+    }
+  }
+}
+
+function renderTasks() {
+  for (var sectionKey in tasksData) {
+    var container = document.getElementById(sectionKey + '_list');
+    if (!container) continue;
+
+    var tasks = tasksData[sectionKey];
+    var html = '';
+    for (var i = 0; i < tasks.length; i++) {
+      var t = tasks[i];
+      if (t.isNoteOnly) {
+        html += '<div class="box-alert" style="margin: 12px 0;"><strong>' + t.title + '</strong>' + t.desc + '</div>';
+        continue;
+      }
+
+      var safetyClass = t.safety ? 'safety-critical' : '';
+      var safetyTag = t.safety ? '<span class="safety-pill">Critical Safety</span>' : '';
+      var qTag = t.isQ ? '<span style="color:#60a5fa; font-weight:700; font-size:0.75rem; margin-right:4px;">[' + (t.tagLabel || 'QUESTION') + ']</span>' : '';
+
+      html += '<div class="task-row ' + safetyClass + '">';
+      html += '  <div class="task-head">';
+      html += '    <div class="task-title">' + safetyTag + qTag + t.title + '</div>';
+      var isPF = t.isPassFail || t.safety || t.max === 1;
+      html += '    <div class="task-weight"><span class="print-score-pill" id="print_badge_' + t.id + '"></span>' + (isPF ? 'Pass / Fail' : 'Max ' + t.max + ' pts') + '</div>';
+      html += '  </div>';
+      html += '  <div class="task-desc">' + t.desc + '</div>';
+
+      // Aerial Flown Yes/No Check
+      if (t.hasFlyCheck) {
+        html += '<div class="fly-prompt-wrap" id="fly_wrap_' + t.id + '">';
+        html += '  <div class="fly-prompt-title">Did the trainee fly the aerial ladder on this evolution?</div>';
+        html += '  <div class="fly-btn-group">';
+        html += '    <button type="button" class="fly-btn" id="btn_fly_' + t.id + '_yes" onclick="setFlownCheck(\'' + t.id + '\', true, true)">YES (Trainee Flown)</button>';
+        html += '    <button type="button" class="fly-btn" id="btn_fly_' + t.id + '_no" onclick="setFlownCheck(\'' + t.id + '\', false, true)">NO (Waived / Proctored)</button>';
+        html += '  </div>';
+        html += '  <div class="fly-sub-box" id="fly_sub_' + t.id + '">';
+        html += '    <div style="font-size:0.78rem; color:#bfdbfe; margin-bottom:4px;"><strong>Precision & Feathering Verification:</strong> Ladder operated with smooth lever feathering, safe feather-stop, and zero abrupt shock load?</div>';
+        html += '  </div>';
+        html += '  <div id="fly_hint_' + t.id + '" style="font-size:0.78rem; color:#fcd34d; margin-top:6px;">Tap YES to open scoring. Tap NO and this item is not scored.</div>';
+        html += '</div>';
+      }
+
+      // Buttons
+      html += '  <div class="btn-group" id="score_wrap_' + t.id + '"' + (t.hasFlyCheck ? ' style="display:none;"' : '') + '>';
+      if (isPF) {
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', true)">Fail to Complete</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', true)">Completed (Pass)</button>';
+      } else if (t.max > 2) {
+        for (var sv = 0; sv <= t.max; sv++) {
+          var svLabel = (sv === 0) ? '0 - Fail' : ((sv === t.max) ? (sv + ' - Full') : String(sv));
+          html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_' + sv + '" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', ' + sv + ', ' + t.max + ', ' + ((t.safety && sv === 0) ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', false)">' + svLabel + '</button>';
+        }
+      } else {
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', false)">0 - Fail</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_1" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 1, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', false)">1 - Partial</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', false)">2 - Full</button>';
+      }
+      html += '    <button type="button" class="btn-score btn-clear" id="btn_' + t.id + '_clear" onclick="clearScore(\'' + t.id + '\')">Clear</button>';
+      html += '  </div>';
+
+      // Optional deduction / failure notes box
+      html += '  <div class="partial-notes-wrap" id="partial_wrap_' + t.id + '">';
+      html += '    <label id="deduct_lbl_' + t.id + '">📝 Deduction / Failure Notes (Optional):</label>';
+      html += '    <input type="text" id="partial_note_' + t.id + '" placeholder="Optional notes on deductions or failure rationale..." oninput="savePartialNote(\'' + t.id + '\', this.value)">';
+      html += '  </div>';
+
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }
+}
+
+function setFlownCheck(taskId, didFly, fromUser) {
+  flyResponses[taskId] = didFly;
+  var sw = document.getElementById('score_wrap_' + taskId);
+  var hint = document.getElementById('fly_hint_' + taskId);
+  if (sw) sw.style.display = didFly ? '' : 'none';
+  if (hint) {
+    hint.innerText = didFly ? '' : 'Not flown: this item is not scored.';
+    hint.style.display = didFly ? 'none' : 'block';
+  }
+  if (!didFly && fromUser && userScores[taskId]) clearScore(taskId);
+  var bYes = document.getElementById('btn_fly_' + taskId + '_yes');
+  var bNo = document.getElementById('btn_fly_' + taskId + '_no');
+  var sub = document.getElementById('fly_sub_' + taskId);
+
+  if (didFly) {
+    if (bYes) bYes.className = 'fly-btn active-yes';
+    if (bNo) bNo.className = 'fly-btn';
+    if (sub) sub.style.display = 'block';
+  } else {
+    if (bYes) bYes.className = 'fly-btn';
+    if (bNo) bNo.className = 'fly-btn active-no';
+    if (sub) sub.style.display = 'none';
+  }
+  saveDraft();
+}
+
+function savePartialNote(taskId, noteText) {
+  partialNotes[taskId] = noteText;
+  saveDraft();
+}
+
+function resetScoreBtns(taskId) {
+  var list = document.querySelectorAll('[id^="btn_' + taskId + '_"]');
+  for (var i = 0; i < list.length; i++) {
+    if (/_clear$/.test(list[i].id)) continue;
+    list[i].className = 'btn-score';
+  }
+}
+function scoreCls(val, max) {
+  if (val === 0) return 'selected-0';
+  if (val >= max) return 'selected-2';
+  return 'selected-1';
+}
+
+function recordScore(sectionKey, taskId, val, max, isSafety, isQ, isPassFail) {
+  resetScoreBtns(taskId);
+
+  var selectedBtn = document.getElementById('btn_' + taskId + '_' + val);
+  if (selectedBtn) {
+    selectedBtn.className = 'btn-score ' + scoreCls(val, max);
+  }
+
+  // Toggle optional deduction / failure notes box
+  var partBox = document.getElementById('partial_wrap_' + taskId);
+  var lbl = document.getElementById('deduct_lbl_' + taskId);
+  if (partBox) {
+    if (val < max) {
+      partBox.style.display = 'block';
+      if (lbl) {
+        lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
+      }
+    } else {
+      partBox.style.display = 'none';
+    }
+  }
+
+  userScores[taskId] = { section: sectionKey, val: val, max: max, safety: isSafety, isQ: isQ, isPassFail: isPassFail };
+  calculateTotals();
+  saveDraft();
+}
+
+function clearScore(taskId) {
+  resetScoreBtns(taskId);
+
+  var partBox = document.getElementById('partial_wrap_' + taskId);
+  if (partBox) partBox.style.display = 'none';
+
+  delete userScores[taskId];
+  calculateTotals();
+  saveDraft();
+}
+
+function isTaskExempt(sectionKey) {
+  if (exemptSections[sectionKey]) return true;
+  return !!exemptSections[getMajorSection(sectionKey)];
+}
+
+// Sub-keys look like m3_a; the major section is the part before the underscore
+function getMajorSection(secKey) {
+  return String(secKey).split('_')[0];
+}
+
+var MAJOR_SECTIONS = [
+  ['a1', "Auto Extrication Questions"],
+  ['a2', "Evolution 1: De-energization and Hood Access"],
+  ['a3', "Evolution 2: Side-Lying Vehicle Stabilization"],
+  ['a4', "Evolution 3: Overturned Vehicle (Cradle & Lift)"],
+  ['a5', "Evolution 4: Marrying Vehicles"],
+  ['a6', "Evolution 5: Full Extrication"],
+  ['a7', "Evolution 6: Rapid Vehicle Lift"]
+];
+function getUnscoredSections(secScores) {
+  var list = [];
+  for (var i = 0; i < MAJOR_SECTIONS.length; i++) {
+    var code = MAJOR_SECTIONS[i][0];
+    if (exemptSections[code]) continue;
+    var sc = secScores[code];
+    if (!sc || sc.possible === 0) list.push(MAJOR_SECTIONS[i][1]);
+  }
+  return list;
+}
+
+function calculateTotals() {
+  var earned = 0;
+  var possible = 0;
+  var safetyFail = false;
+
+  // Track section level totals
+  var secScores = {};
+
+  for (var id in userScores) {
+    var item = userScores[id];
+    if (isTaskExempt(item.section)) continue;
+
+    var majSec = getMajorSection(item.section);
+    if (!secScores[majSec]) secScores[majSec] = { earned: 0, possible: 0, fail: false };
+
+    earned += Math.min(item.val, item.max);
+    possible += item.max;
+    secScores[majSec].earned += Math.min(item.val, item.max);
+    secScores[majSec].possible += item.max;
+
+    if (item.safety && item.val === 0) {
+      safetyFail = true;
+      secScores[majSec].fail = true;
+    }
+  }
+
+  // Check if any tested section is below 80%
+  var sectionFail = false;
+  for (var s in secScores) {
+    if (secScores[s].possible > 0) {
+      var sPct = Math.round((secScores[s].earned / secScores[s].possible) * 100);
+      if (sPct < 80 || secScores[s].fail) {
+        sectionFail = true;
+      }
+    }
+  }
+
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 100;
+  var scoreText = earned + ' / ' + possible;
+
+  document.getElementById('footScore').innerText = scoreText;
+
+  var statusText = '';
+  var statusColor = '';
+
+  if (safetyFail) {
+    statusText = pct + '% (CRITICAL SAFETY FAIL)';
+    statusColor = '#ef4444';
+  } else if (sectionFail) {
+    statusText = pct + '% (SECTION BELOW 80%)';
+    statusColor = '#ef4444';
+  } else if (getUnscoredSections(secScores).length > 0) {
+    var nUns = getUnscoredSections(secScores).length;
+    statusText = nUns + (nUns === 1 ? ' SECTION' : ' SECTIONS') + ' TO SCORE';
+    statusColor = '#f59e0b';
+  } else if (pct >= 80) {
+    statusText = (possible > 0 ? pct + '% ' : '') + '(PASS)';
+    statusColor = '#22c55e';
+  } else {
+    statusText = pct + '% (FAIL)';
+    statusColor = '#ef4444';
+  }
+
+
+  var footStat = document.getElementById('footStatus');
+  footStat.innerText = statusText;
+  footStat.style.color = statusColor;
+
+  updateHeaderScore();
+  updateTabStates();
+}
+
+var earlyEnd = false;
+function escHtml(t) {
+  return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+}
+function applyEarlyEndUI() {
+  var box = document.getElementById('earlyEndBox');
+  var btn = document.getElementById('btn_early_end');
+  if (box) box.style.display = earlyEnd ? 'block' : 'none';
+  if (btn) {
+    btn.style.background = earlyEnd ? '#b45309' : '#475569';
+    btn.innerText = earlyEnd ? '⛔ Test ended early: ON (tap to undo)' : '⛔ Test ended early (injury, fatigue, or other reason)';
+  }
+}
+function toggleEarlyEnd() {
+  earlyEnd = !earlyEnd;
+  applyEarlyEndUI();
+  var er = document.getElementById('earlyEndError');
+  if (er) er.style.display = 'none';
+  saveDraft();
+  renderSummary();
+}
+function onEarlyReasonInput() {
+  var er = document.getElementById('earlyEndError');
+  if (er && document.getElementById('earlyEndReason').value.trim()) er.style.display = 'none';
+  saveDraft();
+  renderSummary();
+}
+function earlyEndBlocksExport() {
+  if (!earlyEnd) return false;
+  var ta = document.getElementById('earlyEndReason');
+  if (ta && ta.value.trim()) return false;
+  var er = document.getElementById('earlyEndError');
+  if (er) er.style.display = 'block';
+  if (ta) { ta.scrollIntoView({block: 'center'}); ta.focus(); }
+  return true;
+}
+
+var NOTE_IDS = ['notes_a1', 'notes_a2', 'notes_a3', 'notes_a4', 'notes_a5', 'notes_a6', 'notes_a7'];
+function collectNotes() {
+  var o = {};
+  NOTE_IDS.forEach(function(id) { var el = document.getElementById(id); if (el) o[id] = el.value; });
+  return o;
+}
+function applyNotes(o) {
+  if (!o) return;
+  for (var id in o) { var el = document.getElementById(id); if (el && o[id]) el.value = o[id]; }
+}
+
+function saveDraft() {
+  try {
+    var draft = {
+      trainee: document.getElementById('traineeName').value,
+      proctor: document.getElementById('proctorName').value,
+      trainer: document.getElementById('trainerName').value,
+      lt: document.getElementById('ltName').value,
+      date: document.getElementById('evalDate').value,
+      scores: userScores,
+      exempt: exemptSections,
+      partialNotes: partialNotes,
+      flyResponses: flyResponses,
+      notes: collectNotes(),
+      signatures: signatureStates,
+      timers: timers,
+      visited: visitedScreens,
+      earlyEnd: earlyEnd,
+      earlyReason: document.getElementById('earlyEndReason').value
+    };
+    safeSetItem(STORAGE_KEY, JSON.stringify(draft));
+    var ind = document.getElementById('saveStatusIndicator');
+    if (ind) {
+      ind.innerText = 'Autosaved ' + new Date().toLocaleTimeString();
+    }
+  } catch (e) {}
+}
+
+function restoreDraft() {
+  try {
+    var raw = safeGetItem(STORAGE_KEY);
+    if (!raw) return;
+    var draft = JSON.parse(raw);
+
+    if (draft.trainee) document.getElementById('traineeName').value = draft.trainee;
+    if (draft.proctor) document.getElementById('proctorName').value = draft.proctor;
+    if (draft.trainer) document.getElementById('trainerName').value = draft.trainer;
+    if (draft.lt) document.getElementById('ltName').value = draft.lt;
+    if (draft.date) document.getElementById('evalDate').value = draft.date;
+
+    applyNotes(draft.notes);
+
+    if (draft.exempt) {
+      exemptSections = draft.exempt;
+      for (var sec in exemptSections) {
+        setEvoExempt(sec, exemptSections[sec]);
+      }
+    }
+
+    if (draft.partialNotes) {
+      partialNotes = draft.partialNotes;
+      for (var tId in partialNotes) {
+        var inp = document.getElementById('partial_note_' + tId);
+        if (inp) inp.value = partialNotes[tId];
+      }
+    }
+
+    if (draft.flyResponses) {
+      flyResponses = draft.flyResponses;
+      for (var fId in flyResponses) {
+        setFlownCheck(fId, flyResponses[fId]);
+      }
+    }
+
+    if (draft.timers) {
+      timers = draft.timers;
+    }
+    if (draft.visited) {
+      visitedScreens = draft.visited;
+    }
+    if (draft.earlyReason) document.getElementById('earlyEndReason').value = draft.earlyReason;
+    earlyEnd = !!draft.earlyEnd;
+    applyEarlyEndUI();
+
+    if (draft.signatures) {
+      signatureStates = draft.signatures;
+      for (var sId in signatureStates) {
+        (function(canvId, dataUri) {
+          var c = document.getElementById(canvId);
+          if (c && dataUri) {
+            var img = new Image();
+            img.onload = function() {
+              var ct = c.getContext('2d');
+              ct.drawImage(img, 0, 0);
+            };
+            img.src = dataUri;
+          }
+        })(sId, signatureStates[sId]);
+      }
+    }
+
+    if (draft.scores) {
+      userScores = draft.scores;
+      for (var id in userScores) {
+        var val = userScores[id].val;
+        var btn = document.getElementById('btn_' + id + '_' + val);
+        if (btn) btn.className = 'btn-score ' + scoreCls(val, draft.scores[id].max);
+        var pBox = document.getElementById('partial_wrap_' + id);
+        var lbl = document.getElementById('deduct_lbl_' + id);
+        if (pBox) {
+          if (val < userScores[id].max) {
+            pBox.style.display = 'block';
+            if (lbl) {
+              lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
+            }
+          } else {
+            pBox.style.display = 'none';
+          }
+        }
+      }
+      calculateTotals();
+    }
+  } catch (e) {}
+}
+
+function clearNow() {
+  try {
+    safeRemoveItem(STORAGE_KEY);
+  } catch(e) {}
+  window.location.reload();
+}
+function showClearPrompt() {
+  var o = document.getElementById('clearOverlay');
+  if (o) o.classList.add('show');
+}
+function hideClearPrompt() {
+  var o = document.getElementById('clearOverlay');
+  if (o) o.classList.remove('show');
+}
+function confirmReset() {
+  showClearPrompt();
+}
+
+function formatRetestDates(isoDate) {
+  var fmt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var parts = (isoDate || '').split('-');
+  if (parts.length !== 3) return { testDate: 'test date', deadline: '30 days after the test date' };
+  var y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+  if (!y || !m || !d) return { testDate: 'test date', deadline: '30 days after the test date' };
+  var t = new Date(y, m - 1, d);
+  var r = new Date(y, m - 1, d + 30);
+  return { testDate: t.toLocaleDateString('en-US', fmt), deadline: r.toLocaleDateString('en-US', fmt) };
+}
+
+function renderSummary() {
+  var trainee = document.getElementById('traineeName').value || 'Unspecified Trainee';
+  var proctor = document.getElementById('proctorName').value || 'Unspecified Proctor';
+  var trainer = document.getElementById('trainerName').value || 'Unspecified Trainer';
+  var lt = document.getElementById('ltName').value || 'Unspecified Lieutenant';
+  var evalDate = document.getElementById('evalDate').value || new Date().toISOString().split('T')[0];
+
+  var earned = 0;
+  var possible = 0;
+  var safetyFail = false;
+  var secScores = {};
+
+  for (var id in userScores) {
+    var item = userScores[id];
+    if (isTaskExempt(item.section)) continue;
+
+    var majSec = getMajorSection(item.section);
+    if (!secScores[majSec]) secScores[majSec] = { earned: 0, possible: 0, fail: false };
+
+    earned += Math.min(item.val, item.max);
+    possible += item.max;
+    secScores[majSec].earned += Math.min(item.val, item.max);
+    secScores[majSec].possible += item.max;
+
+    if (item.safety && item.val === 0) {
+      safetyFail = true;
+      secScores[majSec].fail = true;
+    }
+  }
+
+  var sectionFail = false;
+  for (var s in secScores) {
+    if (secScores[s].possible > 0) {
+      var sPct = Math.round((secScores[s].earned / secScores[s].possible) * 100);
+      if (sPct < 80 || secScores[s].fail) {
+        sectionFail = true;
+      }
+    }
+  }
+
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 100;
+  var unscored = getUnscoredSections(secScores);
+  var hardFail = (pct < 80) || safetyFail || sectionFail;
+  var earlyOn = earlyEnd;
+  var passed = !hardFail && unscored.length === 0 && !earlyOn;
+  var incompleteOnly = !hardFail && (unscored.length > 0 || earlyOn);
+  var resultText = passed ? 'PASSED' : (safetyFail ? 'FAILED (CRITICAL SAFETY VIOLATION)' : (sectionFail ? 'FAILED (SECTION BELOW 80%)' : (hardFail ? 'FAILED (BELOW 80%)' : (earlyOn ? 'INCOMPLETE - TEST ENDED EARLY' : 'INCOMPLETE - NOT SCORED: ' + unscored.join(', ')))));
+  var resultColor = passed ? '#22c55e' : (incompleteOnly ? '#f59e0b' : '#ef4444');
+
+  var warnElem = document.getElementById('trainee_retest_warning');
+  var passNoteElem = document.getElementById('trainee_pass_note');
+  var sigLabelElem = document.getElementById('trainee_sig_label');
+  var sigBlockElem = document.getElementById('trainee_sig_block');
+
+  if (warnElem && passNoteElem && sigLabelElem) {
+    if (incompleteOnly) {
+      warnElem.style.display = 'none';
+      passNoteElem.style.display = 'none';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#fcd34d; font-weight:600;">(Not finished - score every section)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '1px solid #f59e0b';
+    } else if (!passed) {
+      var rtOut = formatRetestDates(evalDate);
+      var rtA = document.getElementById('retestTestDate');
+      var rtB = document.getElementById('retestDeadline');
+      if (rtA) rtA.innerText = rtOut.testDate;
+      if (rtB) rtB.innerText = rtOut.deadline;
+      warnElem.style.display = 'block';
+      passNoteElem.style.display = 'none';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#ef4444; font-weight:800;">(MANDATORY - 30-Day Retest Notice)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '2px solid #ef4444';
+    } else {
+      warnElem.style.display = 'none';
+      passNoteElem.style.display = 'block';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#86efac; font-weight:600;">(Optional - Passed)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '1px solid #475569';
+    }
+  }
+
+  var out = '<div class="pdf-meta-grid">';
+  out += '<div><strong>Truck Trainee:</strong> ' + trainee + '</div>';
+  out += '<div><strong>Evaluation Date:</strong> ' + evalDate + '</div>';
+  out += '<div><strong>Test Proctor:</strong> ' + proctor + '</div>';
+  out += '<div><strong>Truck Trainer:</strong> ' + trainer + '</div>';
+  out += '<div style="grid-column: 1 / -1;"><strong>Supervising Lieutenant:</strong> ' + lt + '</div>';
+  out += '</div>';
+
+  out += '<div class="pdf-score-box">';
+  out += '<div><span style="font-size:0.8rem; text-transform:uppercase; font-weight:700; color:#475569;">Independent Section Evaluation Standard</span><br><span style="font-size:0.92rem; font-weight:700; color:#1e293b;">Each section tested independently (80% Passing Threshold per Section)</span></div>';
+  out += '<div><span style="font-size:0.8rem; text-transform:uppercase; font-weight:700; color:#475569;">Overall Qualification Outcome</span><br><span style="font-size:1.25rem; font-weight:900; color:' + (passed ? '#15803d' : (incompleteOnly ? '#b45309' : '#b91c1c')) + ';">' + resultText + '</span></div>';
+  out += '</div>';
+
+  out += '<div class="pdf-section-title">SECTION-BY-SECTION PASSING AUDIT (80% Passing Threshold per Section):</div>';
+  out += '<ul class="pdf-audit-list">';
+  
+  function getSecStatusLine(secCode, secName) {
+    function row(cls, badge, score) {
+      return '<li><span>' + secName + '</span><span class="aud-status"><span class="aud-badge ' + cls + '">' + badge + '</span>' + (score ? '<span class="aud-score">' + score + '</span>' : '') + '</span></li>';
+    }
+    if (exemptSections[secCode]) return row('none', 'NOT GIVEN', '');
+    var sc = secScores[secCode];
+    if (!sc || sc.possible === 0) return row('none', 'NOT SCORED', '');
+    var p = Math.min(100, Math.round((sc.earned / sc.possible) * 100));
+    var scoreTxt = sc.earned + ' / ' + sc.possible + ' &middot; ' + p + '%';
+    if (p >= 80 && !sc.fail) return row('pass', 'PASSED', scoreTxt);
+    return row('fail', 'FAILED', scoreTxt + (sc.fail ? ' &middot; safety' : ''));
+  }
+
+
+  out += getSecStatusLine('a1', "Auto Extrication Questions");
+  out += getSecStatusLine('a2', "Evolution 1: De-energization and Hood Access");
+  out += getSecStatusLine('a3', "Evolution 2: Side-Lying Vehicle Stabilization");
+  out += getSecStatusLine('a4', "Evolution 3: Overturned Vehicle (Cradle & Lift)");
+  out += getSecStatusLine('a5', "Evolution 4: Marrying Vehicles");
+  out += getSecStatusLine('a6', "Evolution 5: Full Extrication");
+  out += getSecStatusLine('a7', "Evolution 6: Rapid Vehicle Lift");
+  out += '</ul>';
+
+  var timeRows = '';
+  for (var tsId in TIMED_SCREENS) {
+    var te = timerElapsed(tsId);
+    if (te > 0) {
+      timeRows += '<li><span>' + TIMED_SCREENS[tsId] + '</span><span style="font-weight:700;">' + fmtTime(te) + '</span></li>';
+    }
+  }
+  if (timeRows) {
+    out += '<div class="pdf-section-title">EVOLUTION TIMES (recorded for reference):</div>';
+    out += '<ul class="pdf-audit-list">' + timeRows + '</ul>';
+  }
+
+  out += '<div class="pdf-section-title">PROCTOR SECTION FIELD NOTES & EVALUATION DEBRIEF LOGS:</div>';
+
+  function renderSectionNoteCard(secNum, secName, noteElementId, isExempt) {
+    var elem = document.getElementById(noteElementId);
+    var rawText = elem ? elem.value.trim() : '';
+    var cardHtml = '<div class="pdf-notes-box">';
+    cardHtml += '<div class="pdf-notes-title"><span>' + secName + '</span>';
+    if (isExempt) {
+      cardHtml += '<span style="font-size:0.75rem; color:#64748b; font-weight:700;">[EXEMPT]</span>';
+    }
+    cardHtml += '</div>';
+
+    if (isExempt) {
+      cardHtml += '<div class="pdf-notes-text" style="color:#64748b; font-style:italic;">Section Not Given / Exempt from evaluation today.</div>';
+    } else if (rawText && rawText !== '') {
+      var safeText = rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      cardHtml += '<div class="pdf-notes-text">' + safeText + '</div>';
+    } else {
+      cardHtml += '<div class="pdf-notes-text" style="color:#64748b; font-style:italic;">Satisfactory performance — No specific deductions, deficiencies, or corrective remarks recorded.</div>';
+    }
+    cardHtml += '</div>';
+    return cardHtml;
+  }
+
+  out += renderSectionNoteCard('1', "Auto Extrication Questions", 'notes_a1', exemptSections['a1']);
+  out += renderSectionNoteCard('2', "Evolution 1: De-energization and Hood Access", 'notes_a2', exemptSections['a2']);
+  out += renderSectionNoteCard('3', "Evolution 2: Side-Lying Vehicle Stabilization", 'notes_a3', exemptSections['a3']);
+  out += renderSectionNoteCard('4', "Evolution 3: Overturned Vehicle (Cradle & Lift)", 'notes_a4', exemptSections['a4']);
+  out += renderSectionNoteCard('5', "Evolution 4: Marrying Vehicles", 'notes_a5', exemptSections['a5']);
+  out += renderSectionNoteCard('6', "Evolution 5: Full Extrication", 'notes_a6', exemptSections['a6']);
+  out += renderSectionNoteCard('7', "Evolution 6: Rapid Vehicle Lift", 'notes_a7', exemptSections['a7']);
+
+  var hasPartNotes = false;
+  var partHtml = '<div class="pdf-section-title" style="margin-top:14px; color:#b45309;">ITEMIZED FIELD NOTES & DEDUCTION RATIONALE:</div><ul style="font-size:0.84rem; color:#1e293b; padding-left:18px; line-height:1.6;">';
+  for (var pnId in partialNotes) {
+    if (partialNotes[pnId] && partialNotes[pnId].trim() !== '') {
+      hasPartNotes = true;
+      var taskInfo = getTaskDetails(pnId);
+      var scVal = userScores[pnId] ? userScores[pnId].val : 0;
+      var scoreBadge = (scVal === 0) ? '<span style="color:#b91c1c; font-weight:800;">[0 Pts - Fail]</span>' : '<span style="color:#b45309; font-weight:800;">[1 Pt - Partial]</span>';
+      partHtml += '<li style="margin-bottom:8px;">' + scoreBadge + ' <strong>' + taskInfo.fullLabel + ':</strong> ' + partialNotes[pnId] + '</li>';
+    }
+  }
+  partHtml += '</ul>';
+  if (hasPartNotes) {
+    out += partHtml;
+  }
+
+  document.getElementById('summaryBody').innerHTML = out;
+}
+
+function showExportChoice() {
+  if (earlyEndBlocksExport()) return;
+  var o = document.getElementById('exportOverlay');
+  if (o) o.classList.add('show');
+}
+function hideExportChoice() {
+  var o = document.getElementById('exportOverlay');
+  if (o) o.classList.remove('show');
+}
+function printOverviewOnly() {
+  if (earlyEndBlocksExport()) return;
+  document.body.classList.remove('print-full-test');
+  putSummaryFirst(false);
+  renderSummary();
+  setTimeout(function() {
+    window.print();
+    armPrintFallback();
+  }, 100);
+}
+
+function updatePrintNotesMirrors() {
+  var noteIds = NOTE_IDS;
+  noteIds.forEach(function(id) {
+    var ta = document.getElementById(id);
+    var mir = document.getElementById('mirror_' + id);
+    if (ta && mir) {
+      var val = ta.value.trim();
+      mir.innerText = val ? val : 'Satisfactory - No specific field deductions logged.';
+    }
+  });
+}
+
+function putSummaryFirst(first) {
+  var c = document.querySelector('.container');
+  var sum = document.getElementById('scr_summary');
+  if (!c || !sum) return;
+  if (first) c.insertBefore(sum, c.firstChild);
+  else c.appendChild(sum);
+}
+
+function printFullEvaluationPacket() {
+  if (earlyEndBlocksExport()) return;
+  document.body.classList.add('print-full-test');
+  putSummaryFirst(true);
+  renderSummary();
+  updatePrintTaskBadges();
+  updatePrintNotesMirrors();
+  setTimeout(function() {
+    window.print();
+    armPrintFallback();
+  }, 100);
+}
+
+/* iPhone Safari can skip the afterprint event, so the first tap after the print sheet closes also finishes the job */
+var packetPending = false;
+var printFallbackAt = 0;
+function afterPrintCleanup() {
+  var wasPacket = packetPending;
+  packetPending = false;
+  document.body.classList.remove('print-full-test');
+  putSummaryFirst(false);
+  if (wasPacket) setTimeout(showClearPrompt, 400);
+}
+function onPrintFallbackEvent() {
+  if (!packetPending) return;
+  if (Date.now() - printFallbackAt < 1500) return;
+  afterPrintCleanup();
+}
+function armPrintFallback() {
+  packetPending = true;
+  printFallbackAt = Date.now();
+}
+['pointerdown', 'touchstart', 'focus', 'visibilitychange'].forEach(function(ev) {
+  window.addEventListener(ev, onPrintFallbackEvent, true);
+});
+window.addEventListener('afterprint', afterPrintCleanup);
+
+
+/* ==============================================================
+   HTML5 CANVAS TOUCH & STYLUS SIGNATURE LOGIC
+   ============================================================== */
+var signaturePads = ['sig_trainee', 'sig_proctor', 'sig_lt'];
+var signatureStates = {};
+
+function initSignatures() {
+  signaturePads.forEach(function(canvasId) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#0f172a';
+
+    var isDrawing = false;
+    var lastX = 0;
+    var lastY = 0;
+
+    function getCoords(e) {
+      var rect = canvas.getBoundingClientRect();
+      var clientX = e.clientX;
+      var clientY = e.clientY;
+
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
+
+      var scaleX = canvas.width / rect.width;
+      var scaleY = canvas.height / rect.height;
+
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      isDrawing = true;
+      var coords = getCoords(e);
+      lastX = coords.x;
+      lastY = coords.y;
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      var coords = getCoords(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(coords.x, coords.y);
+      ctx.stroke();
+      lastX = coords.x;
+      lastY = coords.y;
+    }
+
+    function stopDraw(e) {
+      if (!isDrawing) return;
+      isDrawing = false;
+      signatureStates[canvasId] = canvas.toDataURL();
+      saveDraft();
+    }
+
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', moveDraw, { passive: false });
+    canvas.addEventListener('touchend', stopDraw, { passive: false });
+    canvas.addEventListener('touchcancel', stopDraw, { passive: false });
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', moveDraw);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
+  });
+}
+
+function clearCanvas(canvasId) {
+  var canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  delete signatureStates[canvasId];
+  saveDraft();
+}
+
+
+/* ==============================================================
+   EVOLUTION STOPWATCHES (informational; no set time limit)
+   ============================================================== */
+var TIMED_SCREENS = {
+  scr_a2: "Evolution 1",
+  scr_a3: "Evolution 2",
+  scr_a4: "Evolution 3",
+  scr_a5: "Evolution 4",
+  scr_a6: "Evolution 5",
+  scr_a7: "Evolution 6"
+};
+var timers = {};
+var timerResetArmed = null;
+
+function currentScreenId() {
+  var a = document.querySelector('.screen-tab.active');
+  return a ? a.id : '';
+}
+function timerElapsed(id) {
+  var t = timers[id];
+  if (!t) return 0;
+  return t.ms + (t.startedAt ? (Date.now() - t.startedAt) : 0);
+}
+function fmtTime(ms) {
+  var total = Math.floor(ms / 1000);
+  var h = Math.floor(total / 3600);
+  var m = Math.floor((total % 3600) / 60);
+  var sec = total % 60;
+  var mm = ('0' + m).slice(-2);
+  var ss = ('0' + sec).slice(-2);
+  return h > 0 ? (h + ':' + mm + ':' + ss) : (mm + ':' + ss);
+}
+function toggleTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  if (!timers[id]) timers[id] = { ms: 0, startedAt: null };
+  var t = timers[id];
+  if (t.startedAt) {
+    t.ms += Date.now() - t.startedAt;
+    t.startedAt = null;
+  } else {
+    t.startedAt = Date.now();
+    t.done = false;
+  }
+  updateTimerDock();
+  saveDraft();
+}
+function stopTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  var t = timers[id];
+  if (!t) return;
+  if (t.startedAt) {
+    t.ms += Date.now() - t.startedAt;
+    t.startedAt = null;
+  }
+  t.done = true;
+  updateTimerDock();
+  saveDraft();
+}
+function resetTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  var btn = document.getElementById('timerReset');
+  if (timerResetArmed !== id) {
+    timerResetArmed = id;
+    if (btn) { btn.innerText = 'Sure?'; btn.className = 't-reset confirm'; }
+    setTimeout(function() {
+      if (timerResetArmed === id) {
+        timerResetArmed = null;
+        updateTimerDock();
+      }
+    }, 3000);
+    return;
+  }
+  timerResetArmed = null;
+  timers[id] = { ms: 0, startedAt: null };
+  updateTimerDock();
+  saveDraft();
+}
+function updateTimerDock() {
+  var dock = document.getElementById('timerDock');
+  if (!dock) return;
+  var id = currentScreenId();
+  var navBtns = document.getElementsByClassName('nav-btn');
+  for (var i = 0; i < navBtns.length; i++) {
+    var oc = navBtns[i].getAttribute('onclick') || '';
+    var running = false;
+    for (var sid in timers) {
+      if (timers[sid] && timers[sid].startedAt && oc.indexOf("'" + sid + "'") !== -1) running = true;
+    }
+    if (running) navBtns[i].classList.add('timer-running');
+    else navBtns[i].classList.remove('timer-running');
+  }
+  if (!TIMED_SCREENS[id]) {
+    dock.className = '';
+    return;
+  }
+  var t = timers[id];
+  var isRunning = !!(t && t.startedAt);
+  var isFinal = !!(t && t.done && !isRunning && t.ms > 0);
+  dock.className = 'show' + (isRunning ? ' running' : '') + (isFinal ? ' final' : '');
+  document.getElementById('timerLabel').innerText = TIMED_SCREENS[id] + (isFinal ? ' - FINAL' : '');
+  var stp = document.getElementById('timerStop');
+  if (stp) stp.disabled = !(isRunning || (t && t.ms > 0 && !t.done));
+  document.getElementById('timerTime').innerText = fmtTime(timerElapsed(id));
+  var tog = document.getElementById('timerToggle');
+  tog.innerText = isRunning ? 'Pause' : ((t && t.ms > 0) ? (isFinal ? 'Restart' : 'Resume') : 'Start');
+  if (timerResetArmed !== id) {
+    var rb = document.getElementById('timerReset');
+    rb.innerText = 'Reset';
+    rb.className = 't-reset';
+  }
+}
+setInterval(updateTimerDock, 500);
+try { if (window.self !== window.top) { var pw = document.getElementById("previewPrintWarn"); if (pw) pw.style.display = "block"; } } catch (e) { var pw2 = document.getElementById("previewPrintWarn"); if (pw2) pw2.style.display = "block"; }
+
+
+/* ==============================================================
+   PER-SECTION HEADER SCORE + COMPLETED-TAB COLOURS
+   ============================================================== */
+var SCREEN_ORDER = ['scr_admin','scr_a1','scr_a2','scr_a3','scr_a4','scr_a5','scr_a6','scr_a7','scr_summary'];
+var SCREEN_INFO = {
+  scr_a1: { label: "Auto Extrication Questions", major: 'a1', secs: ['a1'] },
+  scr_a2: { label: "Evolution 1: De-energization and Hood Access", major: 'a2', secs: ['a2'] },
+  scr_a3: { label: "Evolution 2: Side-Lying Vehicle Stabilization", major: 'a3', secs: ['a3'] },
+  scr_a4: { label: "Evolution 3: Overturned Vehicle (Cradle & Lift)", major: 'a4', secs: ['a4'] },
+  scr_a5: { label: "Evolution 4: Marrying Vehicles", major: 'a5', secs: ['a5'] },
+  scr_a6: { label: "Evolution 5: Full Extrication", major: 'a6', secs: ['a6'] },
+  scr_a7: { label: "Evolution 6: Rapid Vehicle Lift", major: 'a7', secs: ['a7'] }
+};
+/* Sections made of questions: not every one has to be asked */
+var OPTIONAL_SECTIONS = { a1: true };
+var visitedScreens = {};
+
+function screenProgress(screenId) {
+  var info = SCREEN_INFO[screenId];
+  var out = { total: 0, scored: 0, anyScored: false, exempt: false };
+  if (!info) return out;
+  if (exemptSections[info.major]) { out.exempt = true; return out; }
+  for (var i = 0; i < info.secs.length; i++) {
+    var sec = info.secs[i];
+    var list = tasksData[sec] || [];
+    var exemptSec = isTaskExempt(sec);
+    for (var j = 0; j < list.length; j++) {
+      var t = list[j];
+      if (t.isNoteOnly) continue;
+      if (userScores[t.id] && !exemptSec) out.anyScored = true;
+      if (exemptSec || OPTIONAL_SECTIONS[sec] || t.isQ) continue;
+      if (t.hasFlyCheck && flyResponses[t.id] === false) continue;
+      out.total++;
+      if (userScores[t.id]) out.scored++;
+    }
+  }
+  return out;
+}
+
+function updateTabStates() {
+  var navBtns = document.getElementsByClassName('nav-btn');
+  var laterVisited = {};
+  for (var v = 0; v < SCREEN_ORDER.length; v++) {
+    if (visitedScreens[SCREEN_ORDER[v]]) {
+      for (var k = 0; k < v; k++) laterVisited[SCREEN_ORDER[k]] = true;
+    }
+  }
+  for (var i = 0; i < navBtns.length; i++) {
+    var oc = navBtns[i].getAttribute('onclick') || '';
+    var m = oc.match(/'(scr_[a-z0-9_]+)'/);
+    if (!m || !SCREEN_INFO[m[1]]) continue;
+    var id = m[1];
+    var p = screenProgress(id);
+    var done = false;
+    if (!p.exempt) {
+      if (p.total > 0) done = (p.scored === p.total);
+      else done = p.anyScored && !!laterVisited[id];
+    }
+    if (done) navBtns[i].classList.add('tab-done'); else navBtns[i].classList.remove('tab-done');
+    if (p.exempt) navBtns[i].classList.add('tab-exempt'); else navBtns[i].classList.remove('tab-exempt');
+  }
+}
+
+function updateHeaderScore() {
+  var id = currentScreenId();
+  var info = SCREEN_INFO[id];
+  var scopeEl = document.getElementById('topScope');
+  var scoreEl = document.getElementById('topScore');
+  var statEl = document.getElementById('topStatus');
+  if (!scoreEl || !statEl) return;
+  var earned = 0, possible = 0, safetyFail = false;
+  var label = 'OVERALL';
+  if (info) {
+    label = info.label + ' (this section)';
+    var prog = screenProgress(currentScreenId());
+    if (!prog.exempt && prog.total > 0) {
+      label += prog.scored === prog.total ? ' - all scored' : ' - ' + (prog.total - prog.scored) + ' left to score';
+    }
+    if (exemptSections[info.major]) {
+      scoreEl.innerText = '-';
+      statEl.innerText = 'NOT GIVEN';
+      statEl.style.color = '#94a3b8';
+      if (scopeEl) scopeEl.innerText = label;
+      syncStickyOffsets();
+      return;
+    }
+    for (var i = 0; i < info.secs.length; i++) {
+      var list = tasksData[info.secs[i]] || [];
+      if (isTaskExempt(info.secs[i])) continue;
+      for (var j = 0; j < list.length; j++) {
+        var it = userScores[list[j].id];
+        if (!it) continue;
+        earned += Math.min(it.val, it.max);
+        possible += it.max;
+        if (it.safety && it.val === 0) safetyFail = true;
+      }
+    }
+  } else {
+    for (var k in userScores) {
+      var item = userScores[k];
+      if (isTaskExempt(item.section)) continue;
+      earned += Math.min(item.val, item.max);
+      possible += item.max;
+      if (item.safety && item.val === 0) safetyFail = true;
+    }
+  }
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 0;
+  scoreEl.innerText = earned + ' / ' + possible;
+  if (possible === 0) {
+    statEl.innerText = 'NOT SCORED';
+    statEl.style.color = '#f59e0b';
+  } else if (safetyFail) {
+    statEl.innerText = pct + '% (CRITICAL SAFETY FAIL)';
+    statEl.style.color = '#ef4444';
+  } else if (pct >= 80) {
+    statEl.innerText = pct + '% (PASS)';
+    statEl.style.color = '#22c55e';
+  } else {
+    statEl.innerText = pct + '% (BELOW 80%)';
+    statEl.style.color = '#ef4444';
+  }
+  if (scopeEl) scopeEl.innerText = label;
+  syncStickyOffsets();
+}
+
+function syncStickyOffsets() {
+  var h = document.querySelector('header');
+  var n = document.getElementById('topNav');
+  if (h && n) n.style.top = h.offsetHeight + 'px';
+}
+window.addEventListener('resize', syncStickyOffsets);
+
+/* ==============================================================
+   START-UP (runs last, after every variable and function exists)
+   ============================================================== */
+renderTasks();
+initSignatures();
+try {
+  var d = new Date();
+  document.getElementById('evalDate').value = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+} catch (e) {}
+restoreDraft();
+visitedScreens[currentScreenId()] = true;
+calculateTotals();
+updateTimerDock();
+syncStickyOffsets();
+</script>
+</body>
+</html>
