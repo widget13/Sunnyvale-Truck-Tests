@@ -1,0 +1,3057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="dark light">
+<title>Truck 45 Phase 1 Test - Official Proctor Guide & Evaluator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { background-color: #0f172a; color: #f8fafc; padding-bottom: calc(120px + env(safe-area-inset-bottom)); -webkit-tap-highlight-color: transparent; }
+  /* iPhone: 16px inputs stop Safari from zooming the page when a field is tapped */
+  input, textarea, select { font-size: 16px !important; }
+  button, .nav-btn, .btn-score { touch-action: manipulation; }
+  .footer-bar { padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important; padding-left: max(16px, env(safe-area-inset-left)) !important; padding-right: max(16px, env(safe-area-inset-right)) !important; }
+  #timerDock { bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
+  header { padding-top: max(12px, env(safe-area-inset-top)) !important; }
+  
+  header { 
+    background: #020617; 
+    border-bottom: 2px solid #334155; 
+    padding: 12px 16px; 
+    position: -webkit-sticky;
+    position: sticky; 
+    top: 0; 
+    z-index: 999; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+  }
+  .header-title h1 { font-size: 1.05rem; font-weight: 700; color: #fff; }
+  .header-title p { font-size: 0.75rem; color: #94a3b8; }
+  .score-badge { text-align: right; }
+  .score-scope { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.04em; color: #94a3b8; font-weight: 700; }
+  .score-val { font-size: 1.15rem; font-weight: 800; color: #3b82f6; }
+  .score-status { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; }
+
+  /* Navigation Bar */
+  .nav-bar { 
+    display: flex; 
+    overflow-x: scroll; 
+    -webkit-overflow-scrolling: touch;
+    background: #1e293b; 
+    border-bottom: 2px solid #475569; 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 56px;
+    z-index: 990;
+    padding: 6px;
+    gap: 6px;
+  }
+  .nav-btn { 
+    flex: 0 0 auto;
+    padding: 10px 14px; 
+    background: #334155; 
+    border: 1px solid #475569; 
+    border-radius: 6px;
+    color: #cbd5e1; 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    cursor: pointer;
+  }
+  .nav-btn.tab-done { background: #bbf7d0; color: #052e16; border-color: #4ade80; }
+  .nav-btn.tab-exempt { opacity: 0.55; }
+  .nav-btn.tab-done::before { content: '\2713 '; }
+  .nav-btn.active.tab-done { background: #16a34a; color: #ffffff; border-color: #bbf7d0; box-shadow: 0 0 0 2px #bbf7d0; }
+  .nav-btn.active { 
+    background: #3b82f6; 
+    color: #ffffff; 
+    border-color: #60a5fa; 
+  }
+
+  #clearOverlay { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.92); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+  #clearOverlay.show { display: flex; }
+  #clearOverlay .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%; }
+  #clearOverlay h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  #clearOverlay p { font-size: 0.9rem; line-height: 1.45; color: #cbd5e1; margin-bottom: 14px; }
+  #clearOverlay button { display: block; width: 100%; padding: 14px; margin-top: 8px; border-radius: 6px; border: 0; font-size: 0.95rem; font-weight: 700; color: #fff; }
+  #timerDock { display: none; position: fixed; right: 10px; bottom: 72px; z-index: 998; background: #020617; border: 2px solid #3b82f6; border-radius: 10px; padding: 6px 8px; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: calc(100vw - 20px); box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+  #timerDock.show { display: flex; }
+  #timerDock .t-label { font-size: 0.6rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; max-width: 62px; line-height: 1.1; }
+  #timerDock .t-time { font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; color: #f8fafc; min-width: 56px; text-align: center; }
+  #timerDock.running .t-time { color: #22c55e; }
+  #timerDock button { min-height: 42px; padding: 0 8px; border: 0; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #fff; background: #2563eb; }
+  #timerDock button.t-stop { background: #b91c1c; }
+  #timerDock button:disabled { opacity: 0.4; }
+  #timerDock.final .t-time { color: #fbbf24; }
+  #timerDock button.t-reset { background: #475569; }
+  #timerDock button.t-reset.confirm { background: #dc2626; }
+  .nav-btn.timer-running { border-color: #22c55e; box-shadow: inset 0 -3px 0 #22c55e; }
+  .container { max-width: 840px; margin: 0 auto; padding: 14px; }
+  .screen-tab { display: none; }
+  .screen-tab.active { display: block !important; }
+
+  .card { background: #1e293b; border: 1px solid #475569; border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+  .card-header { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: #fff; border-bottom: 1px solid #475569; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  
+  .box-alert { background: rgba(245, 158, 11, 0.15); border-left: 4px solid #f59e0b; padding: 12px; margin-bottom: 12px; border-radius: 4px; font-size: 0.85rem; line-height: 1.45; color: #fde68a; }
+  .box-alert strong { color: #f59e0b; }
+  .box-alert > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.88rem; }
+  .box-info { background: rgba(59, 130, 246, 0.15); border-left: 4px solid #3b82f6; padding: 12px; margin-bottom: 12px; border-radius: 4px; font-size: 0.85rem; line-height: 1.45; color: #bfdbfe; }
+  .box-info strong { color: #60a5fa; }
+  .box-info > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.88rem; }
+  .autosave-banner { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #86efac; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+  /* Sub-evolution Header with Toggle */
+  .sub-evo-header {
+    background: #0b1329;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 16px 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sub-evo-title { font-size: 0.95rem; font-weight: 700; color: #93c5fd; }
+  .sub-evo-subtitle { font-size: 0.75rem; color: #94a3b8; display: block; margin-top: 2px; }
+  
+  /* Status Toggle Buttons */
+  .toggle-status-group { display: flex; gap: 6px; }
+  .btn-toggle-status {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid #475569;
+    background: #1e293b;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .btn-toggle-status.active-tested { background: #2563eb; color: #fff; border-color: #60a5fa; }
+  .btn-toggle-status.active-exempt { background: #64748b; color: #f8fafc; border-color: #94a3b8; }
+
+  .sub-evo-container.is-exempt {
+    opacity: 0.4;
+    pointer-events: none;
+    position: relative;
+  }
+
+  /* Scored Task Rows */
+  .task-row { background: #334155; border: 1px solid #475569; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+  .task-row.safety-critical { border-left: 5px solid #ef4444; }
+  .task-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .task-title { font-weight: 700; font-size: 0.92rem; color: #fff; }
+  .safety-pill { background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; margin-right: 4px; vertical-align: middle; }
+  .task-weight { font-size: 0.75rem; color: #94a3b8; font-weight: 600; }
+  .task-desc { font-size: 0.82rem; color: #e2e8f0; margin-bottom: 10px; line-height: 1.35; background: #1e293b; padding: 8px; border-radius: 4px; }
+  .task-desc strong { color: #38bdf8; }
+
+  /* Touch Scoring Buttons */
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-score { 
+    flex: 1; 
+    min-width: 70px;
+    padding: 12px 6px; 
+    border: 1px solid #64748b; 
+    background: #0f172a; 
+    color: #cbd5e1; 
+    border-radius: 6px; 
+    font-weight: 800; 
+    font-size: 0.88rem; 
+    cursor: pointer; 
+    text-align: center; 
+  }
+  .btn-score.selected-0 { background: #ef4444 !important; color: #fff !important; border-color: #b91c1c !important; }
+  .btn-score.selected-1 { background: #f59e0b !important; color: #000 !important; border-color: #d97706 !important; }
+  .btn-score.selected-2 { background: #22c55e !important; color: #fff !important; border-color: #15803d !important; }
+  .btn-score.btn-clear { flex: 0.4; background: #1e293b; color: #94a3b8; font-size: 0.72rem; }
+
+  /* Partial Deduction Text Box */
+    .print-score-pill {
+    display: none;
+    font-size: 0.78rem;
+  }
+  .partial-notes-wrap {
+    margin-top: 8px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    padding: 8px;
+    display: none;
+  }
+  .partial-notes-wrap label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fde68a;
+    margin-bottom: 4px;
+  }
+  .partial-notes-wrap input {
+    width: 100%;
+    padding: 8px;
+    background: #020617;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.82rem;
+  }
+
+  /* Aerial Trainee Flown Yes/No Prompt */
+  .fly-prompt-wrap {
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  .fly-prompt-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #93c5fd;
+    margin-bottom: 6px;
+  }
+  .fly-btn-group { display: flex; gap: 8px; }
+  .fly-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #cbd5e1;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .fly-btn.active-yes { background: #2563eb; color: #fff; border-color: #60a5fa; }
+  .fly-btn.active-no { background: #475569; color: #fff; border-color: #94a3b8; }
+  .fly-sub-box {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #3b82f6;
+    display: none;
+  }
+
+  /* Inputs */
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: #94a3b8; }
+  .form-group input, .form-group textarea { 
+    width: 100%; 
+    padding: 12px; 
+    background: #0f172a; 
+    border: 1px solid #475569; 
+    border-radius: 6px; 
+    color: #fff; 
+    font-size: 0.95rem; 
+  }
+
+  .form-group input[type="date"] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 46px;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: left;
+  }
+  .form-group input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+
+  /* Navigation Buttons */
+  .btn-nav-action { 
+    display: block; 
+    width: 100%; 
+    padding: 14px; 
+    margin-top: 14px; 
+    background: #3b82f6; 
+    color: #fff; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: 800; 
+    font-size: 0.95rem; 
+    cursor: pointer; 
+    text-align: center; 
+  }
+  .btn-pdf { background: #22c55e; }
+  .btn-reset { background: #dc2626; margin-top: 10px; }
+
+  /* Bottom Sticky Bar */
+  .footer-bar { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    background: #020617; 
+    border-top: 2px solid #475569; 
+    padding: 10px 16px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    z-index: 999; 
+  }
+  .footer-btn { 
+    padding: 10px 16px; 
+    background: #3b82f6; 
+    color: #fff; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: 700; 
+    font-size: 0.85rem; 
+    cursor: pointer;
+  }
+
+  .airdrop-reminder { background: rgba(14, 165, 233, 0.15); border: 1px solid #0284c7; border-radius: 6px; padding: 12px; margin-bottom: 14px; font-size: 0.86rem; line-height: 1.45; }
+  .airdrop-reminder strong { color: #38bdf8; }
+  .airdrop-reminder > strong:first-child { display: block; margin-bottom: 4px; font-size: 0.92rem; }
+  .airdrop-reminder ol { padding-left: 18px; margin-top: 6px; color: #e2e8f0; }
+  .airdrop-reminder li { margin-bottom: 4px; }
+
+  /* Digital Signature Pads */
+  .sig-section {
+    margin-top: 18px;
+    border-top: 2px solid #475569;
+    padding-top: 14px;
+  }
+  .sig-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .sig-block {
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+  .sig-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .sig-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #93c5fd;
+    white-space: normal;
+    flex: 1 1 180px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .btn-clear-sig {
+    background: #334155;
+    border: 1px solid #64748b;
+    color: #cbd5e1;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .sig-canvas-wrap {
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    position: relative;
+    touch-action: none;
+  }
+  .sig-canvas {
+    display: block;
+    width: 100%;
+    height: 90px;
+    cursor: crosshair;
+  }
+  .sig-line-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+    border-bottom: 1px dashed #94a3b8;
+    pointer-events: none;
+  }
+  .sig-text-sub {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  
+  /* Proctor Section Notes Formatting (Screen & Print) */
+  .print-note-mirror { display: none; }
+  .pdf-notes-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #2563eb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+  }
+  .pdf-notes-title {
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: #0f172a;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pdf-notes-text {
+    font-size: 0.84rem;
+    color: #1e293b;
+    line-height: 1.5;
+    white-space: pre-wrap; /* Preserves proctor line breaks, lists, and indentations */
+    word-break: break-word;
+  }
+
+/* Live PDF Document Sheet Preview (Screen 10) */
+  .pdf-sheet {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+    border: 2px solid #94a3b8;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .pdf-sheet-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .pdf-header-block {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .pdf-dept-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: 0.5px;
+  }
+  .pdf-sub-title {
+    font-size: 0.82rem;
+    color: #475569;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .pdf-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px 16px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+    color: #1e293b;
+  }
+  .pdf-score-box {
+    background: #f1f5f9;
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .pdf-score-main {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #0f172a;
+  }
+  .pdf-section-title {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin: 14px 0 8px 0;
+  }
+  .pdf-audit-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .pdf-audit-list li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdf-audit-list li > span:first-child { flex: 1 1 auto; min-width: 0; }
+  .pdf-audit-list li > span:last-child { flex: 0 0 auto; text-align: right; }
+  .aud-status { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 112px; }
+  .aud-badge { display: inline-block; min-width: 112px; text-align: center; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; padding: 3px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .aud-badge.pass { color: #15803d; background: #dcfce7; border-color: #86efac; }
+  .aud-badge.fail { color: #b91c1c; background: #fee2e2; border-color: #fca5a5; }
+  .aud-badge.none { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
+  .aud-score { font-size: 0.72rem; color: #475569; font-weight: 600; white-space: nowrap; }
+  .pdf-notes-content {
+    background: #f8fafc;
+    border-left: 3px solid #64748b;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    color: #334155;
+    line-height: 1.45;
+  }
+
+    /* DUAL PRINT ENGINE: SUMMARY RECORD (DEFAULT) OR FULL TEST (SUPERVISOR) */
+  @media print {
+    body { 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+    #earlyEndCard, header, .nav-bar, .footer-bar, .btn-group, .btn-nav-action, .box-alert, .box-info, 
+    .autosave-banner, .btn-reset, .airdrop-reminder, .toggle-status-group, .btn-clear-sig, 
+    .sig-line-hint, .fly-btn-group, .fly-prompt-wrap, .pdf-sheet-badge { 
+      display: none !important; 
+    }
+
+    /* DEFAULT: 1-2 PAGE SUMMARY RECORD ONLY */
+    body:not(.print-full-test) .screen-tab { 
+      display: none !important; 
+    }
+    body:not(.print-full-test) #scr_summary { 
+      display: block !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+
+    /* SUPERVISOR OPTION: FULL COMPREHENSIVE TEST PACKET */
+    body.print-full-test .screen-tab { 
+      display: block !important; 
+      page-break-after: always;
+      padding: 0 !important;
+      margin: 0 0 20px 0 !important;
+    }
+    body.print-full-test #scr_summary { 
+      page-break-before: auto;
+    }
+    #clearOverlay, #summaryActionCard, #timerDock { display: none !important; }
+    body.print-full-test .card, body.print-full-test .task-row { 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+      border: 1px solid #999999 !important; 
+      page-break-inside: avoid; 
+    }
+    body.print-full-test .task-desc { 
+      background: #f8fafc !important; 
+      color: #000000 !important; 
+      border: 1px solid #e2e8f0 !important; 
+    }
+    body.print-full-test .task-title { color: #000000 !important; }
+    body.print-full-test .sub-evo-header { 
+      background: #f1f5f9 !important; 
+      border: 1px solid #64748b !important; 
+      color: #000000 !important; 
+      page-break-inside: avoid;
+    }
+    body.print-full-test .sub-evo-title { color: #000000 !important; }
+    body.print-full-test .print-score-pill { 
+      display: inline-block !important; 
+      margin-right: 6px; 
+    }
+    body.print-full-test .partial-notes-wrap { 
+      display: block !important; 
+      background: #ffffff !important; 
+      border: 1px dashed #666666 !important; 
+      color: #000000 !important; 
+      margin-top: 6px !important;
+    }
+    body.print-full-test .partial-notes-wrap input { 
+      border: none !important; 
+      background: transparent !important; 
+      color: #000000 !important; 
+      font-weight: 600 !important;
+      padding: 2px !important;
+    }
+
+    .container { 
+      max-width: 100% !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+    }
+    .pdf-sheet { 
+      box-shadow: none !important; 
+      border: none !important; 
+      padding: 0 !important; 
+      margin: 0 !important; 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+    }
+    .pdf-header-block { border-bottom: 2px solid #000000 !important; }
+    .pdf-meta-grid, .pdf-score-box, .pdf-notes-content { 
+      background: #ffffff !important; 
+      border: 1px solid #666666 !important; 
+      color: #000000 !important; 
+    }
+    .sig-block { 
+      background: #ffffff !important; 
+      border: 1px solid #666666 !important; 
+      color: #000000 !important; 
+      page-break-inside: avoid; 
+    }
+    .sig-label { color: #000000 !important; font-weight: 800 !important; }
+    .sig-canvas-wrap { border: 1px solid #000000 !important; }
+    .sig-canvas { width: 100% !important; height: 75px !important; }
+    .sig-section { page-break-inside: avoid; }
+    body.print-full-test textarea { display: none !important; }
+    body.print-full-test .print-note-mirror {
+      display: block !important;
+      background: #ffffff !important;
+      border: 1px solid #999999 !important;
+      padding: 8px 12px !important;
+      font-size: 0.85rem !important;
+      color: #000000 !important;
+      white-space: pre-wrap !important;
+      margin-top: 6px !important;
+      min-height: 45px !important;
+      page-break-inside: avoid;
+    }
+    .pdf-notes-box {
+      background: #ffffff !important;
+      border: 1px solid #999999 !important;
+      border-left: 4px solid #000000 !important;
+      color: #000000 !important;
+      page-break-inside: avoid;
+    }
+    .pdf-notes-title { color: #000000 !important; }
+    .pdf-notes-text { color: #000000 !important; }
+
+  }</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <h1>Truck 45 Phase 1 Test</h1>
+    <p>Ferrara Inferno HD-107 | Aerial Operator</p>
+  </div>
+  <div class="score-badge">
+    <div class="score-scope" id="topScope">OVERALL</div>
+    <div class="score-val" id="topScore">0 / 0</div>
+    <div class="score-status" id="topStatus">PASS</div>
+  </div>
+</header>
+
+<!-- TOP NAVIGATION BAR (10 SECTIONS: Admin + 8 Testing Sections + Summary) -->
+<div class="nav-bar" id="topNav">
+  <button class="nav-btn active" onclick="showScreen('scr_admin', this)">1. Admin</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo1', this)">2. Specs</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo2', this)">3. Driving</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo3', this)">4. Stabilizers</button>
+  <button class="nav-btn" onclick="showScreen('scr_ladder_ops', this)">5. Ladder Ops</button>
+  <button class="nav-btn" onclick="showScreen('scr_window_rescue', this)">6. Window Rescue</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo4', this)">7. Water Tower</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo5', this)">8. Forcible Entry</button>
+  <button class="nav-btn" onclick="showScreen('scr_evo6', this)">9. Rescue</button>
+  <button class="nav-btn" onclick="showScreen('scr_summary', this)">10. Finish & PDF</button>
+</div>
+
+<div class="container">
+
+  <!-- SCREEN 1: ADMIN -->
+  <div id="scr_admin" class="screen-tab active">
+    <div class="autosave-banner">
+      <span>🛡️ Saved on this device only (nothing is uploaded)</span>
+      <span id="saveStatusIndicator" style="font-size:0.7rem; color:#cbd5e1;"></span>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">Testing Cadre & Candidate Information</div>
+      <div class="form-group">
+        <label>Truck Trainee Name</label>
+        <input type="text" id="traineeName" placeholder="Trainee Full Name" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Test Proctor Name & ID</label>
+        <input type="text" id="proctorName" placeholder="Proctor Name" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Truck Trainer</label>
+        <input type="text" id="trainerName" placeholder="Truck Trainer" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Supervising Lieutenant</label>
+        <input type="text" id="ltName" placeholder="Lieutenant" oninput="saveDraft()">
+      </div>
+      <div class="form-group">
+        <label>Evaluation Date</label>
+        <input type="date" id="evalDate" oninput="saveDraft()">
+      </div>
+      
+    </div>
+
+            <!-- MANDATORY BRIEFING SCRIPT (8 TESTING EVOLUTIONS) -->
+    <div class="box-alert">
+      <strong>MANDATORY BRIEFING TO TRAINEE (Read Aloud Verbatim Before Starting):</strong>
+      <p style="margin-bottom: 8px; line-height: 1.5;">Today, you will complete the Phase 1 Truck 45 evaluation covering eight evolutions: Apparatus Specs, Driving, Stabilizers, Ladder Operations, Window Rescues, Pumping Operations, Forcible Entry, and Rope Rescue. To pass this qualification evaluation, you must successfully complete all administered scenarios and score at least <strong style="color:inherit;">80% in every section</strong>.<br><br>Each section is graded on its own, so a strong score in one section does not make up for falling below 80% in another.</p>
+      
+      <p style="margin-bottom: 8px; line-height: 1.5;">I am your Proctor for this evaluation. Lieutenant [Name] is present as the Supervisor to ensure an impartial and standardized process, and your Truck Trainer is onsite to verify training records as needed.</p>
+      
+      <div style="font-weight:700; color:#fff; background: rgba(0,0,0,0.3); padding: 10px 12px; border-radius: 4px; line-height: 1.45; margin: 10px 0;">
+        ⚠️ LIVE EMERGENCY & PPE PRE-PLANNING RULE:<br>
+        Treat every scenario-based evolution as an actual live emergency. You must pre-plan your operations and determine your own Personal Protective Equipment (PPE) appropriate for the hazards presented. You will NOT be prompted or instructed by the cadre on what to wear or stage. If you need clarification on simulated fire, building, or smoke conditions, you are expected to ask the Proctor directly.
+      </div>
+
+      <p style="margin-bottom: 8px; line-height: 1.5;"><strong>Safety Briefing:</strong> There are no actual victims in these scenarios. However, if a genuine injury or medical incident occurs involving you, the staff, or a bystander, stop the evolution immediately and treat it as a real-world emergency.</p>
+      
+      <p style="margin-bottom: 0; line-height: 1.5;"><em>Do you have any questions before we begin?</em></p>
+    </div>
+
+    <!-- NEXT EVOLUTION BUTTON (DIRECTLY UNDER MANDATORY BRIEFING SCRIPT) -->
+    <button class="btn-nav-action" style="margin-top: 14px; margin-bottom: 14px;" onclick="showScreen('scr_evo1')">Next: Evolution - Specs 1 →</button>
+
+    <div class="box-info">
+      <strong>PROCTOR SCORING & ADMINISTRATION REFERENCE:</strong>
+      <ul style="padding-left:18px; line-height:1.55;">
+        <li style="margin-bottom: 4px;"><strong>Scoring Rubric:</strong> 2 Points (Full Credit / Completed), 1 Point (Partial Credit - deduction note is highly suggested, but not mandatory), 0 Points (Fail / Failed to Complete).</li>
+        <li style="margin-bottom: 4px;"><strong>Partial Credit Notes:</strong> Whenever you assign 1 Point, entering a note is highly suggested to document the specific rationale for candidate debriefing.</li>
+        <li style="margin-bottom: 4px;"><strong>Critical Safety Items (Red Border):</strong> Mandatory safety evolutions (e.g., Four B's check, Stabilizer shake/pins, tip lock-in, door control, pulley placement). If marked <strong>Fail to Complete</strong>, an immediate automatic failure is recorded for that evolution.</li>
+        <li style="margin-bottom: 4px;"><strong>80% Section Threshold:</strong> Each active testing section independently requires an 80% score to pass.</li>
+        <li><strong>30-Day Retest Policy:</strong> Trainees failing to meet the minimum standard are granted a 30-day retest window. Failure on the second attempt results in removal from the Truck Training Program.</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- SCREEN 2: EVO 1 -->
+  <div id="scr_evo1" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Specs 1: Apparatus Technical Questions &amp; Walk-Around</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo1_tested" onclick="setEvoExempt('evo1', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo1_exempt" onclick="setEvoExempt('evo1', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <!-- READ ALOUD TO TRAINEE -->
+    <div class="box-alert">
+      <strong>EVOLUTION - SPECS BRIEFING TO TRAINEE (Read Aloud Verbatim):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">During this evaluation, we will be asking you questions about the apparatus and the equipment found on the apparatus. If you need any clarification on a question, do not hesitate to ask.</p>
+    </div>
+    
+    <!-- PROCTOR INSTRUCTIONS WITH CLEAN SPACING -->
+    <div class="box-info">
+      <strong>PROCTOR ADMINISTRATION INSTRUCTIONS:</strong>
+      <p style="margin-bottom:6px; line-height:1.5;">Randomly select questions from this pool during the apparatus walk-around. The candidate must achieve an <strong>80% passing score on asked questions</strong> to pass this evolution.</p>
+      <p style="margin-bottom:0; line-height:1.5;">Unasked questions left unselected do NOT penalize the candidate or count against the denominator. Tap <strong>Clear</strong> at any time to undo or reset a score selection.</p>
+    </div>
+
+    <div id="evo1_container" class="sub-evo-container">
+      <div id="evo1_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Specs Proctor Notes &amp; Section Observations</label>
+          <textarea id="notes_evo1" placeholder="Document specific rationale for deductions or additional questions asked..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo1"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_evo2')">Next: Evolution - Driving →</button>
+  </div>
+
+  <!-- SCREEN 3: EVO 2 (DRIVING) -->
+  <div id="scr_evo2" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Driving: Driving Course &amp; In-Transit Questions</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo2_tested" onclick="setEvoExempt('evo2', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo2_exempt" onclick="setEvoExempt('evo2', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <!-- READ ALOUD TO TRAINEE -->
+    <div class="box-alert">
+      <strong>EVOLUTION - DRIVING BRIEFING TO TRAINEE (Read Aloud Verbatim):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">This evolution requires you to expertly navigate the apparatus along a predetermined route within Sunnyvale city streets. Throughout the drive, I will pose operational questions regarding vehicle handling, systems, and protocols. Maintain 360-degree situational awareness, manage front/rear overhangs, and adhere strictly to all California vehicle codes.</p>
+    </div>
+
+    <div id="evo2_container" class="sub-evo-container">
+      <!-- 2A Practical Driving Route & Directions -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Driving 1</div>
+          <span class="sub-evo-subtitle">Practical driving route course &amp; street directory | All 4 driving maneuvers are Critical Safety (PASS / FAIL). Any fail triggers an automatic failure of the driving evolution.</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo2a_tested" onclick="setEvoExempt('evo2a', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo2a_exempt" onclick="setEvoExempt('evo2a', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo2a_container" class="sub-evo-container">
+                <!-- High-Visibility Cab Driving Route (Large Print & Turn-by-Turn Lines) -->
+        <div class="card" style="background: #020617; border: 2px solid #3b82f6; border-radius: 8px; padding: 16px; margin-bottom: 14px;">
+          <div style="font-size: 1.1rem; font-weight: 800; color: #60a5fa; margin-bottom: 12px; border-bottom: 1px solid #334155; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <span>🧭 CAB DRIVING ROUTE & TURN-BY-TURN DIRECTIONS</span>
+            <span style="font-size: 0.75rem; background: #1e293b; color: #94a3b8; padding: 2px 8px; border-radius: 4px;">LARGE PRINT</span>
+          </div>
+
+          <ol style="font-size: 1.05rem; line-height: 1.7; padding-left: 22px; color: #f8fafc; font-weight: 500;">
+            <li style="margin-bottom: 10px;">
+              <strong>South on Mathilda Ave</strong> toward Downtown Sunnyvale.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Washington Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Bayview Ave</strong> to <strong>Old San Francisco Rd</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn into the <strong>Sprouts Parking Lot</strong> off Old San Francisco Rd.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Drive apparatus directly to the <strong>dead-end aisle</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Execute a sharp <strong>RIGHT ➡️ tight turn</strong> around the island.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> to exit onto <strong>El Camino Real</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>El Camino Real</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Sunnyvale Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Remington Dr</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Manet Dr</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Crescent Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Crescent Ter</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Picasso Dr</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Michelangelo Dr</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Remington Dr</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Old San Francisco Rd</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Grand Fir Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Garland Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> into <strong>Charter Palms "DO NOT ENTER" Driveway</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Bellflower Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Garland Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Old San Francisco Rd</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Sunnyvale Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>W. Iowa Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>S. Taaffe St</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>W. McKinley Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Aries Way</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Barson Ter</strong> (between buildings).
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>N. Mathilda Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Take <strong>Indio Ave</strong> to <strong>WB Central Expressway</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>RIGHT ➡️</strong> onto <strong>Potrero Ave</strong>.
+            </li>
+            <li style="margin-bottom: 10px;">
+              Turn <strong>LEFT ⬅️</strong> onto <strong>Hermosa Ct</strong>.
+            </li>
+            <li style="margin-bottom: 6px; color: #fde68a;">
+              🛑 <strong>3rd Driveway on Left:</strong> Pull up to evaluate steep approach and departure angles (crossing at an angle).
+            </li>
+          </ol>
+        </div>
+        <!-- Dividing Line -->
+        <hr style="border: 0; border-top: 2px solid #475569; margin: 16px 0 14px 0;">
+        
+        <!-- Practical Tasks (Pass/Fail) at bottom of directions -->
+        <div id="evo2a_list"></div>
+      </div>
+
+      <!-- 2B In-Transit Questions -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Driving 2</div>
+          <span class="sub-evo-subtitle">In-transit technical questions | Passing: 80% of asked questions (2 pts each) | Unasked questions do not penalize</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo2b_tested" onclick="setEvoExempt('evo2b', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo2b_exempt" onclick="setEvoExempt('evo2b', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo2b_container" class="sub-evo-container">
+        <div id="evo2b_list"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Evolution - Driving Proctor Notes &amp; Observations</label>
+          <textarea id="notes_evo2" placeholder="Document approach angles, tail swing, curbs, signal timing, following distance..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo2"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_evo3')">Next: Evolution - Stabilizers →</button>
+  </div>
+
+  <!-- SCREEN 4: EVO 3 (STABILIZERS) -->
+  <div id="scr_evo3" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Stabilizers: Stabilizer Deployment &amp; Commercial Sets</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo3_tested" onclick="setEvoExempt('evo3', false)">ALL TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo3_exempt" onclick="setEvoExempt('evo3', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-info">
+      <strong>PROCTOR DIRECTIVE:</strong>
+      Trainees perform stabilization across selected sites. <strong>Passing standard is 80% across all evaluated sets.</strong> Four Bs inspection and Stabilizer Confirmation & Pinning are Critical Safety items (Completed / Fail to Complete). Any Fail to Complete triggers an automatic failure for that evolution.
+      <br><br>
+      <em>Emergency EPU Check:</em> At one of the aerial deployment locations, unexpectedly disengage the PTO without warning to evaluate the trainee's immediate response and emergency bedding procedure via the EPU.
+    </div>
+
+    <div id="evo3_container" class="sub-evo-container">
+      <!-- 3A -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Stabilizers 1</div>
+          <span class="sub-evo-subtitle">690 E. Arques (extreme angles set) | Four B's and Pinning are Critical Safety (Fail to Complete = Auto Fail)</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo3a_tested" onclick="setEvoExempt('evo3a', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo3a_exempt" onclick="setEvoExempt('evo3a', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo3a_container" class="sub-evo-container"><div id="evo3a_list"></div></div>
+
+      <!-- 3C -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Stabilizers 2</div>
+          <span class="sub-evo-subtitle">400 E. Caribbean (uneven ground set) | Shook jacks, Four B's, and Pins verified (Critical Safety)</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo3c_tested" onclick="setEvoExempt('evo3c', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo3c_exempt" onclick="setEvoExempt('evo3c', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo3c_container" class="sub-evo-container"><div id="evo3c_list"></div></div>
+
+      <!-- 3D -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Stabilizers 3</div>
+          <span class="sub-evo-subtitle">1344 Crossman Ave (extreme angle commercial) | Shook jacks, Four B's, and Pins verified (Critical Safety)</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo3d_tested" onclick="setEvoExempt('evo3d', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo3d_exempt" onclick="setEvoExempt('evo3d', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo3d_container" class="sub-evo-container"><div id="evo3d_list"></div></div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Evolution - Stabilizers Proctor Notes &amp; Observations</label>
+          <textarea id="notes_evo3" placeholder="Document leveling accuracy, soft jack checks, short-jack overrides, EPU response..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo3"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_ladder_ops')">Next: Evolution - Ladder Ops →</button>
+  </div>
+
+  <!-- SCREEN 5: LADDER OPS (MOVED BEFORE WINDOW RESCUE) -->
+  <div id="scr_ladder_ops" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Ladder Ops: Target Reaches &amp; Valley Placement</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_ladder_ops_tested" onclick="setEvoExempt('ladder_ops', false)">ALL TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_ladder_ops_exempt" onclick="setEvoExempt('ladder_ops', true)">NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-info">
+      <strong>LADDER OPS DIRECTIVE:</strong>
+      Evaluates aerial maneuverability, multiple building spotting, and threading through narrow building valleys. Evaluates aerial smoothness on all operations.
+    </div>
+
+    <div id="ladder_ops_container" class="sub-evo-container">
+      <!-- 3B -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Ladder Ops 1</div>
+          <span class="sub-evo-subtitle">Lowe's building (three-building reach) | Pass: 80% | Reach all 3 designated targets with aerial smoothness</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_ladder_3b_tested" onclick="setEvoExempt('ladder_3b', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_ladder_3b_exempt" onclick="setEvoExempt('ladder_3b', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="ladder_3b_container" class="sub-evo-container"><div id="ladder_3b_list"></div></div>
+
+      <!-- 3F -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Ladder Ops 2</div>
+          <span class="sub-evo-subtitle">Fire Station 2 Bravo-side (valley window placement) | Pass: 80% | Position between tower and white line; thread ladder through valley with precision</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_ladder_3f_tested" onclick="setEvoExempt('ladder_3f', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_ladder_3f_exempt" onclick="setEvoExempt('ladder_3f', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="ladder_3f_container" class="sub-evo-container"><div id="ladder_3f_list"></div></div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Ladder Operations Proctor Notes</label>
+          <textarea id="notes_ladder_ops" placeholder="Document aerial positioning, smooth lever feathering, valley window clearance..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_ladder_ops"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_window_rescue')">Next: Evolution - Window Rescue 1 →</button>
+  </div>
+
+  <!-- SCREEN 6: WINDOW RESCUE (EVO 3E) -->
+  <div id="scr_window_rescue" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Window Rescue 1: Fire Station 2 Charlie-Side (Immediate Multi-Floor Rescue)</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo_window_rescue_tested" onclick="setEvoExempt('evo_window_rescue', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo_window_rescue_exempt" onclick="setEvoExempt('evo_window_rescue', true)">NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>SCENARIO DISPATCH DISCLOSURE (To Trainee):</strong>
+      Dispatched to an apartment fire to the rear of Station 2. First-arriving engine reports multiple rescues needed on the Charlie side. IC directs Truck 45 to initiate immediate rescues upon arrival.<br>
+      • 4th Floor: Victim sitting on sill with active fire from window.<br>
+      • 2nd Floor: Victim leaning out of wooden window with heavy smoke.<br>
+      • 3rd Floor: Victim sitting on sill, no visible smoke (Trainee must utilize tip controls and enter window to assist).
+    </div>
+
+    <div class="box-info">
+      <strong>PASSING STANDARD: 80%</strong><br>
+      Mandatory PPE: Full turnouts and SCBA donned prior to climbing. Demonstrates top-down placement, calm victim communication, and safe window entry/escort.
+    </div>
+
+    <div id="evo_window_rescue_container" class="sub-evo-container">
+      <div id="evo_window_rescue_list"></div>
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Window Rescue Proctor Notes & Field Observations</label>
+          <textarea id="notes_window_rescue" placeholder="Document priority sizing, ladder spotting, window sill placement, tip control operation..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_window_rescue"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_evo4')">Next: Evolution - Water Tower →</button>
+  </div>
+
+  <!-- SCREEN 7: EVO 4 (WATER TOWER) -->
+  <div id="scr_evo4" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Water Tower: Aerial Water Tower &amp; Pumping Operations</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4_tested" onclick="setEvoExempt('evo4', false)">ALL TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo4_exempt" onclick="setEvoExempt('evo4', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>TRAINING SCENARIO & PPE RULE:</strong>
+      Working fire on 3rd floor of multi-story apartment. IC requests an aerial standpipe connection. Trainee must wear full turnouts and lock in with ladder belt when operating on tip. SCBA required if smoke/fire conditions simulated. Section passing standard: 80%.
+    </div>
+
+    <div id="evo4_container" class="sub-evo-container">
+      <!-- 4B Standpipe & Master Stream -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Water Tower 1</div>
+          <span class="sub-evo-subtitle">Aerial standpipe deployment &amp; defensive stream | Apparatus setup, ladder belt lock, flake line, water thief charge, defensive master stream flow</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4b_standpipe_tested" onclick="setEvoExempt('evo4b_standpipe', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo4b_standpipe_exempt" onclick="setEvoExempt('evo4b_standpipe', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo4b_standpipe_container" class="sub-evo-container">
+        <div id="evo4b_standpipe_list"></div>
+      </div>
+
+      <!-- 4C Simulated Pump Failure -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Water Tower 2</div>
+          <span class="sub-evo-subtitle">Simulated pump failure &amp; street valve | Proctor presses idle: "Your pump has failed." Trainee coordinates engine supply line via Angus gate.</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4c_failure_tested" onclick="setEvoExempt('evo4c_failure', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo4c_failure_exempt" onclick="setEvoExempt('evo4c_failure', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo4c_failure_container" class="sub-evo-container"><div id="evo4c_failure_list"></div></div>
+
+      <!-- 4D Relay Pumping -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Water Tower 3</div>
+          <span class="sub-evo-subtitle">Relay pumping transition | Transition back to pump. Initial 125 PSI pumping pressure; target 1500 GPM flow</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4d_relay_tested" onclick="setEvoExempt('evo4d_relay', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo4d_relay_exempt" onclick="setEvoExempt('evo4d_relay', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo4d_relay_container" class="sub-evo-container"><div id="evo4d_relay_list"></div></div>
+
+      <!-- 4E Tandem Pumping -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Water Tower 4</div>
+          <span class="sub-evo-subtitle">Tandem (dual) pumping &amp; waterway drain | Engine inlet to Truck inlet (drawing residual). Ladder angle >30° for waterway drainage.</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4e_tandem_tested" onclick="setEvoExempt('evo4e_tandem', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo4e_tandem_exempt" onclick="setEvoExempt('evo4e_tandem', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo4e_tandem_container" class="sub-evo-container"><div id="evo4e_tandem_list"></div></div>
+
+      <!-- 4A Questions -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Water Tower 5</div>
+          <span class="sub-evo-subtitle">Water tower &amp; hydraulic questions | Passing: 80% of asked questions only</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo4a_tested" onclick="setEvoExempt('evo4a', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo4a_exempt" onclick="setEvoExempt('evo4a', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo4a_container" class="sub-evo-container"><div id="evo4a_list"></div></div>
+
+
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Evolution - Water Tower Proctor Notes &amp; Hydraulic Observations</label>
+          <textarea id="notes_evo4" placeholder="Document pump transitions, intake/discharge PSI coordination, relief valve management..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo4"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_evo5')">Next: Evolution - Forcible Entry →</button>
+  </div>
+
+  <!-- SCREEN 8: EVO 5 (FORCIBLE ENTRY) -->
+  <div <!-- SCREEN 8: FORCIBLE ENTRY -->
+  <div id="scr_evo5" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Forcible Entry: Conventional Breach &amp; Roll-Up Tactics</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5_tested" onclick="setEvoExempt('evo5', false)">ALL TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo5_exempt" onclick="setEvoExempt('evo5', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <!-- READ ALOUD TO TRAINEE -->
+    <div class="box-alert">
+      <strong>FORCIBLE ENTRY BRIEFING TO TRAINEE (Read Aloud Verbatim):</strong>
+      <p style="margin-bottom: 0; line-height: 1.5;">During this evolution, you will be demonstrating your knowledge for forcible entry. You will be using the tools you have on your truck to forcibly open an inward-swinging door, an outward-swinging door, a roll-up door, and a garage door. For this evolution, you have been assigned by IC to make entry into the apartment building through the Charlie-side door.</p>
+    </div>
+
+    <div class="box-info">
+      <strong>INSTRUCTIONS & SAFETY PROTOCOL:</strong>
+      Location: Station 2 Door Prop (Charlie Side). Trainee must wear <strong>full PPE and SCBA</strong>. Trainee may operate as a 1-person or 2-person team based on their tactical discretion. <strong>Section Passing Score: 80%.</strong> Mandatory safety: door must be strictly controlled with webbing or tool upon breach.
+    </div>
+
+    <div id="evo5_container" class="sub-evo-container">
+      <!-- Forcible Entry 1: Inward-Swinging Door -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Forcible Entry 1</div>
+          <span class="sub-evo-subtitle">Inward-swinging door breach | Size up, sound door, gap/wedge progression, strict door control</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5a_tested" onclick="setEvoExempt('evo5a', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo5a_exempt" onclick="setEvoExempt('evo5a', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo5a_container" class="sub-evo-container"><div id="evo5a_list"></div></div>
+
+      <!-- Forcible Entry 2: Outward-Swinging Door -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Forcible Entry 2</div>
+          <span class="sub-evo-subtitle">Outward-swinging door breach | Size up, sound door, fork purchase, strict door control</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5b_tested" onclick="setEvoExempt('evo5b', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo5b_exempt" onclick="setEvoExempt('evo5b', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo5b_container" class="sub-evo-container"><div id="evo5b_list"></div></div>
+
+      <!-- Forcible Entry 3: Commercial Roll-Up & Garage Door -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Forcible Entry 3</div>
+          <span class="sub-evo-subtitle">Commercial roll-up &amp; garage door tactics | Identify the door and hazards, then the roll-up cut sequence</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5c_tested" onclick="setEvoExempt('evo5c', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo5c_exempt" onclick="setEvoExempt('evo5c', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo5c_container" class="sub-evo-container"><div id="evo5c_list"></div></div>
+
+      <!-- Forcible Entry 4: Stairwell Door Alternative Methods -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Forcible Entry 4</div>
+          <span class="sub-evo-subtitle">Charlie-side stairwell door alternative methods | Talk through alternative methods for forcing the Charlie-side stairwell door</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5d_tested" onclick="setEvoExempt('evo5d', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo5d_exempt" onclick="setEvoExempt('evo5d', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo5d_container" class="sub-evo-container">
+        <div class="box-alert" style="margin-bottom: 10px;">
+          <strong>SCENARIO DIRECTIVE (Charlie-Side Stairwell Door):</strong>
+          Assume conventional irons fail or are insufficient on the Charlie-side stairwell door. Walk the proctor through alternative methods (pulling/cutting hinges, cutting door in half, removing handles, breaking window, or breaching wall).
+        </div>
+        <div id="evo5d_list"></div>
+      </div>
+
+      <!-- Forcible Entry 5: Oral & Technical Questions -->
+      <div class="sub-evo-header">
+        <div>
+          <div class="sub-evo-title">Evolution - Forcible Entry 5</div>
+          <span class="sub-evo-subtitle">Technical knowledge questions | Passing: 80% of asked questions only</span>
+        </div>
+        <div class="toggle-status-group">
+          <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo5e_tested" onclick="setEvoExempt('evo5e', false)">TESTED</button>
+          <button type="button" class="btn-toggle-status" id="btn_toggle_evo5e_exempt" onclick="setEvoExempt('evo5e', true)">NOT GIVEN</button>
+        </div>
+      </div>
+      <div id="evo5e_container" class="sub-evo-container"><div id="evo5e_list"></div></div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="form-group">
+          <label>Forcible Entry Proctor Notes & Observations</label>
+          <textarea id="notes_evo5" placeholder="Document tool purchase, gap progression, door control, alternative method debrief..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo5"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_evo6')">Next: Evolution - Rescue 1 →</button>
+  </div>
+
+  <div id="scr_evo6" class="screen-tab">
+    <div class="card-header">
+      <span>Evolution - Rescue 1: Technical Rescue Systems (Stokes &amp; 3:1 Z-Rig)</span>
+      <div class="toggle-status-group">
+        <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_evo6_tested" onclick="setEvoExempt('evo6', false)">TESTED</button>
+        <button type="button" class="btn-toggle-status" id="btn_toggle_evo6_exempt" onclick="setEvoExempt('evo6', true)">TEST NOT GIVEN</button>
+      </div>
+    </div>
+
+    <div class="box-alert">
+      <strong>TACTICAL RESCUE SCENARIO (To Trainee):</strong>
+      A construction worker sustained a fall from the 3rd floor, landing on the 2nd-floor concrete roof behind a parapet slope on the Alpha side of Station 2. Patient reports bilateral leg fractures; no other obvious trauma. IC directs Truck 45 to utilize the aerial device and rope rescue system to package the patient and lower them safely to the ground.
+    </div>
+
+    <div class="box-info">
+      <strong>SAFETY STANDARD:</strong>
+      Minimum PPE: Rescue helmet and gloves. Ladder pulley must be mounted to the last rung, <strong>NEVER on the red breakaway tip</strong>. System must be visually and tactilely safety-checked before moving patients. <strong>Passing Score: 80% for this section.</strong>
+    </div>
+
+    <div id="evo6_container" class="sub-evo-container">
+      <div id="evo6_list"></div>
+      <div class="card">
+        <div class="form-group">
+          <label>Evolution - Rescue Proctor Notes</label>
+          <textarea id="notes_evo6" placeholder="Document tactile checks, knot dress, 3:1 Z-rig conversion, patient packaging..." oninput="saveDraft()"></textarea>
+          <div class="print-note-mirror" id="mirror_notes_evo6"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-nav-action" onclick="showScreen('scr_summary')">Review Summary & Finish Test →</button>
+  </div>
+
+  <!-- SCREEN 10: SUMMARY & EXPORT -->
+  <div id="scr_summary" class="screen-tab">
+    <!-- Screen 10 Action Card -->
+    <div class="card" id="summaryActionCard" style="margin-bottom: 16px;">
+      <div class="card-header">
+        <span>Official Qualification Summary & Live PDF Preview</span>
+      </div>
+      
+      <div id="previewPrintWarn" class="box-alert" style="display:none;"><strong>Printing may be blocked in this preview.</strong> If the Export button does nothing, open this file in Safari or Chrome (not inside Claude's preview) and export from there.</div>
+      <div class="airdrop-reminder">
+        <strong>📱 Export Instructions (one PDF: summary first, then the full test):</strong>
+        <ol>
+          <li>Review the <strong>Live PDF Document Preview</strong> below (scores, notes, signatures).</li>
+          <li>Tap <strong>"📄 Export Complete Packet"</strong>.</li>
+          <li><strong>iPhone:</strong> in the print sheet, pinch outward on the page preview to open the PDF, then tap Share and choose Mail, Messages, or Save to Files.<br><strong>Android:</strong> choose "Save as PDF", then share or email the saved file.</li>
+          <li>Confirm the PDF has everything. When you return to this page, tap <strong>"Yes, clear all data"</strong>.</li>
+        </ol>
+      </div>
+      
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+        <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="printFullEvaluationPacket()">📄 Export Complete Packet (Summary + Full Test)</button>
+      </div>
+    </div>
+
+    <!-- LIVE PDF DOCUMENT SHEET PREVIEW (EXACTLY WHAT PRINTS) -->
+    <div class="pdf-sheet" id="summaryPrintBlock">
+      <div class="pdf-sheet-badge">📄 LIVE PDF DOCUMENT PREVIEW</div>
+      
+      <div class="pdf-header-block">
+        <div>
+          <div class="pdf-dept-title">CITY OF SUNNYVALE DEPARTMENT OF PUBLIC SAFETY</div>
+          <div class="pdf-sub-title">Fire Training Division • Truck 45 Operator Phase 1 Qualification Record</div>
+        </div>
+        <div style="text-align:right; font-size:0.75rem; color:#475569;">
+          <strong>Apparatus:</strong> Ferrara Inferno HD-107<br>
+          <strong>Doc Form:</strong> Phase 1 Eval
+        </div>
+      </div>
+
+      <div id="summaryBody"></div>
+      
+      <!-- DIGITAL SIGNATURE SECTION (TOUCH / STYLUS) -->
+      <div class="sig-section">
+        <div class="sig-title">Official Signatures & Field Acknowledgments</div>
+        
+        <!-- Trainee Signature (Required Only on Failure / Remediation) -->
+        <div class="sig-block" id="trainee_sig_block">
+          <div class="sig-label-row">
+            <span class="sig-label" id="trainee_sig_label">Truck Trainee Signature (Required Only if Retest / Failed):</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_trainee')">Clear / Redraw</button>
+          </div>
+          <div id="trainee_retest_warning" style="display:none; background:rgba(239, 68, 68, 0.2); border-left:4px solid #ef4444; padding:8px 10px; margin-bottom:8px; border-radius:4px; font-size:0.8rem; color:#fca5a5; line-height:1.4;">
+            <strong>MANDATORY 30-DAY RETEST ACKNOWLEDGMENT:</strong> Trainee signature is mandatory upon failure. Signing acknowledges debrief receipt and notification that you have exactly <strong>30 days</strong> from the test date (<strong id="retestTestDate">test date</strong>) to complete a retest. <strong style="color:#fecaca;">Retest must be completed on or before: <span id="retestDeadline">30 days after the test date</span>.</strong> Failure on the second attempt results in removal from the Truck Training Program.
+          </div>
+          <div id="trainee_pass_note" style="display:block; font-size:0.75rem; color:#86efac; margin-bottom:6px;">
+            ✓ Trainee signature is optional / waived when evaluation standard is met (Passed).
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_trainee" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub" id="trainee_sig_subtext">Required only if retest is needed. Verifies notification of 30-day retest policy.</div>
+        </div>
+
+        <!-- Proctor Signature -->
+        <div class="sig-block">
+          <div class="sig-label-row">
+            <span class="sig-label">Test Proctor Signature:</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_proctor')">Clear / Redraw</button>
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_proctor" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub">Certifies evaluation was administered in accordance with Department Standards.</div>
+        </div>
+
+        <!-- Lieutenant Signature -->
+        <div class="sig-block">
+          <div class="sig-label-row">
+            <span class="sig-label">Supervising Lieutenant Signature:</span>
+            <button type="button" class="btn-clear-sig" onclick="clearCanvas('sig_lt')">Clear / Redraw</button>
+          </div>
+          <div class="sig-canvas-wrap">
+            <div class="sig-line-hint"></div>
+            <canvas id="sig_lt" class="sig-canvas" width="700" height="100"></canvas>
+          </div>
+          <div class="sig-text-sub">Supervisory verification of qualification record and score totals.</div>
+        </div>
+      </div>
+
+    </div><!-- END PDF SHEET -->
+
+    <div class="card" id="earlyEndCard" style="margin-top:14px;">
+      <button type="button" class="btn-nav-action" id="btn_early_end" style="margin-top:0; background:#475569;" onclick="toggleEarlyEnd()">⛔ Test ended early (injury, fatigue, or other reason)</button>
+      <div id="earlyEndBox" class="form-group" style="display:none; margin-top:10px;">
+        <label for="earlyEndReason" style="font-weight:700; color:#fcd34d;">Reason the test could not be finished (required):</label>
+        <textarea id="earlyEndReason" placeholder="Describe the reason: injury, tiredness, or other. Include the evolution where the test stopped and the time." oninput="onEarlyReasonInput()"></textarea>
+        <div id="earlyEndError" style="display:none; color:#fca5a5; font-size:0.82rem; font-weight:700; margin-top:6px;">A reason is required before you can export. Fill in the box above.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+      <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="printFullEvaluationPacket()">📄 Export Complete Packet (Summary + Full Test)</button>
+    </div>
+      <button class="btn-nav-action btn-reset" onclick="confirmReset()">⚠️ Clear All Data & Reset Test</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="footer-bar">
+  <div>
+    Overall: <strong id="footScore" style="color:#3b82f6;">0 / 0</strong> <span id="footStatus" style="color:#22c55e; font-weight:700;">PASS</span>
+  </div>
+  <button class="footer-btn" onclick="showScreen('scr_summary')">Finish & PDF →</button>
+</div>
+
+<div id="timerDock">
+  <div class="t-label" id="timerLabel">Timer</div>
+  <div class="t-time" id="timerTime">00:00</div>
+  <button type="button" id="timerToggle" onclick="toggleTimer()">Start</button>
+  <button type="button" class="t-stop" id="timerStop" onclick="stopTimer()">Stop</button>
+  <button type="button" class="t-reset" id="timerReset" onclick="resetTimer()">Reset</button>
+</div>
+
+<div id="clearOverlay">
+  <div class="box">
+    <h2>Is the PDF saved or sent?</h2>
+    <p>Make sure the PDF has the summary, the full test, and all signatures. Clearing removes this candidate's names, scores, notes and signatures from this device and cannot be undone.</p>
+    <button type="button" style="background:#dc2626;" onclick="clearNow()">Yes, clear all data for the next test</button>
+    <button type="button" style="background:#475569;" onclick="hideClearPrompt()">Not yet, keep the data</button>
+  </div>
+</div>
+
+<script>
+var tasksData = {
+    // EVO 1: APPARATUS SPEC QUESTIONS (CONVERSATIONAL PHRASING)
+  evo1: [
+    { id: "e1_1", isQ: true, title: "Tell me the apparatus make and model.", desc: "<strong>Answer:</strong> Ferrara Inferno HD-107", max: 2 },
+    { id: "e1_2", isQ: true, title: "What is the DEF tank capacity, and what should you do if it goes empty?", desc: "<strong>Answer:</strong> 5 Gallons (20 Qts). Leave truck running continuously until refilled to prevent engine de-rate.", max: 2 },
+    { id: "e1_3", isQ: true, title: "What is the make, model, and type of the fire pump?", desc: "<strong>Answer:</strong> Waterous CSU, 2000 GPM, Single-Stage Centrifugal Pump", max: 2 },
+    { id: "e1_4", isQ: true, title: "What five components classify this apparatus as a Quint?", desc: "<strong>Answer:</strong> Quintuple combination: Aerial Ladder, Ground Ladders, Fire Pump, Water Tank, and Hose.", max: 2 },
+    { id: "e1_5", isQ: true, title: "How does the engine brake function, and under what conditions is its use restricted?", desc: "<strong>Answer:</strong> Opens exhaust valves during compression stroke to dissipate kinetic energy as heat. Do NOT use in wet, icy, or snowy conditions.", max: 2 },
+    { id: "e1_6", isQ: true, title: "What are the primary and secondary air systems, and what do they each control?", desc: "<strong>Answer:</strong> Two systems. Primary: Rear drive brakes. Secondary: Front steer brakes, air ride seats, road-to-pump transfer valve, air horns, interaxle differential lock.", max: 2 },
+    { id: "e1_7", isQ: true, title: "What is the purpose of the interaxle differential lock, and when would you use it?", desc: "<strong>Answer:</strong> Used when stuck in snow, mud, or grass; locks front and rear tandem drive axles together for 50/50 power distribution.", max: 2 },
+    { id: "e1_8", isQ: true, title: "What is the maximum operating speed with the interaxle differential locked?", desc: "<strong>Answer:</strong> Maximum speed approximately 20–30 MPH.", max: 2 },
+    { id: "e1_9", isQ: true, title: "Can you engage the interaxle differential lock while the apparatus is in motion?", desc: "<strong>Answer:</strong> Yes, but strictly at low speeds under 5 MPH without wheel slip to prevent severe drivetrain shock.", max: 2 },
+    { id: "e1_10", isQ: true, title: "How does the onboard Foam Pro system operate?", desc: "<strong>Answer:</strong> Foam pump draws concentrate from tank and injects into discharge piping for direct inline mixing.", max: 2 },
+    { id: "e1_11", isQ: true, title: "What is the onboard Class A foam tank capacity?", desc: "<strong>Answer:</strong> 10 Gallons.", max: 2 },
+    { id: "e1_12", isQ: true, title: "From memory, what controls are located at the outrigger control station?", desc: "<strong>Answer:</strong> Beams extend/retract paddles, jacks raise/lower paddles, Emergency Power Unit (EPU) toggle switch.", max: 2 },
+    { id: "e1_13", isQ: true, title: "From memory, what controls are located at the rear outrigger/aerial control station?", desc: "<strong>Answer:</strong> Safety Interlock Override, Rear Scene Lights, Hydraulic Gauge, EPU Switch, Level Indicator Bead, Diverter Valve, Stabilizer Green Deploy Bulbs, High Idle.", max: 2 },
+    { id: "e1_14", isQ: true, title: "Where is the retraction safety interlock sensor located?", desc: "<strong>Answer:</strong> Located on the left lower rail of the aerial ladder base (proximity switch).", max: 2 },
+    { id: "e1_15", isQ: true, title: "Where is the bed zone indicator system located and what are its components?", desc: "<strong>Answer:</strong> Under turntable near center; proximity switch interacts with black arm in rear cradle well.", max: 2 },
+    { id: "e1_16", isQ: true, title: "What are the eight aerial interlock systems?", desc: "<strong>Answer:</strong> Transmission/Aerial, Diverter, Monitor Selector, Cradle (5° raise), Rotation Inhibiting (short-jack), Body/Cab Collision, Retraction Safety, Bed Zone Indicator.", max: 2 },
+    { id: "e1_17", isQ: true, title: "Where is the rung alignment switch located?", desc: "<strong>Answer:</strong> Located on the base section of the aerial ladder.", max: 2 },
+    { id: "e1_18", isQ: true, title: "What is the procedure for executing a bed zone override?", desc: "<strong>Answer:</strong> Visually confirm cradle alignment, hold Down System Override switch, simultaneously engage joystick to lower into bed.", max: 2 },
+    { id: "e1_19", isQ: true, title: "What is the total outrigger stance width when fully deployed?", desc: "<strong>Answer:</strong> 18-foot overall spread when fully deployed.", max: 2 },
+    { id: "e1_20", isQ: true, title: "Under what conditions would you use the manual diverter valve override?", desc: "<strong>Answer:</strong> Electrical failure of diverter solenoid, or emergency short-set deployment procedures.", max: 2 },
+    { id: "e1_21", isQ: true, title: "Which safety functions are bypassed when the down system override is engaged?", desc: "<strong>Answer:</strong> Yes, bypasses Bed Zone Interlock and Cab/Body Collision Avoidance.", max: 2 },
+    { id: "e1_22", isQ: true, title: "Does the cab collision avoidance system protect the aerial when the cab is tilted up?", desc: "<strong>Answer:</strong> No, the sensor does NOT account for the cab being in the tilted/up position.", max: 2 },
+    { id: "e1_23", isQ: true, title: "What are the aerial system overrides and what does each one bypass?", desc: "<strong>Answer:</strong> Rotation Limiter Override (bypasses 5° short set), Down System (bypasses Bed Zone & Cab Collision), Manual Diverter (bypasses electrical diverter), Extension Override (bypasses monitor selector).", max: 2 },
+    { id: "e1_24", isQ: true, title: "What criteria activate the Load Minder alarm and warning lights?", desc: "<strong>Answer:</strong> Bargraph reaches 100% capacity; audible alarm and warning lights activate when overload reaches 50 lbs over rated capacity.", max: 2 },
+    { id: "e1_25", isQ: true, title: "What is the weight rating of an individual aerial ladder rung?", desc: "<strong>Answer:</strong> 500 lbs per rung.", max: 2 },
+    { id: "e1_26", isQ: true, title: "What is the weight rating of the aerial tip lifting eyelets?", desc: "<strong>Answer:</strong> 250 lbs each.", max: 2 },
+    { id: "e1_27", isQ: true, title: "What is the purpose of the red coloration on the aerial tip?", desc: "<strong>Answer:</strong> Breakaway tip design to absorb building contact impact and prevent structural failure of main ladder rails.", max: 2 },
+    { id: "e1_28", isQ: true, title: "What engine RPM is set by the in-cab fast idle switch?", desc: "<strong>Answer:</strong> 1400 RPM.", max: 2 },
+    { id: "e1_29", isQ: true, title: "What is the rated tip capacity of the aerial ladder wet and dry?", desc: "<strong>Answer:</strong> 750 lbs (rated wet or dry).", max: 2 },
+    { id: "e1_30", isQ: true, title: "What is the throttle priority sequence from lowest to highest priority?", desc: "<strong>Answer:</strong> 1. In-Cab Foot Pedal -> 2. In-Cab Fast Idle -> 3. Load Manager -> 4. Outrigger/Pedestal High Idle -> 5. Fire Pump.", max: 2 },
+    { id: "e1_31", isQ: true, title: "Apparatus Walk-Around: Locate and retrieve the elevator rescue kit.", desc: "<strong>Action:</strong> Trainee physically locates and retrieves the elevator rescue kit.", max: 2 },
+    { id: "e1_31b", isQ: true, title: "Apparatus Walk-Around: Locate and retrieve the item named by the Proctor.", desc: "<strong>Action:</strong> Proctor names an item (record it in the notes); trainee physically locates and retrieves it.", max: 2 },
+    { id: "e1_32", isQ: true, title: "Apparatus Walk-Around: Locate and retrieve the SKED stretcher.", desc: "<strong>Action:</strong> Trainee physically locates and retrieves the SKED stretcher.", max: 2 },
+    { id: "e1_33", isQ: true, title: "Apparatus Walk-Around: Locate and retrieve the roof ventilation kit.", desc: "<strong>Action:</strong> Trainee physically locates and retrieves the roof ventilation kit.", max: 2 },
+    { id: "e1_34", isQ: true, title: "Apparatus Walk-Around: Locate and retrieve the 20-ton hydraulic jack.", desc: "<strong>Action:</strong> Trainee physically locates and retrieves the 20-ton jack.", max: 2 },
+    { id: "e1_35", isQ: true, title: "How many buckets of Class A foam are carried onboard?", desc: "<strong>Answer:</strong> Two 5-gallon buckets.", max: 2 },
+    { id: "e1_36", isQ: true, title: "What hose inventory and lengths are carried onboard Truck 45?", desc: "<strong>Answer:</strong> 1.5-inch: 150 ft | 1.75-inch: 400 ft | 3-inch: 30 ft | 5-inch: 866 ft.", max: 2 },
+    { id: "e1_37", isQ: true, title: "How many Self-Contained Breathing Apparatus (SCBA) units are carried on Truck 45?", desc: "<strong>Answer:</strong> 5 SCBA units.", max: 2 },
+    { id: "e1_37b", isQ: true, title: "How many spare SCBA bottles are carried on Truck 45?", desc: "<strong>Answer:</strong> 8 spare air cylinders.", max: 2 },
+    { id: "e1_38", isQ: true, title: "How many firefighters are allowed on the aerial ladder at one time?", desc: "<strong>Answer:</strong> Determined dynamically by ladder angle and extension chart labeled on the aerial pedestal.", max: 2 }
+  ],
+
+  // EVO 2A: PRACTICAL DRIVING COURSE (CRITICAL SAFETY PASS/FAIL - ANY FAIL IS TOTAL FAIL)
+  evo2a: [
+    { id: "e2a_p1", isPassFail: true, safety: true, title: "Route Adherence & Traffic Code Compliance", desc: "Follows prescribed route accurately, maintains lane, complies with all speed limits, signals, and right-of-way laws.", max: 2 },
+    { id: "e2a_p2", isPassFail: true, safety: true, title: "Commercial Lot Dead-End Aisle Turn (Sprouts)", desc: "Negotiates dead-end aisle turn cleanly without curb strikes, jackknifing, or tail swing hazard into parked vehicles.", max: 2 },
+    { id: "e2a_p3", isPassFail: true, safety: true, title: "Residential Maneuvering & Off-Tracking (Picasso / Garland)", desc: "Controls rear wheel cheat and front overhang through tight townhome turns without mounting curbs or encroaching sidewalks.", max: 2 },
+    { id: "e2a_p4", isPassFail: true, safety: true, title: "Approach & Departure Angle Evaluation (Hermosa Ct)", desc: "Recognizes steep driveway dip hazard and correctly traverses across the angle to prevent undercarriage / tail strikes.", max: 2 }
+  ],
+
+    // EVO 2B: IN-TRANSIT QUESTIONS (CONVERSATIONAL PHRASING)
+  evo2b: [
+    { id: "e2b_1", isQ: true, title: "What is the Gross Vehicle Weight (GVW) of Truck 45?", desc: "<strong>Answer:</strong> 83,000 lbs (41.5 tons).", max: 2 },
+    { id: "e2b_2", isQ: true, title: "What are the overall dimensions (height, width, and length) of this apparatus?", desc: "<strong>Answer:</strong> Height: 12 ft | Width: 10 ft 2 in | Length: 41 ft 6 in.", max: 2 },
+    { id: "e2b_3", isQ: true, title: "What is the operating elevation range of the aerial ladder in degrees?", desc: "<strong>Answer:</strong> -6 degrees (below horizontal) to +72 degrees (above horizontal).", max: 2 },
+    { id: "e2b_4", isQ: true, title: "What are the approach and departure angles for Truck 45?", desc: "<strong>Answer:</strong> Approach: 13.6° | Departure: 11.5°.", max: 2 },
+    { id: "e2b_5", isQ: true, title: "How should you approach and negotiate steep grade changes or driveway dips to prevent dragging?", desc: "<strong>Answer:</strong> Approach and drive the apparatus at an angle across the hazard.", max: 2 },
+    { id: "e2b_6", isQ: true, title: "What is the total capacity of the diesel fuel tank?", desc: "<strong>Answer:</strong> 75 gallons diesel.", max: 2 },
+    { id: "e2b_7", isQ: true, title: "What is the make, model, and cylinder configuration of the engine?", desc: "<strong>Answer:</strong> Cummins ISX15 600HP, Inline 6-cylinder diesel.", max: 2 },
+    { id: "e2b_8", isQ: true, title: "What is the governed top road speed of this apparatus?", desc: "<strong>Answer:</strong> Maximum governed speed 60 MPH.", max: 2 },
+    { id: "e2b_9", isQ: true, title: "How should you handle approaching an intersection with a stale green traffic signal?", desc: "<strong>Answer:</strong> Anticipate phase change to yellow/red; cover the brake and prepare for a controlled stop.", max: 2 },
+    { id: "e2b_10", isQ: true, title: "What is the normal operating temperature range for the transmission, and at what temperature is it considered high?", desc: "<strong>Answer:</strong> 180°F to 200°F normal. Temperatures at or above 240°F are considered high.", max: 2 },
+    { id: "e2b_11", isQ: true, title: "At what threshold does the low engine oil pressure warning light activate?", desc: "<strong>Answer:</strong> Warning light activates at 10 PSI.", max: 2 },
+    { id: "e2b_12", isQ: true, title: "What is the maximum operating wind speed for the aerial ladder, and how should the ladder be oriented to the wind?", desc: "<strong>Answer:</strong> Maximum 35 MPH. Ladder positioned so wind is at the firefighter's back.", max: 2 },
+    { id: "e2b_13", isQ: true, title: "How do you check the transmission fluid level using the in-cab electronic shift selector?", desc: "<strong>Answer:</strong> Simultaneously press the UP and DOWN shift buttons once while in neutral.", max: 2 },
+    { id: "e2b_14", isQ: true, title: "What are the primary tactical positioning and operational responsibilities of the first-arriving truck?", desc: "<strong>Answer:</strong> Front of fire, spot for rescue/ventilation/water tower/equipment, initiate truck functions.", max: 2 },
+    { id: "e2b_15", isQ: true, title: "What are the primary tactical positioning and operational responsibilities of the second-arriving truck?", desc: "<strong>Answer:</strong> Spot rear of fire, support secondary egress/ventilation and truck company operations.", max: 2 },
+    { id: "e2b_16", isQ: true, title: "What is the tactical spotting procedure when positioning the apparatus in a cul-de-sac or dead-end street?", desc: "<strong>Answer:</strong> Back into cul-de-sac prior to engine arrival if practical and safe.", max: 2 },
+    { id: "e2b_17", isQ: true, title: "What is the fluid capacity of the transmission?", desc: "<strong>Answer:</strong> 51 quarts.", max: 2 },
+    { id: "e2b_18", isQ: true, title: "What is the total engine coolant capacity?", desc: "<strong>Answer:</strong> 83 quarts.", max: 2 },
+    { id: "e2b_19", isQ: true, title: "How much weight is required on a passenger seat to trigger the seatbelt alarm sensor?", desc: "<strong>Answer:</strong> 35 lbs.", max: 2 },
+    { id: "e2b_20", isQ: true, title: "What is the maximum safe engine RPM before you can engage the PTO switch?", desc: "<strong>Answer:</strong> Must be below 1000 RPM before engaging PTO switch.", max: 2 },
+    { id: "e2b_21", isQ: true, title: "What is the minimum ladder elevation angle required to fully gravity-drain the aerial waterway?", desc: "<strong>Answer:</strong> Minimum 30 degrees elevation to fully gravity-drain waterway.", max: 2 },
+    { id: "e2b_22", isQ: true, title: "How does the Emergency Power Unit (EPU) operate, and what are its duty cycle limits?", desc: "<strong>Answer:</strong> 12V motor, 1.5 GPM; duty cycle limit of 5 minutes maximum in any 60-minute window.", max: 2 },
+    { id: "e2b_23", isQ: true, title: "Is resting the aerial ladder directly on a building parapet or roof edge permitted?", desc: "<strong>Answer:</strong> Prohibited. Never rest aerial ladder directly on parapet or roof edge.", max: 2 },
+    { id: "e2b_24", isQ: true, title: "How far away from a building must you position the apparatus to remain outside the collapse zone?", desc: "<strong>Answer:</strong> At least 1.5 times the height of the building.", max: 2 },
+    { id: "e2b_25", isQ: true, title: "What is the minimum required clearance distance from overhead power lines when operating the aerial?", desc: "<strong>Answer:</strong> Minimum 10 feet of clearance from all high-voltage lines.", max: 2 },
+    { id: "e2b_26", isQ: true, title: "Which station bays across the city can accommodate Truck 45?", desc: "<strong>Answer:</strong> Station 1: Middle Bay | Station 2: Middle Bay | Station 5: Any Bay.", max: 2 },
+    { id: "e2b_27", isQ: true, title: "What types of data does the Vehicle Data Recorder (VDR), or \"black box,\" record on this apparatus?", desc: "<strong>Answer:</strong> Speed, Engine RPM, Brake Status, Acceleration/Deceleration Rates, Steering Wheel Angle, Warning Light Status, Emergency Lights On, Seat Belt Status, Transmission Gear Selection, Airbag, ABS.", max: 2 },
+    { id: "e2b_28", isQ: true, title: "How many power outlets are available on the truck, and what types are they?", desc: "<strong>Answer:</strong> 6 total outlets: 2 outlets on each side, 1 20-amp twist-on tip, 1 20-amp cord reel.", max: 2 },
+    { id: "e2b_29", isQ: true, title: "Does the rotation inhibiting system remain active when operating the aerial using the Emergency Power Unit (EPU)?", desc: "<strong>Answer:</strong> Yes, the rotation inhibiting system remains active when using the EPU.", max: 2 },
+    { id: "e2b_30", isQ: true, title: "What are the different percentages of engine braking power for each position of the engine brake switch?", desc: "<strong>Answer:</strong> Position 1: 33% | Position 2: 67% | Position 3: 100%.", max: 2 },
+    { id: "e2b_31", isQ: true, title: "Can you describe the different classes of fluid leaks?", desc: "<strong>Answer:</strong> Class 1: fluid present around a connector, not dripping. Class 2: dripping but not forming puddles on the ground. Class 3: dripping and forming puddles.", max: 2 },
+    { id: "e2b_32", isQ: true, title: "What is considered an optimal tactical position for the aerial apparatus at a multi-floor building, and why?", desc: "<strong>Answer:</strong> At one of the corners of the building: access to two sides, outside the collapse zone, less obstruction, maneuverability.", max: 2 },
+    { id: "e2b_33", isQ: true, title: "How should you position and operate the aerial ladder of Truck 45 and Truck 43 on a steep longitudinal (uphill/downhill) grade?", desc: "<strong>Answer:</strong> Truck 45: front of the cab on the downhill side (nose downhill), work the aerial off the rear of the truck. Truck 43: front of the cab on the uphill side (nose uphill), work the aerial over the cab.", max: 2 },
+    { id: "e2b_34", isQ: true, title: "Can the apparatus turn into the north driveway off Maude Avenue to access the Lucky's shopping center on N. Mathilda Avenue, and why?", desc: "<strong>Answer:</strong> No. The driveway goes up and then back down into the parking lot; it may high-center the truck or catch the back end.", max: 2 },
+    { id: "e2b_35", isQ: true, title: "What are the unique driving hazards or considerations of operating a vehicle of this size?", desc: "<strong>Answer:</strong> Height clearance, width clearance, length and turning radius, front-end swing (front bumper overhang), rear-wheel cheat (off-tracking), approach/departure angles, tailwash (rear overhang swing), weight and braking distance, center of gravity.", max: 2 },
+    { id: "e2b_36", isQ: true, title: "How many sensors does each stabilizer have, and what is the function of each?", desc: "<strong>Answer:</strong> Three (3) proximity sensors: beam and footing fully stowed, beam fully extended, jack down.", max: 2 },
+    { id: "e2b_37", isQ: true, title: "What is the make and model of the transmission installed in this apparatus?", desc: "<strong>Answer:</strong> Allison EVS (Emergency Vehicle Series) 4000.", max: 2 },
+    { id: "e2b_38", isQ: true, title: "When can the apparatus initiate an automatic regeneration (Auto-Regen) cycle, and what are the associated indicators and hazards?", desc: "<strong>Answer:</strong> Auto-Regen can occur at any time when vehicle speed registers over 5 MPH; the \"High Exhaust Temperature\" (HET) amber warning dashlight illuminates on the dashboard.", max: 2 },
+    { id: "e2b_39", isQ: true, title: "Explain the function of the Load Manager on this apparatus.", desc: "<strong>Answer:</strong> System voltage drops below 11.9V → low voltage audible alarm. At the \"shed point\" (typically between 11V and 12.7V), if voltage stays at or below that level for over 1 minute (or drops to 12.8V and persists for 1 minute), the TSM activates the fast idle feature.", max: 2 },
+    { id: "e2b_40", isQ: true, title: "As you approach a scene where you anticipate operating the aerial, what critical factors should you assess before final positioning and setup?", desc: "<strong>Answer:</strong> Fire location and involvement, rescue needs, apparatus spotting and access (hydrant location, overhead obstructions, ground obstructions/stability, clearance and reach), collapse zone, blocking considerations, wind direction/speed, building features.", max: 2 }
+  ],
+
+  // EVO 3A: 690 E. ARQUES
+  evo3a: [
+    { id: "e3a_1", title: "Pre-Setup Procedures", desc: "Wheels straight, PTO/Aerial Master engaged, visual check for obstructions.", max: 2 },
+    { id: "e3a_2", title: "Wheel Chock Placement", desc: "Placed firmly against tires corresponding to downhill grade.", max: 2 },
+    { id: "e3a_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "e3a_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowered to torque box; both lowered monitoring level bead to zero.", max: 2 },
+    { id: "e3a_5", title: "Final High-Side Leveling", desc: "High side adjusted until level indicator bead reads exact zero.", max: 2 },
+    { id: "e3a_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks longitudinal level; uses standardized commands with spotter.", max: 2 },
+    { id: "e3a_7", isPassFail: true, safety: true, title: "Four 'B' Inspection Check", desc: "Verifies Bulbs (green), Beams (extended), Beads (centered), Bulges (tire lift). Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3a_8", title: "Aerial Mode Activation", desc: "Diverter switched to aerial mode; rear compartments securely latched.", max: 2 },
+    { id: "e3a_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shakes each stabilizer; confirms no soft jack; inserts safety pins. Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3a_10", hasFlyCheck: true, title: "Aerial Ladder Smooth Deployment", desc: "Smooth rotation, extension, and placement to designated target.", max: 2 },
+    { id: "e3a_11", title: "Aerial Retraction & Precision Bedding", desc: "Returns smoothly to cradle without jarring or cradle strikes.", max: 2 }
+  ],
+
+  // EVO 3C: 400 E. CARIBBEAN
+  evo3c: [
+    { id: "e3c_1", title: "Pre-Setup Procedures", desc: "Wheels straight, PTO/Aerial Master engaged, visual check for obstructions before outrigger setup.", max: 2 },
+    { id: "e3c_2", title: "Wheel Chock Placement", desc: "Chocks placed in firm contact with the correct tires based on final apparatus orientation (front or rear tires).", max: 2 },
+    { id: "e3c_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "e3c_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowers one outrigger at a time until engaged with torque box; lowers both watching level bead to zero.", max: 2 },
+    { id: "e3c_5", title: "Final High-Side Leveling", desc: "Returns to high side; moves front and rear outriggers down until the level bead reads exact zero, then stops.", max: 2 },
+    { id: "e3c_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks front-to-rear level; if not level, requests assistance using clear commands specifying direction and timing.", max: 2 },
+    { id: "e3c_7", isPassFail: true, safety: true, title: "Four 'B' Inspection Check", desc: "Verifies Bulbs (green), Beams (extended), Beads (centered), Bulges (tire lift). Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3c_8", title: "Aerial Mode Activation", desc: "Switched rear control station to aerial mode; all rear compartment doors securely closed.", max: 2 },
+    { id: "e3c_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shakes each stabilizer; confirms firmly set, engaged with torque box, no soft jack; inserts safety pins. Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3c_10", hasFlyCheck: true, title: "Aerial Ladder Deployment", desc: "Smoothly and accurately flies the aerial ladder out of cradle and places it at the instructed location (2-story commercial roof edge).", max: 2 },
+    { id: "e3c_11", title: "Aerial Retraction & Precision Bedding", desc: "Returns smoothly to cradle without jerking; aligned to avoid striking the cradle.", max: 2 }
+  ],
+
+  // EVO 3D: 1344 CROSSMAN
+  evo3d: [
+    { id: "e3d_1", title: "Pre-Setup Procedures", desc: "Wheels straight, PTO/Aerial Master engaged, visual check for obstructions before outrigger setup.", max: 2 },
+    { id: "e3d_2", title: "Wheel Chock Placement", desc: "Chocks placed in firm contact with the correct tires based on final apparatus orientation (front or rear tires).", max: 2 },
+    { id: "e3d_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "e3d_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowers one outrigger at a time until engaged with torque box; lowers both watching level bead to zero.", max: 2 },
+    { id: "e3d_5", title: "Final High-Side Leveling", desc: "Returns to high side; moves front and rear outriggers down until the level bead reads exact zero, then stops.", max: 2 },
+    { id: "e3d_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks front-to-rear level; if not level, requests assistance using clear commands specifying direction and timing.", max: 2 },
+    { id: "e3d_7", isPassFail: true, safety: true, title: "Four 'B' Inspection Check", desc: "Verifies Bulbs (green), Beams (extended), Beads (centered), Bulges (tire lift). Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3d_8", title: "Aerial Mode Activation", desc: "Switched rear control station to aerial mode; all rear compartment doors securely closed.", max: 2 },
+    { id: "e3d_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shakes each stabilizer; confirms firmly set, engaged with torque box, no soft jack; inserts safety pins. Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "e3d_10", hasFlyCheck: true, title: "Aerial Ladder Deployment", desc: "Smoothly and accurately flies the aerial ladder out of cradle and places it at the instructed location (2-story commercial building).", max: 2 },
+    { id: "e3d_11", title: "Aerial Retraction & Precision Bedding", desc: "Returns smoothly to cradle without jerking; aligned to avoid striking the cradle.", max: 2 }
+  ],
+
+  // TAB 5: LADDER OPS 3B (LOWE'S)
+  ladder_3b: [
+    { id: "l3b_1", title: "Pre-Setup Procedures", desc: "Wheels straight, PTO/Aerial Master engaged, visual check for obstructions before outrigger setup.", max: 2 },
+    { id: "l3b_2", title: "Wheel Chock Placement", desc: "Chocks placed in firm contact with the correct tires based on final apparatus orientation (front or rear tires).", max: 2 },
+    { id: "l3b_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "l3b_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowers one outrigger at a time until engaged with torque box; lowers both watching level bead to zero.", max: 2 },
+    { id: "l3b_5", title: "Final High-Side Leveling", desc: "Returns to high side; moves front and rear outriggers down until the level bead reads exact zero, then stops.", max: 2 },
+    { id: "l3b_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks front-to-rear level; if not level, requests assistance using clear commands specifying direction and timing.", max: 2 },
+    { id: "l3b_7", isPassFail: true, safety: true, title: "Four 'B' Inspection Check", desc: "Verifies Bulbs (green), Beams (extended), Beads (centered), Bulges (tire lift). Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "l3b_8", title: "Aerial Mode Activation", desc: "Switched rear control station to aerial mode; all rear compartment doors securely closed.", max: 2 },
+    { id: "l3b_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shakes each stabilizer; confirms firmly set, engaged with torque box, no soft jack; inserts safety pins. Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "l3b_10", title: "Aerial Ladder Deployment", desc: "Flies aerial ladder sequentially to all three designated points on the North side of the building.", max: 2 },
+    { id: "l3b_11", title: "Aerial Smoothness & Precision Operation", desc: "Smooth joystick feathering, precision placement without jarring or abrupt stops across all 3 targets.", max: 2 },
+    { id: "l3b_12", title: "Aerial Retraction & Precision Bedding", desc: "Returns smoothly to cradle without jerking; aligned to avoid striking the cradle.", max: 2 }
+  ],
+
+  // TAB 5: LADDER OPS 3F (VALLEY WINDOW)
+  ladder_3f: [
+    { id: "l3f_1", title: "Pre-Setup Procedures", desc: "Spots apparatus between the tower and the white line to reach multiple floors; wheels straight, PTO/Aerial Master engaged, visual check for obstructions.", max: 2 },
+    { id: "l3f_2", title: "Wheel Chock Placement", desc: "Chocks placed in firm contact with the correct tires based on final apparatus orientation (front or rear tires).", max: 2 },
+    { id: "l3f_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "l3f_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowers one outrigger at a time until engaged with torque box; lowers both watching level bead to zero.", max: 2 },
+    { id: "l3f_5", title: "Final High-Side Leveling", desc: "Returns to high side; moves front and rear outriggers down until the level bead reads exact zero, then stops.", max: 2 },
+    { id: "l3f_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks front-to-rear level; if not level, requests assistance using clear commands specifying direction and timing.", max: 2 },
+    { id: "l3f_7", isPassFail: true, safety: true, title: "Four 'B' Inspection Check", desc: "Verifies Bulbs (green), Beams (extended), Beads (centered), Bulges (tire lift). Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "l3f_8", title: "Aerial Mode Activation", desc: "Switched rear control station to aerial mode; all rear compartment doors securely closed.", max: 2 },
+    { id: "l3f_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shakes each stabilizer; confirms firmly set, engaged with torque box, no soft jack; inserts safety pins. Critical Safety: Must be completed (Fail to Complete = Auto Fail).", max: 2 },
+    { id: "l3f_10", title: "Aerial Ladder Deployment", desc: "Flies ladder tip through the valley opening directly into the target window.", max: 2 },
+    { id: "l3f_11", title: "Aerial Smoothness & Valley Threading", desc: "Operates ladder smoothly and with high precision through tight valley clearances without contact.", max: 2 },
+    { id: "l3f_12", title: "Aerial Retraction & Precision Bedding", desc: "Returns ladder to cradle smoothly and safely; safe alignment and bedding.", max: 2 }
+  ],
+
+  // TAB 6: WINDOW RESCUE (EVO 3E)
+  evo_window_rescue: [
+    { id: "ewr_1", isPassFail: true, safety: true, title: "Personal Protective Equipment (PPE)", desc: "Correct selection and proper donning of all required PPE. Critical Safety.", max: 2 },
+    { id: "ewr_2", title: "Pre-Setup Positioning", desc: "Positions the apparatus so the aerial ladder can effectively reach all identified windows.", max: 2 },
+    { id: "ewr_3", title: "High-Side Outrigger Deployment", desc: "Determines high side and fully extends the outriggers; lowers until light ground contact.", max: 2 },
+    { id: "ewr_4", isPassFail: true, safety: true, title: "Effective Communication (Victims)", desc: "Quickly assesses the scene and communicates with victims: calms them, tells them to get off the window sills and close interior doors if possible, reassures them help is coming and not to jump. Critical Safety.", max: 1 },
+    { id: "ewr_5", title: "Expedited Outrigger Deployment for Immediate Rescue", desc: "Forgoes wheel chocks and outrigger pads; prioritizes speed while still fully extending the outriggers.", max: 2 },
+    { id: "ewr_6", title: "Apparatus Stabilization & Leveling", desc: "Uses the outriggers to achieve complete stabilization, apparatus level in all directions.", max: 2 },
+    { id: "ewr_7", isPassFail: true, safety: true, title: "SCBA Donning & Rescue Preparedness", desc: "Donned SCBA prior to climbing to the pedestal; ready to immediately assist with patient rescue. Critical Safety.", max: 2 },
+    { id: "ewr_8", isPassFail: true, safety: true, title: "Prioritization & Fourth-Floor Rescue", desc: "Identifies the 4th-floor person (fire from the window) as most critical. Moves ladder to the 4th-floor window, tip extended from the top of the window then moved down to the bottom, reassuring the person not to jump. Critical Safety.", max: 2 },
+    { id: "ewr_9", title: "Victim Escort & Ladder Descent", desc: "Climbs the ladder to assist the victim out of the window; demonstrates proper technique for escorting victims down the ladder.", max: 2 },
+    { id: "ewr_10", title: "Second-Floor Rescue Positioning", desc: "Moves the ladder to the 2nd-floor window; aims the tip high, then slowly lowers it to the bottom of the window.", max: 2 },
+    { id: "ewr_11", title: "Third-Floor Rescue Positioning with Tip Controls", desc: "Uses the tip controls to maneuver the ladder to the 3rd-floor window, continuously communicating with the last victim; enters the window to assist, then exits and escorts down.", max: 2 },
+    { id: "ewr_12", title: "Aerial Smoothness & Precision Control", desc: "Demonstrates smooth operation and feathering of controls throughout all window rescues.", max: 2 },
+    { id: "ewr_13", title: "Aerial Ladder Retraction & Bedding", desc: "Returns the aerial ladder to its cradle smoothly and safely, without jerking; aligned to avoid striking the cradle.", max: 2 }
+  ],
+
+  // TAB 7: EVO 4A WATER TOWER QUESTIONS
+  evo4a: [
+    { id: "e4a_1", isQ: true, title: "Tell me your starting pressure, max pressure, when the relief valve activates, and when the seals fail.", desc: "<strong>Answer:</strong> Starting: 175 PSI | Max: 230 PSI | Relief Valve activates: 240 PSI | Pipe seals fail: 250 PSI.", max: 2 },
+    { id: "e4a_2", isQ: true, title: "What are the four primary water supply operations for a Tower Ladder?", desc: "<strong>Answer:</strong> 1. Hydrant to Truck Inlet | 2. Engine Discharge to Tower Inlet | 3. Relay / Tandem Pumping | 4. Dual Pumping (Engine inlet to Truck inlet).", max: 2 },
+    { id: "e4a_3", isQ: true, title: "Can we connect the hydrant to the truck tower inlet to flow water?", desc: "<strong>Answer:</strong> NO. Never connect a hydrant to the truck tower inlet; a pump is needed to increase the pressure.", max: 2 },
+    { id: "e4a_4", isQ: true, title: "What is the tactical use of an Angus Gate (or \"Street Valve\") in Tower Ladder operations?", desc: "<strong>Answer:</strong> Large-diameter shut-off valve in the supply line giving the Tower Ladder operator independent control over water supply at their own inlet. Engine (outlet) → 5\" hose → Angus Gate → 5\" hose → Tower Ladder inlet.", max: 2 },
+    { id: "e4a_5", isQ: true, title: "What is \"Dual Pumping,\" and what is the critical risk to the water supply?", desc: "<strong>Answer:</strong> Engine passes residual hydrant pressure from one inlet directly to another apparatus through another inlet; the truck only receives leftover pressure. Risk: water starvation.", max: 2 },
+    { id: "e4a_6", isQ: true, title: "What is the rated flow, in Gallons Per Minute (GPM), for an aerial's master stream nozzle?", desc: "<strong>Answer:</strong> 1500 GPM.", max: 2 },
+    { id: "e4a_7", isQ: true, isPassFail: true, safety: true, title: "What is the mandatory personal equipment for a firefighter operating on the tip of an aerial ladder or in the basket of a tower?", desc: "<strong>Answer:</strong> Full turnouts, SCBA, portable radio, and ladder belt (mandatory lock-in). Critical Safety.", max: 2 },
+    { id: "e4a_8", isQ: true, title: "On Truck 43, is it possible to flow water from the aerial master stream and the deck gun at the same time?", desc: "<strong>Answer:</strong> Yes, but only if the engine's pump is supplied with sufficient water (GPM) to meet the high demand of both appliances.", max: 2 },
+    { id: "e4a_9", isQ: true, title: "What is the proper procedure for draining the aerial waterway before bedding the ladder?", desc: "<strong>Answer:</strong> Waterway must be completely drained: elevate to approximately 30 degrees, open the waterway drain, allow gravity to drain all water before bedding.", max: 2 },
+    { id: "e4a_10", isQ: true, isPassFail: true, safety: true, title: "What are the setup steps for using the aerial waterway as a high-rise standpipe?", desc: "<strong>Answer:</strong> Extend ladder to the standpipe location; lock in with ladder belt; uncap and open the 2-1/2\" shut-off (water thief) next to the monitor; attach hose to the water thief; turn monitor wheel to the CLOSE position; water can be flowed. Critical Safety.", max: 2 },
+    { id: "e4a_10b", isQ: true, title: "What are the takedown steps for using the aerial waterway as a high-rise standpipe?", desc: "<strong>Answer:</strong> Leave ladder in place; pull tower drain; turn monitor wheel to the OPEN position; disconnect hose; close 2-1/2\" shut-off and cap it; then retract the ladder once water has drained.", max: 2 },
+    { id: "e4a_11", isQ: true, title: "As a pump operator, your compound gauge is showing 5 PSI, but you need more GPM. What can you do?", desc: "<strong>Answer:</strong> Have a firefighter connect another supply line (3\" or 5\") from an unused hydrant port (2.5\" or 4.5\") to a second unused intake on the engine.", max: 2 }
+  ],
+
+  // TAB 7: EVO 4B STANDPIPE
+  evo4b_standpipe: [
+    { id: "e4b_1", title: "Pre-Setup Procedures (Aerial Master & Pump Gear)", desc: "Front wheels straight, PTO/Aerial Master engaged, visual check for obstructions before outrigger setup.", max: 2 },
+    { id: "e4b_2", title: "Wheel Chock Placement", desc: "Chocks placed in firm contact with the correct tires.", max: 2 },
+    { id: "e4b_3", title: "High-Side Outrigger Deployment", desc: "High side determined; beams extended fully, jacks lowered to light ground contact.", max: 2 },
+    { id: "e4b_4", title: "Low-Side Outrigger Deployment & Leveling", desc: "Lowers one outrigger at a time until engaged with torque box; lowers both watching level bead to zero.", max: 2 },
+    { id: "e4b_5", title: "Final High-Side Leveling", desc: "Returns to high side; moves front and rear outriggers down until the level bead reads zero, then stops.", max: 2 },
+    { id: "e4b_6", title: "Front-to-Rear Leveling & Communication", desc: "Checks front-to-rear level; requests assistance with clear commands if needed.", max: 2 },
+    { id: "e4b_7", isPassFail: true, safety: true, title: "Four 'B' Inspection", desc: "Check of the four B's (Bulbs, Beams, Beads, Bulges). Critical Safety.", max: 2 },
+    { id: "e4b_8", title: "Aerial Mode Activation", desc: "Engaged aerial mode at the rear control station; verified all rear compartment doors securely closed.", max: 2 },
+    { id: "e4b_9", isPassFail: true, safety: true, title: "Stabilizer Confirmation & Pinning", desc: "Physically shook each stabilizer; verified firmly set and engaged with torque box; confirmed no soft jack before inserting safety pins. Critical Safety.", max: 2 },
+    { id: "e4b_10", isPassFail: true, safety: true, title: "Establishing Water Supply", desc: "Connects the supply hose to the truck before connecting to the hydrant so the water source can be activated immediately. Critical Safety.", max: 2 },
+    { id: "e4b_11", title: "Aerial Standpipe Deployment", desc: "Positions the ladder at the third-floor window; ascends to the ladder tip carrying the hose pack.", max: 2 },
+    { id: "e4b_12", isPassFail: true, safety: true, title: "Aerial Standpipe Connections (MUST LOCK INTO THE LADDER)", desc: "Secures to the ladder with the ladder belt first; opens the water thief, closes the aerial nozzle, connects the supply hose to the water thief. Critical Safety.", max: 1 },
+    { id: "e4b_13", title: "Hose/Nozzle to Interior Crew", desc: "Flakes hose out properly on the ladder; passes nozzle/hose to the interior firefighter; returns to the pump panel.", max: 2 },
+    { id: "e4b_14", title: "Water to Interior Crew", desc: "Communicates with the interior firefighter to coordinate water flow; waterway slowly filled; required operating pressure (PSI) set.", max: 2 },
+    { id: "e4b_15", title: "Interior Crew Communications", desc: "Once water is flowing, communicates with the interior firefighter to confirm adequate operating pressure.", max: 2 },
+    { id: "e4b_note", isNoteOnly: true, title: "📢 PROCTOR ADVISORY NOTE (Give to Trainee)", desc: "<strong>PROCTOR ANNOUNCES (radio):</strong> Truck 45 from IC... We need to change operations and move to a defensive attack. Trainee must acknowledge and immediately begin preparing for defensive operations.", max: 0 },
+    { id: "e4b_16", title: "Standpipe Shutdown", desc: "Communicates with the interior firefighter that the hoseline will be shut down; properly shuts down the hoseline at the pump panel.", max: 2 },
+    { id: "e4b_17", isPassFail: true, safety: true, title: "Aerial Re-Configuration", desc: "Ascends and secures to the ladder with the ladder belt; opens the main aerial nozzle, closes the water thief, detaches hose, places cap securely onto water thief. Critical Safety.", max: 1 },
+    { id: "e4b_18", title: "Defensive Operations Positioning", desc: "Smoothly repositions the ladder for a defensive attack. Mandatory Safety: if the ladder is retracted, the aerial waterway drain must be pulled first.", max: 2 },
+    { id: "e4b_19", title: "Defensive Operations Water Flow", desc: "Initiates water flow from the aerial device; works to achieve maximum flow (1500 GPM).", max: 2 }
+  ],
+
+  // TAB 7: EVO 4C FAILURE
+  evo4c_failure: [
+    { id: "e4c_note", isNoteOnly: true, title: "📢 PROCTOR ACTION", desc: "<strong>Once max flow has stabilized, press the Idle button on the pump panel and tell the trainee:</strong> Your pump has just failed.", max: 0 },
+    { id: "e4c_1", title: "Pump Failure Communications", desc: "Immediately notifies IC/Ops by radio of the pump failure; begins coordinating dispatch of a supporting engine.", max: 2 },
+    { id: "e4c_2", title: "Communications to Engineer", desc: "Communicates the plan to the engine; they deploy 35 ft of 5\" and a street valve; instructs Engineer to connect the 5\" to the apparatus outlet.", max: 2 },
+    { id: "e4c_3", title: "Rear Inlet Connection", desc: "Connects 5\" to the rear inlet of the truck, other end to the street valve; confirms valve is closed; connects 5\" from engine to the street valve.", max: 2 },
+    { id: "e4c_4", title: "Hose Confirmation", desc: "Verifies all 5\" connections are correct; confirms the relief engine is securely connected to the fire hydrant.", max: 2 },
+    { id: "e4c_5", title: "Initiating Flow", desc: "Requests water flow to the street valve and stands clear; once water reaches the valve, tells the Engineer they are opening it and slowly opens the street valve.", max: 2 },
+    { id: "e4c_6", title: "Increase Pressure & Communication", desc: "Radios the Engineer to slowly increase pressure to the truck; requests Engineer's discharge and intake PSI throughout to maintain accountability.", max: 2 }
+  ],
+
+  // TAB 7: EVO 4D RELAY
+  evo4d_relay: [
+    { id: "e4d_note", isNoteOnly: true, title: "📢 PROCTOR ACTION", desc: "<strong>Once max flow is established, tell the trainee:</strong> Your pump is operational again. If the trainee fails to switch back to the apparatus pump, prompt the switch to relay pumping.", max: 0 },
+    { id: "e4d_1", title: "Decrease Pressure & Communication", desc: "Radios IC/Ops that the pump is operational and the transition back to the apparatus pump is starting; instructs the Engineer to gradually reduce pressure to idle.", max: 2 },
+    { id: "e4d_2", title: "Switch to Relay Pumping", desc: "Notifies the Engine of the shift to relay pumping; gives explicit instructions for the hose connections required.", max: 2 },
+    { id: "e4d_3", title: "Hose Connections", desc: "Confirms 5\" connections are correct (Engine outlet → Truck inlet).", max: 2 },
+    { id: "e4d_4", title: "Increasing Pressure", desc: "Requests the Engineer's starting intake pressure by radio.", max: 2 },
+    { id: "e4d_5", title: "Water Flow & Increasing Pressure", desc: "Requests the Engineer to start flowing water; specifies an initial pumping pressure of 125 PSI to prevent activating the pump relief valve.", max: 2 },
+    { id: "e4d_6", title: "Water Flow to Nozzle & Communications", desc: "Advises the Engineer they will open the waterway; slowly opens the waterway to initiate flow.", max: 2 },
+    { id: "e4d_7", title: "Max GPM & Communications", desc: "Once flow is established, coordinates with the Engineer to increase pressure until maximum GPM (1500) is achieved, requesting intake and discharge PSI throughout.", max: 2 }
+  ],
+
+  // TAB 7: EVO 4E TANDEM
+  evo4e_tandem: [
+    { id: "e4e_note", isNoteOnly: true, title: "📢 PROCTOR ACTION", desc: "<strong>Radio:</strong> Truck 45 - IC: We need to flow additional handlines and the deck gun off our position, and they will be the priority for water. Be prepared: we will need you to switch to tandem pumping. After the 5\" line from the Engine outlet is closed: Engineer: start flowing water out of your deck gun immediately. Also place a nozzle on a side outlet and flow water to simulate a 2.5\" hoseline.", max: 0 },
+    { id: "e4e_1", title: "Communication & Decreasing Pressure", desc: "Advises the Engineer they are changing tasks; slowly and simultaneously reduces pressure on both truck and engine without activating the pump relief valve.", max: 2 },
+    { id: "e4e_2", title: "Preparing for Tandem Pumping", desc: "Advises the Engineer of the setup: Engine inlet connected to Truck inlet; they will only draw residual water and it will not affect their primary pumping operations.", max: 2 },
+    { id: "e4e_3", title: "Tandem Pumping Hose", desc: "Confirms hoselines are connected correctly, verifying the pathway from the Engine inlet to the Truck inlet.", max: 2 },
+    { id: "e4e_4", title: "Communication", desc: "Before opening the inlet, confirms readiness with the Engineer; once open, immediately confirms the Intake PSI reading.", max: 2 },
+    { id: "e4e_5", title: "Water Flow to Truck", desc: "Slowly opens the inlet on the Engine first, then slowly the inlet on the Truck; verifies resulting Intake PSI.", max: 2 },
+    { id: "e4e_6", title: "Communication & Flowing Water", desc: "Before opening the waterway, confirms Engineer's Intake PSI; advises intent to open the waterway and warns to watch intake pressure closely as it is expected to drop.", max: 2 },
+    { id: "e4e_7", title: "Flowing Water Waterway & Communications", desc: "Slowly opens the waterway; once fully open, verifies the Engineer's intake pressure (PSI).", max: 2 },
+    { id: "e4e_8", title: "Max GPM Flow", desc: "Slowly increases pump pressure until maximum achievable GPM; continuously communicates with the Engineer, monitoring their intake pressure.", max: 2 },
+    { id: "e4e_note2", isNoteOnly: true, title: "📢 PROCTOR ACTION", desc: "<strong>After max flow is achieved:</strong> The fire has been extinguished. Trainee may decrease pressure and prepare for demobilization.", max: 0 },
+    { id: "e4e_9", title: "Decreasing Pressure", desc: "Advises the Engineer of intent to cease flow; slowly decreases pressure through the aerial waterway.", max: 2 },
+    { id: "e4e_10", title: "Returning the Truck to Normal Operations", desc: "Sequentially closes the waterway valve, then opens the waterway drain; ladder positioned above 30 degrees for complete drainage.", max: 2 },
+    { id: "e4e_11", title: "Bedding Ladder", desc: "Once the waterway is drained, greases the zerk fittings; smoothly retracts the aerial into its cradle.", max: 2 }
+  ],
+
+  // TAB 8: EVO 5A CONVENTIONAL FORCIBLE ENTRY
+  // FORCIBLE ENTRY 1: INWARD-SWINGING DOOR
+  evo5a: [
+    { id: "e5a_1", isPassFail: true, safety: true, title: "PPE & Tool Staging (Inward Door)", desc: "Full turnouts and SCBA donned; irons and striking tools staged for immediate deployment. Critical Safety.", max: 2 },
+    { id: "e5a_2", title: "Checking for Heat", desc: "Checks the door for heat with the back of an ungloved hand or a fog spray from a fire hose.", max: 2 },
+    { id: "e5a_3", title: "Checking for Smoke", desc: "Uses the Halligan to force the top corner of the door away from the frame, creating a gap to check for or release smoke and heat.", max: 2 },
+    { id: "e5a_4", title: "Checking for Locked", desc: "Before any force, checks the door handle to determine whether the door is unlocked and can be opened without breaching.", max: 2 },
+    { id: "e5a_5", title: "Sounding the Door", desc: "Uses the adze end of the Halligan in the middle of the door (top, middle, bottom) to sound for locks.", max: 2 },
+    { id: "e5a_6", title: "Door Gap", desc: "Positions the axe head near the bottom of the door and slowly creates a gap until the axe head fits between the door and jamb.", max: 2 },
+    { id: "e5a_7", title: "Door Gap Progression", desc: "Uses the Halligan to open the gap wider; moves the axe blade deeper into the opening to set the wedge for further leverage.", max: 2 },
+    { id: "e5a_8", title: "Set Tool into Position for Prying", desc: "Sets the Halligan forks under the lock; drives the forks with the striking tool past the door frame, wrapping the frame for maximum purchase.", max: 2 },
+    { id: "e5a_9", isPassFail: true, safety: true, title: "Pry Door Open (Door Control)", desc: "Halligan pushed forward, leveraging against the frame to break the lock. MANDATORY SAFETY CHECK: door must be controlled using webbing or the Halligan. Critical Safety.", max: 2 }
+  ],
+
+  // FORCIBLE ENTRY 2: OUTWARD-SWINGING DOOR
+  evo5b: [
+    { id: "e5b_1", isPassFail: true, safety: true, title: "PPE & Tool Staging (Outward Door)", desc: "Full turnouts and SCBA donned; irons and striking tools staged for immediate deployment. Critical Safety.", max: 2 },
+    { id: "e5b_2", title: "Checking for Heat", desc: "Checks the door for heat with the back of an ungloved hand or a fog spray from a fire hose.", max: 2 },
+    { id: "e5b_3", title: "Checking for Smoke", desc: "Uses the Halligan to force the top corner of the door away from the frame, creating a gap to check for or release smoke and heat.", max: 2 },
+    { id: "e5b_4", title: "Checking for Locked", desc: "Before any force, checks the door handle to determine whether the door is unlocked and can be opened without breaching.", max: 2 },
+    { id: "e5b_5", title: "Sounding the Door", desc: "Uses the fork end of the Halligan in the middle of the door (top, middle, bottom) to sound for locks.", max: 2 },
+    { id: "e5b_6", title: "Door Gap", desc: "Wedges the axe blade into the opening just under the lock to increase the gap, allowing insertion of the Halligan.", max: 2 },
+    { id: "e5b_7", title: "Door Gap Progression", desc: "Uses the Halligan to open the gap wider until the axe blade falls past the door frame, exposing the latch and locking mechanism.", max: 2 },
+    { id: "e5b_8", title: "Set Tool into Position for Prying", desc: "Drives the Halligan adze end into the gap created by the axe until the tool is set flush against the door face, ready to pry.", max: 2 },
+    { id: "e5b_9", isPassFail: true, safety: true, title: "Pry Door Open (Door Control)", desc: "Halligan pulled away from the door face, using the door as leverage to break the lock. MANDATORY SAFETY CHECK: door must be controlled using webbing or the Halligan. Critical Safety.", max: 2 }
+  ],
+
+  // FORCIBLE ENTRY 3: COMMERCIAL ROLL-UP & GARAGE DOOR TACTICS
+  evo5c: [
+    { id: "e5c_1", title: "Identify Roll-Up / Garage Door & Hazard Size-Up", desc: "Identifies curtain type (slat/sheet), track anchors, windlocks, and overhead hood hazards.", max: 2 },
+    { id: "e5c_2", title: "Commercial Roll-Up Cut Sequence", desc: "Rescue saw: cut high (head height) down to the ground; angle cut from the down cut to the ground; kick in the triangle and finish the down cut through the bottom; cut horizontally across; pull the roll-up open like a door. Alternatives: Teepee cut (two angle cuts from head height to the ground; fold the door down), vertical cut and pull each flat out, or Halligan adze to make a space under the door then spreaders to force the door up and break the lock.", max: 2 }
+  ],
+
+  // FORCIBLE ENTRY 4: STAIRWELL DOOR ALTERNATIVE METHODS CHECKLIST
+  evo5d: [
+    { id: "e5d_1", title: "Pulling Hinges", desc: "Hinge attack: strike and pry the hinge assembly off using a sledgehammer and Halligan.", max: 2 },
+    { id: "e5d_2", title: "Cutting Hinges", desc: "Cutting hinges with a rotary rescue saw in sequence: bottom, middle, then top.", max: 2 },
+    { id: "e5d_3", title: "Cutting the Door in Half", desc: "Breaching and cutting: uses a chainsaw or rescue saw to cut a large access hole in the door panel.", max: 2 },
+    { id: "e5d_4", title: "Cutting Out the Door Handle / Lock Cylinder", desc: "Cuts out the lock mechanism itself using a rotary saw or K-tool.", max: 2 },
+    { id: "e5d_5", title: "Breaking Off the Door Handle", desc: "Trainee verbalizes striking or twisting off the exterior handle or knob using striking tools / Halligan.", max: 2 },
+    { id: "e5d_6", title: "Breaking a Window", desc: "Trainee verbalizes breaking adjacent or door vision-panel glass to reach interior panic hardware or thumb-turn.", max: 2 },
+    { id: "e5d_6b", title: "Spreading the Frame (Hydraulic Spreaders)", desc: "When extreme force is needed, uses hydraulic spreaders to deform the frame until the lock fails.", max: 2 },
+    { id: "e5d_7", title: "Through-the-Wall Access", desc: "If wall material permits, breaks a hole in the adjacent wall to reach and manually unlock the door from the interior side.", max: 2 }
+  ],
+
+  // FORCIBLE ENTRY 5: ORAL & TECHNICAL QUESTIONS
+  evo5e: [
+    { id: "e5e_1", isQ: true, title: "Why pick a box cut over a Teepee cut on a roll-up door?", desc: "<strong>Answer:</strong> Allows full-height opening for entry/egress, allows easier removal of slats without leaving a jagged, hanging overhead triangle hazard.", max: 2 },
+    { id: "e5e_2", isQ: true, title: "What are other alternative methods to get through a locked door?", desc: "<strong>Answer:</strong> Cut the door in half, cut around the door knob/lock cylinder, pull the hinges, breach/break through the wall, cut through the panels.", max: 2 },
+    { id: "e5c_q2", isQ: true, title: "How do you secure a roll-up or garage door once opened?", desc: "<strong>Answer:</strong> Garage stops; vice grips clamped on the tracks; spreaders to crimp the track; pike pole in the track; a ladder. Mandatory: anything placed to stop the door must be marked or tied in place so no one removes it.", max: 2 },
+    { id: "e5c_q4", isQ: true, title: "How do you recognize a drop bar and defeat it?", desc: "<strong>Answer:</strong> Recognized by a pattern of 4 visible carriage bolts or weld marks on the door face. Defeated with the Thru-the-Bar technique: cut the bolt heads off with a rescue saw, then drive the remaining bolt shafts through the door with a striking tool so the securing bar falls and releases the door.", max: 2 }
+  ],
+
+    evo6: [
+    { id: "e6_1", isPassFail: true, safety: true, title: "PPE & Tool Staging", desc: "Selects and dons proper PPE (helmet, gloves); stages essential tools for immediate and efficient deployment. Critical Safety.", max: 2 },
+    { id: "e6_2", title: "Truck Positioning", desc: "Positions the apparatus to effectively reach the objective and retrieve the victim from the building.", max: 2 },
+    { id: "e6_3", title: "Truck Setup", desc: "Properly sets outriggers, wheel chocks, and pins; setup allows safe patient access and return to ground level.", max: 2 },
+    { id: "e6_4", title: "Retrieval of Equipment", desc: "Retrieves all necessary rescue equipment (Stokes, main line, safety line, cradle, etc.).", max: 2 },
+    { id: "e6_5", title: "EMS Gear for Patient", desc: "Establishes a plan to deliver medical supplies to the victim (e.g., transport via Stokes basket or lower from above).", max: 2 },
+    { id: "e6_6", isPassFail: true, safety: true, title: "Truck 45 Ladder Pulley Placement", desc: "Secures pulley to the last ladder rung. NEVER place the pulley on the red breakaway tip. Critical Safety.", max: 2 },
+    { id: "e6_7", title: "Main Line Setup", desc: "Anchors main line (webbing/strap) to ladder base using a clutch device; routes rope through the ladder pulley, terminating with a Figure 8 on a bight.", max: 2 },
+    { id: "e6_8", title: "Safety Line Setup", desc: "Anchors safety line (webbing/strap) to ladder base using an RPM system; routes rope through the ladder pulley, terminating with a Figure 8 on a bight.", max: 2 },
+    { id: "e6_9", title: "Stokes Basket Setup", desc: "Connects cradle to basket with red Prusiks oriented toward the head; secures the Stokes bag to the basket with additional webbing.", max: 2 },
+    { id: "e6_10", title: "Tag Line", desc: "Attaches tag line to the Stokes basket to control sway and rotation; uses the line to position the basket closer to the patient as needed.", max: 2 },
+    { id: "e6_11", isPassFail: true, safety: true, title: "System Safety Check", desc: "Requests a visual and tactile safety check; verifies knots dressed, carabiners locked, pulley secure, anchors solid. Critical Safety.", max: 2 },
+    { id: "e6_12", title: "Preload the System", desc: "Lifts the basket slightly to pre-load the system; verifies no side-loading on carabiners and the Stokes is level and ready.", max: 2 },
+    { id: "e6_13", title: "Moving Stokes to Patient", desc: "Maneuvers the Stokes into position using ladder and rope systems; uses standard commands (\"Main Ready,\" \"Safety Ready,\" \"Pedestal Ready\").", max: 2 },
+    { id: "e6_14", isPassFail: true, safety: true, title: "Lowering Stokes Basket", desc: "Stops ladder movement before losing visual contact; transitions to lowering via the rope system to maintain direct line of sight. Critical Safety.", max: 1 },
+    { id: "e6_15", title: "Patient Packaging", desc: "Determines the appropriate packaging method (backboard vs. direct to Stokes) based on simulated injuries and patient condition.", max: 2 },
+    { id: "e6_16", title: "Patient Packaging Securing", desc: "Secures the patient using webbing, spider straps, or lacing; verifies proper knots and that the backboard is firmly secured to the Stokes; verifies head-high tilt.", max: 2 },
+    { id: "e6_17", title: "Safety Check (Protocol)", desc: "Calls for a safety check; verbalizes the protocol for verifying safety when limited personnel (one vs. two rescuers) are on scene.", max: 2 },
+    { id: "e6_18", title: "Switch to Raising System", desc: "Returns to the ladder base and converts the lowering system to a raising system; builds a 3:1 Z-rig using proper pulleys and Prusiks.", max: 2 },
+    { id: "e6_19", title: "Patient Preload (Raise)", desc: "Directs the haul team to pre-load the system; confirms Stokes orientation is \"Head High\"; checks carabiners for side-loading before hauling; uses proper commands.", max: 2 },
+    { id: "e6_20", isPassFail: true, safety: true, title: "Raising Stokes Basket", desc: "Uses the rope system to raise the Stokes above the roofline or visual obstruction before engaging the aerial ladder for movement. Critical Safety.", max: 1 },
+    { id: "e6_21", title: "Raising Operation", desc: "Maintains clear communication throughout using standard commands (\"Main Ready,\" \"Safety Ready,\" \"Rescuer Ready\").", max: 2 },
+    { id: "e6_22", title: "Lowering Patient", desc: "Safely lowers the patient to the ground as directed by the Proctor, using the aerial ladder or the rope system.", max: 2 }
+  ]
+};
+
+var userScores = {};
+var partialNotes = {};
+var flyResponses = {};
+var exemptSections = {};
+
+var memoryStorage = {};
+function safeGetItem(key) {
+  try {
+    if (window.localStorage) return window.localStorage.getItem(key);
+  } catch(e) {}
+  return memoryStorage[key] || null;
+}
+function safeSetItem(key, val) {
+  try {
+    if (window.localStorage) {
+      window.localStorage.setItem(key, val);
+      return;
+    }
+  } catch(e) {}
+  memoryStorage[key] = val;
+}
+function safeRemoveItem(key) {
+  try {
+    if (window.localStorage) {
+      window.localStorage.removeItem(key);
+      return;
+    }
+  } catch(e) {}
+  delete memoryStorage[key];
+}
+
+var STORAGE_KEY = 'TRUCK_TESTS_PHASE1_DRAFT';
+
+function setEvoExempt(sectionKey, isExempt) {
+  exemptSections[sectionKey] = isExempt;
+  
+  var btnTested = document.getElementById('btn_toggle_' + sectionKey + '_tested');
+  var btnExempt = document.getElementById('btn_toggle_' + sectionKey + '_exempt');
+  var container = document.getElementById(sectionKey + '_container');
+
+  if (isExempt) {
+    if (btnTested) { btnTested.className = 'btn-toggle-status'; }
+    if (btnExempt) { btnExempt.className = 'btn-toggle-status active-exempt'; }
+    if (container) { container.classList.add('is-exempt'); }
+  } else {
+    if (btnTested) { btnTested.className = 'btn-toggle-status active-tested'; }
+    if (btnExempt) { btnExempt.className = 'btn-toggle-status'; }
+    if (container) { container.classList.remove('is-exempt'); }
+  }
+
+  calculateTotals();
+  saveDraft();
+}
+
+function showScreen(screenId, btnElement) {
+  var screens = document.getElementsByClassName('screen-tab');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  var target = document.getElementById(screenId);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  var navBtns = document.getElementsByClassName('nav-btn');
+  for (var j = 0; j < navBtns.length; j++) {
+    navBtns[j].classList.remove('active');
+  }
+
+  if (btnElement) {
+    btnElement.classList.add('active');
+  } else {
+    for (var k = 0; k < navBtns.length; k++) {
+      if (navBtns[k].getAttribute('onclick').indexOf(screenId) !== -1) {
+        navBtns[k].classList.add('active');
+        navBtns[k].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+        break;
+      }
+    }
+  }
+
+  window.scrollTo(0, 0);
+  timerResetArmed = null;
+  updateTimerDock();
+  visitedScreens[screenId] = true;
+  updateHeaderScore();
+  updateTabStates();
+  saveDraft();
+
+  if (screenId === 'scr_summary') {
+    renderSummary();
+  }
+}
+
+
+
+function getTaskDetails(taskId) {
+  var sectionNames = {
+    'evo1': 'Specs 1',
+    'evo2a': 'Driving 1',
+    'evo2b': 'Driving 2',
+    'evo3a': 'Stabilizers 1',
+    'evo3c': 'Stabilizers 2',
+    'evo3d': 'Stabilizers 3',
+    'ladder_3b': "Ladder Ops 1",
+    'ladder_3f': 'Ladder Ops 2',
+    'evo_window_rescue': 'Window Rescue 1',
+    'evo4b_standpipe': 'Water Tower 1',
+    'evo4c_failure': 'Water Tower 2',
+    'evo4d_relay': 'Water Tower 3',
+    'evo4e_tandem': 'Water Tower 4',
+    'evo4a': 'Water Tower 5',
+    'evo5a': 'Forcible Entry 1',
+    'evo5b': 'Forcible Entry 2',
+    'evo5c': 'Forcible Entry 3',
+    'evo5d': 'Forcible Entry 4',
+    'evo5e': 'Forcible Entry 5',
+    'evo6': 'Rescue 1'
+  };
+
+  for (var secKey in tasksData) {
+    var list = tasksData[secKey];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === taskId) {
+        var secLabel = sectionNames[secKey] || secKey;
+        return {
+          section: secLabel,
+          title: list[i].title,
+          fullLabel: secLabel + ' • ' + list[i].title
+        };
+      }
+    }
+  }
+  return { section: '', title: taskId, fullLabel: taskId };
+}
+
+
+function updatePrintTaskBadges() {
+  for (var secKey in tasksData) {
+    var tasks = tasksData[secKey];
+    for (var i = 0; i < tasks.length; i++) {
+      var t = tasks[i];
+      var badge = document.getElementById('print_badge_' + t.id);
+      if (!badge) continue;
+      
+      if (isTaskExempt(secKey)) {
+        badge.innerHTML = '<span style="color:#64748b; font-weight:700;">[EXEMPT / NOT TESTED]</span>';
+      } else if (userScores[t.id]) {
+        var val = userScores[t.id].val;
+        if (t.isPassFail || t.safety) {
+          badge.innerHTML = (val === 2) ? '<span style="color:#15803d; font-weight:800;">[COMPLETED - PASS]</span>' : '<span style="color:#b91c1c; font-weight:800;">[FAIL TO COMPLETE - CRITICAL FAIL]</span>';
+        } else {
+          var color = (val === 2) ? '#15803d' : ((val === 1) ? '#b45309' : '#b91c1c');
+          badge.innerHTML = '<span style="color:' + color + '; font-weight:800;">[AWARDED: ' + val + ' / ' + t.max + ' PTS]</span>';
+        }
+      } else {
+        badge.innerHTML = '<span style="color:#64748b;">[UNASKED / NOT EVALUATED]</span>';
+      }
+    }
+  }
+}
+
+function renderTasks() {
+  for (var sectionKey in tasksData) {
+    var container = document.getElementById(sectionKey + '_list');
+    if (!container) continue;
+
+    var tasks = tasksData[sectionKey];
+    var html = '';
+    for (var i = 0; i < tasks.length; i++) {
+      var t = tasks[i];
+      if (t.isNoteOnly) {
+        html += '<div class="box-alert" style="margin: 12px 0;"><strong>' + t.title + '</strong>' + t.desc + '</div>';
+        continue;
+      }
+
+      var safetyClass = t.safety ? 'safety-critical' : '';
+      var safetyTag = t.safety ? '<span class="safety-pill">Critical Safety</span>' : '';
+      var qTag = t.isQ ? '<span style="color:#60a5fa; font-weight:700; font-size:0.75rem; margin-right:4px;">[QUESTION]</span>' : '';
+
+      html += '<div class="task-row ' + safetyClass + '">';
+      html += '  <div class="task-head">';
+      html += '    <div class="task-title">' + safetyTag + qTag + t.title + '</div>';
+      var isPF = t.isPassFail || t.safety || t.max === 1;
+      html += '    <div class="task-weight"><span class="print-score-pill" id="print_badge_' + t.id + '"></span>' + (isPF ? 'Pass / Fail' : 'Max ' + t.max + ' pts') + '</div>';
+      html += '  </div>';
+      html += '  <div class="task-desc">' + t.desc + '</div>';
+
+      // Aerial Flown Yes/No Check
+      if (t.hasFlyCheck) {
+        html += '<div class="fly-prompt-wrap" id="fly_wrap_' + t.id + '">';
+        html += '  <div class="fly-prompt-title">Did the trainee fly the aerial ladder on this evolution?</div>';
+        html += '  <div class="fly-btn-group">';
+        html += '    <button type="button" class="fly-btn" id="btn_fly_' + t.id + '_yes" onclick="setFlownCheck(\'' + t.id + '\', true, true)">YES (Trainee Flown)</button>';
+        html += '    <button type="button" class="fly-btn" id="btn_fly_' + t.id + '_no" onclick="setFlownCheck(\'' + t.id + '\', false, true)">NO (Waived / Proctored)</button>';
+        html += '  </div>';
+        html += '  <div class="fly-sub-box" id="fly_sub_' + t.id + '">';
+        html += '    <div style="font-size:0.78rem; color:#bfdbfe; margin-bottom:4px;"><strong>Precision & Feathering Verification:</strong> Ladder operated with smooth lever feathering, safe feather-stop, and zero abrupt shock load?</div>';
+        html += '  </div>';
+        html += '  <div id="fly_hint_' + t.id + '" style="font-size:0.78rem; color:#fcd34d; margin-top:6px;">Tap YES to open scoring. Tap NO and this item is not scored.</div>';
+        html += '</div>';
+      }
+
+      // Buttons
+      html += '  <div class="btn-group" id="score_wrap_' + t.id + '"' + (t.hasFlyCheck ? ' style="display:none;"' : '') + '>';
+      if (isPF) {
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', false, true)">Fail to Complete</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, false, true)">Completed (Pass)</button>';
+      } else {
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', false)">0 - Fail</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_1" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 1, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', false)">1 - Partial</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', false)">2 - Full</button>';
+      }
+      html += '    <button type="button" class="btn-score btn-clear" id="btn_' + t.id + '_clear" onclick="clearScore(\'' + t.id + '\')">Clear</button>';
+      html += '  </div>';
+
+      // Optional deduction / failure notes box
+      html += '  <div class="partial-notes-wrap" id="partial_wrap_' + t.id + '">';
+      html += '    <label id="deduct_lbl_' + t.id + '">📝 Deduction / Failure Notes (Optional):</label>';
+      html += '    <input type="text" id="partial_note_' + t.id + '" placeholder="Optional notes on deductions or failure rationale..." oninput="savePartialNote(\'' + t.id + '\', this.value)">';
+      html += '  </div>';
+
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }
+}
+
+function setFlownCheck(taskId, didFly, fromUser) {
+  flyResponses[taskId] = didFly;
+  var sw = document.getElementById('score_wrap_' + taskId);
+  var hint = document.getElementById('fly_hint_' + taskId);
+  if (sw) sw.style.display = didFly ? '' : 'none';
+  if (hint) {
+    hint.innerText = didFly ? '' : 'Not flown: this item is not scored.';
+    hint.style.display = didFly ? 'none' : 'block';
+  }
+  if (!didFly && fromUser && userScores[taskId]) clearScore(taskId);
+  var bYes = document.getElementById('btn_fly_' + taskId + '_yes');
+  var bNo = document.getElementById('btn_fly_' + taskId + '_no');
+  var sub = document.getElementById('fly_sub_' + taskId);
+
+  if (didFly) {
+    if (bYes) bYes.className = 'fly-btn active-yes';
+    if (bNo) bNo.className = 'fly-btn';
+    if (sub) sub.style.display = 'block';
+  } else {
+    if (bYes) bYes.className = 'fly-btn';
+    if (bNo) bNo.className = 'fly-btn active-no';
+    if (sub) sub.style.display = 'none';
+  }
+  saveDraft();
+}
+
+function savePartialNote(taskId, noteText) {
+  partialNotes[taskId] = noteText;
+  saveDraft();
+}
+
+function recordScore(sectionKey, taskId, val, max, isSafety, isQ, isPassFail) {
+  var b0 = document.getElementById('btn_' + taskId + '_0');
+  var b1 = document.getElementById('btn_' + taskId + '_1');
+  var b2 = document.getElementById('btn_' + taskId + '_2');
+  if (b0) b0.className = 'btn-score';
+  if (b1) b1.className = 'btn-score';
+  if (b2) b2.className = 'btn-score';
+
+  var selectedBtn = document.getElementById('btn_' + taskId + '_' + val);
+  if (selectedBtn) {
+    selectedBtn.className = 'btn-score selected-' + val;
+  }
+
+  // Toggle optional deduction / failure notes box
+  var partBox = document.getElementById('partial_wrap_' + taskId);
+  var lbl = document.getElementById('deduct_lbl_' + taskId);
+  if (partBox) {
+    if (val === 0 || val === 1) {
+      partBox.style.display = 'block';
+      if (lbl) {
+        lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
+      }
+    } else {
+      partBox.style.display = 'none';
+    }
+  }
+
+  userScores[taskId] = { section: sectionKey, val: val, max: max, safety: isSafety, isQ: isQ, isPassFail: isPassFail };
+  calculateTotals();
+  saveDraft();
+}
+
+function clearScore(taskId) {
+  var b0 = document.getElementById('btn_' + taskId + '_0');
+  var b1 = document.getElementById('btn_' + taskId + '_1');
+  var b2 = document.getElementById('btn_' + taskId + '_2');
+  if (b0) b0.className = 'btn-score';
+  if (b1) b1.className = 'btn-score';
+  if (b2) b2.className = 'btn-score';
+
+  var partBox = document.getElementById('partial_wrap_' + taskId);
+  if (partBox) partBox.style.display = 'none';
+
+  delete userScores[taskId];
+  calculateTotals();
+  saveDraft();
+}
+
+function isTaskExempt(sectionKey) {
+  if (exemptSections[sectionKey]) return true;
+  if (sectionKey.startsWith('evo2') && exemptSections['evo2']) return true;
+  if (sectionKey.startsWith('evo3') && exemptSections['evo3']) return true;
+  if (sectionKey.startsWith('ladder_') && exemptSections['ladder_ops']) return true;
+  if (sectionKey.startsWith('evo4') && exemptSections['evo4']) return true;
+  if (sectionKey.startsWith('evo5') && exemptSections['evo5']) return true;
+  return false;
+}
+
+// Map sub-keys to official major sections for the 80% rule
+function getMajorSection(secKey) {
+  if (secKey === 'evo1') return 'evo1';
+  if (secKey.startsWith('evo2')) return 'evo2';
+  if (secKey.startsWith('evo3')) return 'evo3';
+  if (secKey.startsWith('ladder_')) return 'ladder_ops';
+  if (secKey === 'evo_window_rescue') return 'evo_window_rescue';
+  if (secKey.startsWith('evo4')) return 'evo4';
+  if (secKey.startsWith('evo5')) return 'evo5';
+  if (secKey === 'evo6') return 'evo6';
+  return secKey;
+}
+
+var MAJOR_SECTIONS = [
+  ['evo1', 'Apparatus Specs'], ['evo2', 'Driving'], ['evo3', 'Stabilizers'], ['ladder_ops', 'Ladder Ops'],
+  ['evo_window_rescue', 'Window Rescue'], ['evo4', 'Water Tower / Pumping'], ['evo5', 'Forcible Entry'], ['evo6', 'Rescue Systems']
+];
+function getUnscoredSections(secScores) {
+  var list = [];
+  for (var i = 0; i < MAJOR_SECTIONS.length; i++) {
+    var code = MAJOR_SECTIONS[i][0];
+    if (exemptSections[code]) continue;
+    var sc = secScores[code];
+    if (!sc || sc.possible === 0) list.push(MAJOR_SECTIONS[i][1]);
+  }
+  return list;
+}
+
+function calculateTotals() {
+  var earned = 0;
+  var possible = 0;
+  var safetyFail = false;
+
+  // Track section level totals
+  var secScores = {};
+
+  for (var id in userScores) {
+    var item = userScores[id];
+    if (isTaskExempt(item.section)) continue;
+
+    var majSec = getMajorSection(item.section);
+    if (!secScores[majSec]) secScores[majSec] = { earned: 0, possible: 0, fail: false };
+
+    earned += Math.min(item.val, item.max);
+    possible += item.max;
+    secScores[majSec].earned += Math.min(item.val, item.max);
+    secScores[majSec].possible += item.max;
+
+    if (item.safety && item.val === 0) {
+      safetyFail = true;
+      secScores[majSec].fail = true;
+    }
+  }
+
+  // Check if any tested section is below 80%
+  var sectionFail = false;
+  for (var s in secScores) {
+    if (secScores[s].possible > 0) {
+      var sPct = Math.round((secScores[s].earned / secScores[s].possible) * 100);
+      if (sPct < 80 || secScores[s].fail) {
+        sectionFail = true;
+      }
+    }
+  }
+
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 100;
+  var scoreText = earned + ' / ' + possible;
+
+  document.getElementById('footScore').innerText = scoreText;
+
+  var statusText = '';
+  var statusColor = '';
+
+  if (safetyFail) {
+    statusText = pct + '% (CRITICAL SAFETY FAIL)';
+    statusColor = '#ef4444';
+  } else if (sectionFail) {
+    statusText = pct + '% (SECTION BELOW 80%)';
+    statusColor = '#ef4444';
+  } else if (getUnscoredSections(secScores).length > 0) {
+    var nUns = getUnscoredSections(secScores).length;
+    statusText = nUns + (nUns === 1 ? ' SECTION' : ' SECTIONS') + ' TO SCORE';
+    statusColor = '#f59e0b';
+  } else if (pct >= 80) {
+    statusText = (possible > 0 ? pct + '% ' : '') + '(PASS)';
+    statusColor = '#22c55e';
+  } else {
+    statusText = pct + '% (FAIL)';
+    statusColor = '#ef4444';
+  }
+
+
+  var footStat = document.getElementById('footStatus');
+  footStat.innerText = statusText;
+  footStat.style.color = statusColor;
+
+  updateHeaderScore();
+  updateTabStates();
+}
+
+var earlyEnd = false;
+function escHtml(t) {
+  return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+}
+function applyEarlyEndUI() {
+  var box = document.getElementById('earlyEndBox');
+  var btn = document.getElementById('btn_early_end');
+  if (box) box.style.display = earlyEnd ? 'block' : 'none';
+  if (btn) {
+    btn.style.background = earlyEnd ? '#b45309' : '#475569';
+    btn.innerText = earlyEnd ? '⛔ Test ended early: ON (tap to undo)' : '⛔ Test ended early (injury, fatigue, or other reason)';
+  }
+}
+function toggleEarlyEnd() {
+  earlyEnd = !earlyEnd;
+  applyEarlyEndUI();
+  var er = document.getElementById('earlyEndError');
+  if (er) er.style.display = 'none';
+  saveDraft();
+  renderSummary();
+}
+function onEarlyReasonInput() {
+  var er = document.getElementById('earlyEndError');
+  if (er && document.getElementById('earlyEndReason').value.trim()) er.style.display = 'none';
+  saveDraft();
+  renderSummary();
+}
+function earlyEndBlocksExport() {
+  if (!earlyEnd) return false;
+  var ta = document.getElementById('earlyEndReason');
+  if (ta && ta.value.trim()) return false;
+  var er = document.getElementById('earlyEndError');
+  if (er) er.style.display = 'block';
+  if (ta) { ta.scrollIntoView({block: 'center'}); ta.focus(); }
+  return true;
+}
+
+function saveDraft() {
+  try {
+    var draft = {
+      trainee: document.getElementById('traineeName').value,
+      proctor: document.getElementById('proctorName').value,
+      trainer: document.getElementById('trainerName').value,
+      lt: document.getElementById('ltName').value,
+      date: document.getElementById('evalDate').value,
+      scores: userScores,
+      exempt: exemptSections,
+      partialNotes: partialNotes,
+      flyResponses: flyResponses,
+      n1: document.getElementById('notes_evo1').value,
+      n2: document.getElementById('notes_evo2').value,
+      n3: document.getElementById('notes_evo3').value,
+      n_lo: document.getElementById('notes_ladder_ops').value,
+      n_wr: document.getElementById('notes_window_rescue').value,
+      n4: document.getElementById('notes_evo4').value,
+      n5: document.getElementById('notes_evo5').value,
+      n6: document.getElementById('notes_evo6').value,
+      signatures: signatureStates,
+      timers: timers,
+      visited: visitedScreens,
+      earlyEnd: earlyEnd,
+      earlyReason: document.getElementById('earlyEndReason').value
+    };
+    safeSetItem(STORAGE_KEY, JSON.stringify(draft));
+    var ind = document.getElementById('saveStatusIndicator');
+    if (ind) {
+      ind.innerText = 'Autosaved ' + new Date().toLocaleTimeString();
+    }
+  } catch (e) {}
+}
+
+function restoreDraft() {
+  try {
+    var raw = safeGetItem(STORAGE_KEY);
+    if (!raw) return;
+    var draft = JSON.parse(raw);
+
+    if (draft.trainee) document.getElementById('traineeName').value = draft.trainee;
+    if (draft.proctor) document.getElementById('proctorName').value = draft.proctor;
+    if (draft.trainer) document.getElementById('trainerName').value = draft.trainer;
+    if (draft.lt) document.getElementById('ltName').value = draft.lt;
+    if (draft.date) document.getElementById('evalDate').value = draft.date;
+
+    if (draft.n1) document.getElementById('notes_evo1').value = draft.n1;
+    if (draft.n2) document.getElementById('notes_evo2').value = draft.n2;
+    if (draft.n3) document.getElementById('notes_evo3').value = draft.n3;
+    if (draft.n_lo) document.getElementById('notes_ladder_ops').value = draft.n_lo;
+    if (draft.n_wr) document.getElementById('notes_window_rescue').value = draft.n_wr;
+    if (draft.n4) document.getElementById('notes_evo4').value = draft.n4;
+    if (draft.n5) document.getElementById('notes_evo5').value = draft.n5;
+    if (draft.n6) document.getElementById('notes_evo6').value = draft.n6;
+
+    if (draft.exempt) {
+      exemptSections = draft.exempt;
+      for (var sec in exemptSections) {
+        setEvoExempt(sec, exemptSections[sec]);
+      }
+    }
+
+    if (draft.partialNotes) {
+      partialNotes = draft.partialNotes;
+      for (var tId in partialNotes) {
+        var inp = document.getElementById('partial_note_' + tId);
+        if (inp) inp.value = partialNotes[tId];
+      }
+    }
+
+    if (draft.flyResponses) {
+      flyResponses = draft.flyResponses;
+      for (var fId in flyResponses) {
+        setFlownCheck(fId, flyResponses[fId]);
+      }
+    }
+
+    if (draft.timers) {
+      timers = draft.timers;
+    }
+    if (draft.visited) {
+      visitedScreens = draft.visited;
+    }
+    if (draft.earlyReason) document.getElementById('earlyEndReason').value = draft.earlyReason;
+    earlyEnd = !!draft.earlyEnd;
+    applyEarlyEndUI();
+
+    if (draft.signatures) {
+      signatureStates = draft.signatures;
+      for (var sId in signatureStates) {
+        (function(canvId, dataUri) {
+          var c = document.getElementById(canvId);
+          if (c && dataUri) {
+            var img = new Image();
+            img.onload = function() {
+              var ct = c.getContext('2d');
+              ct.drawImage(img, 0, 0);
+            };
+            img.src = dataUri;
+          }
+        })(sId, signatureStates[sId]);
+      }
+    }
+
+    if (draft.scores) {
+      userScores = draft.scores;
+      for (var id in userScores) {
+        var val = userScores[id].val;
+        var btn = document.getElementById('btn_' + id + '_' + val);
+        if (btn) btn.className = 'btn-score selected-' + val;
+        var pBox = document.getElementById('partial_wrap_' + id);
+        var lbl = document.getElementById('deduct_lbl_' + id);
+        if (pBox) {
+          if (val === 0 || val === 1) {
+            pBox.style.display = 'block';
+            if (lbl) {
+              lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
+            }
+          } else {
+            pBox.style.display = 'none';
+          }
+        }
+      }
+      calculateTotals();
+    }
+  } catch (e) {}
+}
+
+function clearNow() {
+  try {
+    safeRemoveItem(STORAGE_KEY);
+  } catch(e) {}
+  window.location.reload();
+}
+function showClearPrompt() {
+  var o = document.getElementById('clearOverlay');
+  if (o) o.classList.add('show');
+}
+function hideClearPrompt() {
+  var o = document.getElementById('clearOverlay');
+  if (o) o.classList.remove('show');
+}
+function confirmReset() {
+  showClearPrompt();
+}
+
+function formatRetestDates(isoDate) {
+  var fmt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var parts = (isoDate || '').split('-');
+  if (parts.length !== 3) return { testDate: 'test date', deadline: '30 days after the test date' };
+  var y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+  if (!y || !m || !d) return { testDate: 'test date', deadline: '30 days after the test date' };
+  var t = new Date(y, m - 1, d);
+  var r = new Date(y, m - 1, d + 30);
+  return { testDate: t.toLocaleDateString('en-US', fmt), deadline: r.toLocaleDateString('en-US', fmt) };
+}
+
+function renderSummary() {
+  var trainee = document.getElementById('traineeName').value || 'Unspecified Trainee';
+  var proctor = document.getElementById('proctorName').value || 'Unspecified Proctor';
+  var trainer = document.getElementById('trainerName').value || 'Unspecified Trainer';
+  var lt = document.getElementById('ltName').value || 'Unspecified Lieutenant';
+  var evalDate = document.getElementById('evalDate').value || new Date().toISOString().split('T')[0];
+
+  var earned = 0;
+  var possible = 0;
+  var safetyFail = false;
+  var secScores = {};
+
+  for (var id in userScores) {
+    var item = userScores[id];
+    if (isTaskExempt(item.section)) continue;
+
+    var majSec = getMajorSection(item.section);
+    if (!secScores[majSec]) secScores[majSec] = { earned: 0, possible: 0, fail: false };
+
+    earned += Math.min(item.val, item.max);
+    possible += item.max;
+    secScores[majSec].earned += Math.min(item.val, item.max);
+    secScores[majSec].possible += item.max;
+
+    if (item.safety && item.val === 0) {
+      safetyFail = true;
+      secScores[majSec].fail = true;
+    }
+  }
+
+  var sectionFail = false;
+  for (var s in secScores) {
+    if (secScores[s].possible > 0) {
+      var sPct = Math.round((secScores[s].earned / secScores[s].possible) * 100);
+      if (sPct < 80 || secScores[s].fail) {
+        sectionFail = true;
+      }
+    }
+  }
+
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 100;
+  var unscored = getUnscoredSections(secScores);
+  var hardFail = (pct < 80) || safetyFail || sectionFail;
+  var earlyOn = earlyEnd;
+  var passed = !hardFail && unscored.length === 0 && !earlyOn;
+  var incompleteOnly = !hardFail && (unscored.length > 0 || earlyOn);
+  var resultText = passed ? 'PASSED' : (safetyFail ? 'FAILED (CRITICAL SAFETY VIOLATION)' : (sectionFail ? 'FAILED (SECTION BELOW 80%)' : (hardFail ? 'FAILED (BELOW 80%)' : (earlyOn ? 'INCOMPLETE - TEST ENDED EARLY' : 'INCOMPLETE - NOT SCORED: ' + unscored.join(', ')))));
+  var resultColor = passed ? '#22c55e' : (incompleteOnly ? '#f59e0b' : '#ef4444');
+
+  var warnElem = document.getElementById('trainee_retest_warning');
+  var passNoteElem = document.getElementById('trainee_pass_note');
+  var sigLabelElem = document.getElementById('trainee_sig_label');
+  var sigBlockElem = document.getElementById('trainee_sig_block');
+
+  if (warnElem && passNoteElem && sigLabelElem) {
+    if (incompleteOnly) {
+      warnElem.style.display = 'none';
+      passNoteElem.style.display = 'none';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#fcd34d; font-weight:600;">(Not finished - score every section)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '1px solid #f59e0b';
+    } else if (!passed) {
+      var rtOut = formatRetestDates(evalDate);
+      var rtA = document.getElementById('retestTestDate');
+      var rtB = document.getElementById('retestDeadline');
+      if (rtA) rtA.innerText = rtOut.testDate;
+      if (rtB) rtB.innerText = rtOut.deadline;
+      warnElem.style.display = 'block';
+      passNoteElem.style.display = 'none';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#ef4444; font-weight:800;">(MANDATORY - 30-Day Retest Notice)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '2px solid #ef4444';
+    } else {
+      warnElem.style.display = 'none';
+      passNoteElem.style.display = 'block';
+      sigLabelElem.innerHTML = 'Truck Trainee Signature <span style="color:#86efac; font-weight:600;">(Optional - Passed)</span>:';
+      if (sigBlockElem) sigBlockElem.style.border = '1px solid #475569';
+    }
+  }
+
+  var out = '<div class="pdf-meta-grid">';
+  out += '<div><strong>Truck Trainee:</strong> ' + trainee + '</div>';
+  out += '<div><strong>Evaluation Date:</strong> ' + evalDate + '</div>';
+  out += '<div><strong>Test Proctor:</strong> ' + proctor + '</div>';
+  out += '<div><strong>Truck Trainer:</strong> ' + trainer + '</div>';
+  out += '<div style="grid-column: 1 / -1;"><strong>Supervising Lieutenant:</strong> ' + lt + '</div>';
+  out += '</div>';
+
+  out += '<div class="pdf-score-box">';
+  out += '<div><span style="font-size:0.8rem; text-transform:uppercase; font-weight:700; color:#475569;">Independent Section Evaluation Standard</span><br><span style="font-size:0.92rem; font-weight:700; color:#1e293b;">Each section tested independently (80% Passing Threshold per Section)</span></div>';
+  out += '<div><span style="font-size:0.8rem; text-transform:uppercase; font-weight:700; color:#475569;">Overall Qualification Outcome</span><br><span style="font-size:1.25rem; font-weight:900; color:' + (passed ? '#15803d' : (incompleteOnly ? '#b45309' : '#b91c1c')) + ';">' + resultText + '</span></div>';
+  out += '</div>';
+
+  out += '<div class="pdf-section-title">SECTION-BY-SECTION PASSING AUDIT (80% Passing Threshold per Section):</div>';
+  out += '<ul class="pdf-audit-list">';
+  
+  function getSecStatusLine(secCode, secName) {
+    function row(cls, badge, score) {
+      return '<li><span>' + secName + '</span><span class="aud-status"><span class="aud-badge ' + cls + '">' + badge + '</span>' + (score ? '<span class="aud-score">' + score + '</span>' : '') + '</span></li>';
+    }
+    if (exemptSections[secCode]) return row('none', 'NOT GIVEN', '');
+    var sc = secScores[secCode];
+    if (!sc || sc.possible === 0) return row('none', 'NOT SCORED', '');
+    var p = Math.min(100, Math.round((sc.earned / sc.possible) * 100));
+    var scoreTxt = sc.earned + ' / ' + sc.possible + ' &middot; ' + p + '%';
+    if (p >= 80 && !sc.fail) return row('pass', 'PASSED', scoreTxt);
+    return row('fail', 'FAILED', scoreTxt + (sc.fail ? ' &middot; safety' : ''));
+  }
+
+
+  out += getSecStatusLine('evo1', 'Apparatus Specs');
+  out += getSecStatusLine('evo2', 'Driving');
+  out += getSecStatusLine('evo3', 'Stabilizers');
+  out += getSecStatusLine('ladder_ops', 'Ladder Ops');
+  out += getSecStatusLine('evo_window_rescue', 'Window Rescue');
+  out += getSecStatusLine('evo4', 'Pumping');
+  out += getSecStatusLine('evo5', 'Forcible Entry');
+  out += getSecStatusLine('evo6', 'Technical Rescue');
+  out += '</ul>';
+
+  var timeRows = '';
+  for (var tsId in TIMED_SCREENS) {
+    var te = timerElapsed(tsId);
+    if (te > 0) {
+      timeRows += '<li><span>' + TIMED_SCREENS[tsId] + '</span><span style="font-weight:700;">' + fmtTime(te) + '</span></li>';
+    }
+  }
+  if (timeRows) {
+    out += '<div class="pdf-section-title">EVOLUTION TIMES (recorded for reference; no set time limit):</div>';
+    out += '<ul class="pdf-audit-list">' + timeRows + '</ul>';
+  }
+
+  out += '<div class="pdf-section-title">PROCTOR SECTION FIELD NOTES & EVALUATION DEBRIEF LOGS:</div>';
+
+  function renderSectionNoteCard(secNum, secName, noteElementId, isExempt) {
+    var elem = document.getElementById(noteElementId);
+    var rawText = elem ? elem.value.trim() : '';
+    var cardHtml = '<div class="pdf-notes-box">';
+    cardHtml += '<div class="pdf-notes-title"><span>' + secName + '</span>';
+    if (isExempt) {
+      cardHtml += '<span style="font-size:0.75rem; color:#64748b; font-weight:700;">[EXEMPT]</span>';
+    }
+    cardHtml += '</div>';
+
+    if (isExempt) {
+      cardHtml += '<div class="pdf-notes-text" style="color:#64748b; font-style:italic;">Section Not Given / Exempt from evaluation today.</div>';
+    } else if (rawText && rawText !== '') {
+      var safeText = rawText.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      cardHtml += '<div class="pdf-notes-text">' + safeText + '</div>';
+    } else {
+      cardHtml += '<div class="pdf-notes-text" style="color:#64748b; font-style:italic;">Satisfactory performance — No specific deductions, deficiencies, or corrective remarks recorded.</div>';
+    }
+    cardHtml += '</div>';
+    return cardHtml;
+  }
+
+  out += renderSectionNoteCard('1', 'Apparatus Specs', 'notes_evo1', exemptSections['evo1']);
+  out += renderSectionNoteCard('2', 'Driving', 'notes_evo2', exemptSections['evo2']);
+  out += renderSectionNoteCard('3', 'Stabilizers', 'notes_evo3', exemptSections['evo3']);
+  out += renderSectionNoteCard('4', 'Ladder Ops', 'notes_ladder_ops', exemptSections['ladder_ops']);
+  out += renderSectionNoteCard('5', 'Window Rescue', 'notes_window_rescue', exemptSections['evo_window_rescue']);
+  out += renderSectionNoteCard('6', 'Pumping', 'notes_evo4', exemptSections['evo4']);
+  out += renderSectionNoteCard('7', 'Forcible Entry', 'notes_evo5', exemptSections['evo5']);
+  out += renderSectionNoteCard('8', 'Technical Rescue', 'notes_evo6', exemptSections['evo6']);
+
+  if (earlyEnd) {
+    var erTxt = document.getElementById('earlyEndReason').value.trim();
+    out += '<div class="pdf-section-title" style="margin-top:14px; color:#b45309;">TEST ENDED EARLY - REASON:</div><div style="font-size:0.86rem; color:#1e293b; line-height:1.5; border:1px solid #f59e0b; border-radius:4px; padding:8px 10px; background:#fffbeb;">' + (erTxt ? escHtml(erTxt) : '<em>No reason entered yet (required before export).</em>') + '</div>';
+  }
+
+  var hasPartNotes = false;
+  var partHtml = '<div class="pdf-section-title" style="margin-top:14px; color:#b45309;">ITEMIZED FIELD NOTES & DEDUCTION RATIONALE:</div><ul style="font-size:0.84rem; color:#1e293b; padding-left:18px; line-height:1.6;">';
+  for (var pnId in partialNotes) {
+    if (partialNotes[pnId] && partialNotes[pnId].trim() !== '') {
+      hasPartNotes = true;
+      var taskInfo = getTaskDetails(pnId);
+      var scVal = userScores[pnId] ? userScores[pnId].val : 0;
+      var scoreBadge = (scVal === 0) ? '<span style="color:#b91c1c; font-weight:800;">[0 Pts - Fail]</span>' : '<span style="color:#b45309; font-weight:800;">[1 Pt - Partial]</span>';
+      partHtml += '<li style="margin-bottom:8px;">' + scoreBadge + ' <strong>' + taskInfo.fullLabel + ':</strong> ' + partialNotes[pnId] + '</li>';
+    }
+  }
+  partHtml += '</ul>';
+  if (hasPartNotes) {
+    out += partHtml;
+  }
+
+  document.getElementById('summaryBody').innerHTML = out;
+}
+
+function saveAsPdf() {
+  if (earlyEndBlocksExport()) return;
+  document.body.classList.remove('print-full-test');
+  renderSummary();
+  setTimeout(function() {
+    window.print();
+  }, 100);
+}
+
+function updatePrintNotesMirrors() {
+  var noteIds = ['notes_evo1', 'notes_evo2', 'notes_evo3', 'notes_ladder_ops', 'notes_window_rescue', 'notes_evo4', 'notes_evo5', 'notes_evo6'];
+  noteIds.forEach(function(id) {
+    var ta = document.getElementById(id);
+    var mir = document.getElementById('mirror_' + id);
+    if (ta && mir) {
+      var val = ta.value.trim();
+      mir.innerText = val ? val : 'Satisfactory - No specific field deductions logged.';
+    }
+  });
+}
+
+function putSummaryFirst(first) {
+  var c = document.querySelector('.container');
+  var sum = document.getElementById('scr_summary');
+  if (!c || !sum) return;
+  if (first) c.insertBefore(sum, c.firstChild);
+  else c.appendChild(sum);
+}
+
+function printFullEvaluationPacket() {
+  if (earlyEndBlocksExport()) return;
+  document.body.classList.add('print-full-test');
+  putSummaryFirst(true);
+  renderSummary();
+  updatePrintTaskBadges();
+  updatePrintNotesMirrors();
+  setTimeout(function() {
+    window.print();
+    armPrintFallback();
+  }, 100);
+}
+
+/* iPhone Safari can skip the afterprint event, so the first tap after the print sheet closes also finishes the job */
+var packetPending = false;
+var printFallbackAt = 0;
+function afterPrintCleanup() {
+  var wasPacket = document.body.classList.contains('print-full-test');
+  packetPending = false;
+  document.body.classList.remove('print-full-test');
+  putSummaryFirst(false);
+  if (wasPacket) setTimeout(showClearPrompt, 400);
+}
+function onPrintFallbackEvent() {
+  if (!packetPending) return;
+  if (Date.now() - printFallbackAt < 1500) return;
+  afterPrintCleanup();
+}
+function armPrintFallback() {
+  packetPending = true;
+  printFallbackAt = Date.now();
+}
+['pointerdown', 'touchstart', 'focus', 'visibilitychange'].forEach(function(ev) {
+  window.addEventListener(ev, onPrintFallbackEvent, true);
+});
+window.addEventListener('afterprint', afterPrintCleanup);
+
+
+/* ==============================================================
+   HTML5 CANVAS TOUCH & STYLUS SIGNATURE LOGIC
+   ============================================================== */
+var signaturePads = ['sig_trainee', 'sig_proctor', 'sig_lt'];
+var signatureStates = {};
+
+function initSignatures() {
+  signaturePads.forEach(function(canvasId) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#0f172a';
+
+    var isDrawing = false;
+    var lastX = 0;
+    var lastY = 0;
+
+    function getCoords(e) {
+      var rect = canvas.getBoundingClientRect();
+      var clientX = e.clientX;
+      var clientY = e.clientY;
+
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      }
+
+      var scaleX = canvas.width / rect.width;
+      var scaleY = canvas.height / rect.height;
+
+      return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+      };
+    }
+
+    function startDraw(e) {
+      e.preventDefault();
+      isDrawing = true;
+      var coords = getCoords(e);
+      lastX = coords.x;
+      lastY = coords.y;
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      var coords = getCoords(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(coords.x, coords.y);
+      ctx.stroke();
+      lastX = coords.x;
+      lastY = coords.y;
+    }
+
+    function stopDraw(e) {
+      if (!isDrawing) return;
+      isDrawing = false;
+      signatureStates[canvasId] = canvas.toDataURL();
+      saveDraft();
+    }
+
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', moveDraw, { passive: false });
+    canvas.addEventListener('touchend', stopDraw, { passive: false });
+    canvas.addEventListener('touchcancel', stopDraw, { passive: false });
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', moveDraw);
+    canvas.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('mouseleave', stopDraw);
+  });
+}
+
+function clearCanvas(canvasId) {
+  var canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  delete signatureStates[canvasId];
+  saveDraft();
+}
+
+
+/* ==============================================================
+   EVOLUTION STOPWATCHES (informational; no set time limit)
+   ============================================================== */
+var TIMED_SCREENS = {
+  scr_evo2: 'Driving',
+  scr_evo3: 'Stabilizer Sets',
+  scr_ladder_ops: 'Ladder Ops',
+  scr_window_rescue: 'Window Rescue',
+  scr_evo4: 'Water Tower / Pumping',
+  scr_evo5: 'Forcible Entry',
+  scr_evo6: 'Rescue Systems'
+};
+var timers = {};
+var timerResetArmed = null;
+
+function currentScreenId() {
+  var a = document.querySelector('.screen-tab.active');
+  return a ? a.id : '';
+}
+function timerElapsed(id) {
+  var t = timers[id];
+  if (!t) return 0;
+  return t.ms + (t.startedAt ? (Date.now() - t.startedAt) : 0);
+}
+function fmtTime(ms) {
+  var total = Math.floor(ms / 1000);
+  var h = Math.floor(total / 3600);
+  var m = Math.floor((total % 3600) / 60);
+  var sec = total % 60;
+  var mm = ('0' + m).slice(-2);
+  var ss = ('0' + sec).slice(-2);
+  return h > 0 ? (h + ':' + mm + ':' + ss) : (mm + ':' + ss);
+}
+function toggleTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  if (!timers[id]) timers[id] = { ms: 0, startedAt: null };
+  var t = timers[id];
+  if (t.startedAt) {
+    t.ms += Date.now() - t.startedAt;
+    t.startedAt = null;
+  } else {
+    t.startedAt = Date.now();
+    t.done = false;
+  }
+  updateTimerDock();
+  saveDraft();
+}
+function stopTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  var t = timers[id];
+  if (!t) return;
+  if (t.startedAt) {
+    t.ms += Date.now() - t.startedAt;
+    t.startedAt = null;
+  }
+  t.done = true;
+  updateTimerDock();
+  saveDraft();
+}
+function resetTimer() {
+  var id = currentScreenId();
+  if (!TIMED_SCREENS[id]) return;
+  var btn = document.getElementById('timerReset');
+  if (timerResetArmed !== id) {
+    timerResetArmed = id;
+    if (btn) { btn.innerText = 'Sure?'; btn.className = 't-reset confirm'; }
+    setTimeout(function() {
+      if (timerResetArmed === id) {
+        timerResetArmed = null;
+        updateTimerDock();
+      }
+    }, 3000);
+    return;
+  }
+  timerResetArmed = null;
+  timers[id] = { ms: 0, startedAt: null };
+  updateTimerDock();
+  saveDraft();
+}
+function updateTimerDock() {
+  var dock = document.getElementById('timerDock');
+  if (!dock) return;
+  var id = currentScreenId();
+  var navBtns = document.getElementsByClassName('nav-btn');
+  for (var i = 0; i < navBtns.length; i++) {
+    var oc = navBtns[i].getAttribute('onclick') || '';
+    var running = false;
+    for (var sid in timers) {
+      if (timers[sid] && timers[sid].startedAt && oc.indexOf("'" + sid + "'") !== -1) running = true;
+    }
+    if (running) navBtns[i].classList.add('timer-running');
+    else navBtns[i].classList.remove('timer-running');
+  }
+  if (!TIMED_SCREENS[id]) {
+    dock.className = '';
+    return;
+  }
+  var t = timers[id];
+  var isRunning = !!(t && t.startedAt);
+  var isFinal = !!(t && t.done && !isRunning && t.ms > 0);
+  dock.className = 'show' + (isRunning ? ' running' : '') + (isFinal ? ' final' : '');
+  document.getElementById('timerLabel').innerText = TIMED_SCREENS[id] + (isFinal ? ' - FINAL' : '');
+  var stp = document.getElementById('timerStop');
+  if (stp) stp.disabled = !(isRunning || (t && t.ms > 0 && !t.done));
+  document.getElementById('timerTime').innerText = fmtTime(timerElapsed(id));
+  var tog = document.getElementById('timerToggle');
+  tog.innerText = isRunning ? 'Pause' : ((t && t.ms > 0) ? (isFinal ? 'Restart' : 'Resume') : 'Start');
+  if (timerResetArmed !== id) {
+    var rb = document.getElementById('timerReset');
+    rb.innerText = 'Reset';
+    rb.className = 't-reset';
+  }
+}
+setInterval(updateTimerDock, 500);
+try { if (window.self !== window.top) { var pw = document.getElementById("previewPrintWarn"); if (pw) pw.style.display = "block"; } } catch (e) { var pw2 = document.getElementById("previewPrintWarn"); if (pw2) pw2.style.display = "block"; }
+
+
+/* ==============================================================
+   PER-SECTION HEADER SCORE + COMPLETED-TAB COLOURS
+   ============================================================== */
+var SCREEN_ORDER = ['scr_admin','scr_evo1','scr_evo2','scr_evo3','scr_ladder_ops','scr_window_rescue','scr_evo4','scr_evo5','scr_evo6','scr_summary'];
+var SCREEN_INFO = {
+  scr_evo1: { label: 'Specs', major: 'evo1', secs: ['evo1'] },
+  scr_evo2: { label: 'Driving', major: 'evo2', secs: ['evo2a','evo2b'] },
+  scr_evo3: { label: 'Stabilizers', major: 'evo3', secs: ['evo3a','evo3c','evo3d'] },
+  scr_ladder_ops: { label: 'Ladder Ops', major: 'ladder_ops', secs: ['ladder_3b','ladder_3f'] },
+  scr_window_rescue: { label: 'Window Rescue', major: 'evo_window_rescue', secs: ['evo_window_rescue'] },
+  scr_evo4: { label: 'Water Tower', major: 'evo4', secs: ['evo4a','evo4b_standpipe','evo4c_failure','evo4d_relay','evo4e_tandem'] },
+  scr_evo5: { label: 'Forcible Entry', major: 'evo5', secs: ['evo5a','evo5b','evo5c','evo5d','evo5e'] },
+  scr_evo6: { label: 'Rescue', major: 'evo6', secs: ['evo6'] }
+};
+/* Sections made of questions / talk-through items: not every one has to be asked */
+var OPTIONAL_SECTIONS = { evo1: true, evo2b: true, evo4a: true, evo5d: true, evo5e: true };
+var visitedScreens = {};
+
+function screenProgress(screenId) {
+  var info = SCREEN_INFO[screenId];
+  var out = { total: 0, scored: 0, anyScored: false, exempt: false };
+  if (!info) return out;
+  if (exemptSections[info.major]) { out.exempt = true; return out; }
+  for (var i = 0; i < info.secs.length; i++) {
+    var sec = info.secs[i];
+    var list = tasksData[sec] || [];
+    var exemptSec = isTaskExempt(sec);
+    for (var j = 0; j < list.length; j++) {
+      var t = list[j];
+      if (t.isNoteOnly) continue;
+      if (userScores[t.id] && !exemptSec) out.anyScored = true;
+      if (exemptSec || OPTIONAL_SECTIONS[sec] || t.isQ) continue;
+      if (t.hasFlyCheck && flyResponses[t.id] === false) continue;
+      out.total++;
+      if (userScores[t.id]) out.scored++;
+    }
+  }
+  return out;
+}
+
+function updateTabStates() {
+  var navBtns = document.getElementsByClassName('nav-btn');
+  var laterVisited = {};
+  for (var v = 0; v < SCREEN_ORDER.length; v++) {
+    if (visitedScreens[SCREEN_ORDER[v]]) {
+      for (var k = 0; k < v; k++) laterVisited[SCREEN_ORDER[k]] = true;
+    }
+  }
+  for (var i = 0; i < navBtns.length; i++) {
+    var oc = navBtns[i].getAttribute('onclick') || '';
+    var m = oc.match(/'(scr_[a-z0-9_]+)'/);
+    if (!m || !SCREEN_INFO[m[1]]) continue;
+    var id = m[1];
+    var p = screenProgress(id);
+    var done = false;
+    if (!p.exempt) {
+      if (p.total > 0) done = (p.scored === p.total);
+      else done = p.anyScored && !!laterVisited[id];
+    }
+    if (done) navBtns[i].classList.add('tab-done'); else navBtns[i].classList.remove('tab-done');
+    if (p.exempt) navBtns[i].classList.add('tab-exempt'); else navBtns[i].classList.remove('tab-exempt');
+  }
+}
+
+function updateHeaderScore() {
+  var id = currentScreenId();
+  var info = SCREEN_INFO[id];
+  var scopeEl = document.getElementById('topScope');
+  var scoreEl = document.getElementById('topScore');
+  var statEl = document.getElementById('topStatus');
+  if (!scoreEl || !statEl) return;
+  var earned = 0, possible = 0, safetyFail = false;
+  var label = 'OVERALL';
+  if (info) {
+    label = info.label + ' (this section)';
+    var prog = screenProgress(currentScreenId());
+    if (!prog.exempt && prog.total > 0) {
+      label += prog.scored === prog.total ? ' - all scored' : ' - ' + (prog.total - prog.scored) + ' left to score';
+    }
+    if (exemptSections[info.major]) {
+      scoreEl.innerText = '-';
+      statEl.innerText = 'NOT GIVEN';
+      statEl.style.color = '#94a3b8';
+      if (scopeEl) scopeEl.innerText = label;
+      syncStickyOffsets();
+      return;
+    }
+    for (var i = 0; i < info.secs.length; i++) {
+      var list = tasksData[info.secs[i]] || [];
+      if (isTaskExempt(info.secs[i])) continue;
+      for (var j = 0; j < list.length; j++) {
+        var it = userScores[list[j].id];
+        if (!it) continue;
+        earned += Math.min(it.val, it.max);
+        possible += it.max;
+        if (it.safety && it.val === 0) safetyFail = true;
+      }
+    }
+  } else {
+    for (var k in userScores) {
+      var item = userScores[k];
+      if (isTaskExempt(item.section)) continue;
+      earned += Math.min(item.val, item.max);
+      possible += item.max;
+      if (item.safety && item.val === 0) safetyFail = true;
+    }
+  }
+  var pct = possible > 0 ? Math.round((earned / possible) * 100) : 0;
+  scoreEl.innerText = earned + ' / ' + possible;
+  if (possible === 0) {
+    statEl.innerText = 'NOT SCORED';
+    statEl.style.color = '#f59e0b';
+  } else if (safetyFail) {
+    statEl.innerText = pct + '% (CRITICAL SAFETY FAIL)';
+    statEl.style.color = '#ef4444';
+  } else if (pct >= 80) {
+    statEl.innerText = pct + '% (PASS)';
+    statEl.style.color = '#22c55e';
+  } else {
+    statEl.innerText = pct + '% (BELOW 80%)';
+    statEl.style.color = '#ef4444';
+  }
+  if (scopeEl) scopeEl.innerText = label;
+  syncStickyOffsets();
+}
+
+function syncStickyOffsets() {
+  var h = document.querySelector('header');
+  var n = document.getElementById('topNav');
+  if (h && n) n.style.top = h.offsetHeight + 'px';
+}
+window.addEventListener('resize', syncStickyOffsets);
+
+/* ==============================================================
+   START-UP (runs last, after every variable and function exists)
+   ============================================================== */
+renderTasks();
+initSignatures();
+try {
+  var d = new Date();
+  document.getElementById('evalDate').value = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+} catch (e) {}
+restoreDraft();
+visitedScreens[currentScreenId()] = true;
+calculateTotals();
+updateTimerDock();
+syncStickyOffsets();
+</script>
+</body>
+</html>
