@@ -678,12 +678,12 @@
 <div class="nav-bar" id="topNav">
   <button class="nav-btn active" onclick="showScreen('scr_admin', this)">1. Admin</button>
   <button class="nav-btn" onclick="showScreen('scr_v1', this)">2. Questions</button>
-  <button class="nav-btn" onclick="showScreen('scr_v2', this)">3. Evo 1 Tip</button>
-  <button class="nav-btn" onclick="showScreen('scr_v3', this)">4. Evo 2 Ground Ladder</button>
-  <button class="nav-btn" onclick="showScreen('scr_v4', this)">5. Evo 3 Walk-Thru</button>
-  <button class="nav-btn" onclick="showScreen('scr_v5', this)">6. Evo 4 Heat Hole</button>
-  <button class="nav-btn" onclick="showScreen('scr_v6', this)">7. Evo 5 Trench Cut</button>
-  <button class="nav-btn" onclick="showScreen('scr_v7', this)">8. Evo 6 Valley</button>
+  <button class="nav-btn" onclick="showScreen('scr_v2', this)">3. Vertical Vent</button>
+  <button class="nav-btn" onclick="showScreen('scr_v3', this)">4. Ground Ladders</button>
+  <button class="nav-btn" onclick="showScreen('scr_v4', this)">5. Walk-Through</button>
+  <button class="nav-btn" onclick="showScreen('scr_v5', this)">6. Heat Hole</button>
+  <button class="nav-btn" onclick="showScreen('scr_v6', this)">7. Trench Cut</button>
+  <button class="nav-btn" onclick="showScreen('scr_v7', this)">8. Truck 45 Valley</button>
   <button class="nav-btn" onclick="showScreen('scr_summary', this)">9. Finish &amp; PDF</button>
 </div></div>
 
@@ -783,13 +783,13 @@
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v2')">Next: Evolution - Evolution 1: Vertical Ventilation from Truck 45 →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v2')">Next: Evolution - Vertical Ventilation from Truck 45 →</button>
   </div>
 
   <!-- SCREEN: v2 -->
   <div id="scr_v2" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 1: Vertical Ventilation from Truck 45: Vertical Ventilation from the Tip of Truck 45</span>
+      <span>Evolution - Vertical Ventilation from Truck 45: Vertical Ventilation from the Tip of Truck 45</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v2_tested" onclick="setEvoExempt('v2', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v2_exempt" onclick="setEvoExempt('v2', true)">TEST NOT GIVEN</button>
@@ -797,7 +797,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 1 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 8px; line-height: 1.5;">You have arrived at a single-story residential structure fire. Over the radio, interior crews report heavy smoke and active fire, including significant involvement in the attic. They are urgently requesting vertical ventilation to improve heat and smoke conditions.</p>      <p style="margin-bottom: 0; line-height: 1.5;">Incident Command (IC) has assigned you as Roof Division and directed you to position Truck 45 on the Alpha side of the structure to perform vertical ventilation.</p>
     </div>
     <div class="box-info">
@@ -809,19 +809,19 @@
       <div id="v2_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 1: Vertical Ventilation from Truck 45 Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Vertical Ventilation from Truck 45 Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v2" placeholder="Document ladder, lock-in, cut, and communication observations. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v2"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v3')">Next: Evolution - Evolution 2: Residential Valley Cut (Ground Ladders) →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v3')">Next: Evolution - Residential Valley Cut (Ground Ladders) →</button>
   </div>
 
   <!-- SCREEN: v3 -->
   <div id="scr_v3" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 2: Residential Valley Cut (Ground Ladders): Residential Ventilation Cut (Valley) Using Ground Ladders</span>
+      <span>Evolution - Residential Valley Cut (Ground Ladders): Residential Ventilation Cut (Valley) Using Ground Ladders</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v3_tested" onclick="setEvoExempt('v3', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v3_exempt" onclick="setEvoExempt('v3', true)">TEST NOT GIVEN</button>
@@ -829,7 +829,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 2 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 8px; line-height: 1.5;">You have arrived at a single-story residential structure fire. Over the radio, interior crews report heavy smoke and active fire. They are urgently requesting vertical ventilation to improve heat and smoke conditions.</p>      <p style="margin-bottom: 0; line-height: 1.5;">Incident Command (IC) has assigned you as Roof Division on the Bravo side of the structure and directed you to perform vertical ventilation using ground ladders.</p>
     </div>
     <div class="box-info">
@@ -841,19 +841,19 @@
       <div id="v3_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 2: Residential Valley Cut (Ground Ladders) Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Residential Valley Cut (Ground Ladders) Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v3" placeholder="Document ladder placement, roof ladder, footing, cuts, and communication. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v3"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v4')">Next: Evolution - Evolution 3: Commercial Walk-Through →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v4')">Next: Evolution - Commercial Walk-Through →</button>
   </div>
 
   <!-- SCREEN: v4 -->
   <div id="scr_v4" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 3: Commercial Walk-Through: Commercial Ventilation Walk-Through</span>
+      <span>Evolution - Commercial Walk-Through: Commercial Ventilation Walk-Through</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v4_tested" onclick="setEvoExempt('v4', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v4_exempt" onclick="setEvoExempt('v4', true)">TEST NOT GIVEN</button>
@@ -861,7 +861,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 3 INSTRUCTIONS TO THE TRAINEE (Read Aloud):</strong>
+      <strong>INSTRUCTIONS TO THE TRAINEE (Read Aloud):</strong>
       <p style="margin-bottom: 8px; line-height: 1.5;">For this evolution, you will conduct a step-by-step walk-through of a commercial roof ventilation operation. You will not be using saws or sounding tools on the roof today, but you must be in full PPE and have all necessary tools with you as if you were performing an actual ventilation assignment.</p>      <p style="margin-bottom: 8px; line-height: 1.5;"><strong>Scenario:</strong> You have arrived at a large commercial structure with active fire conditions inside. An interior crew just made entry and reports a significant fire located in the [proctor names the area] area of the building. They are requesting vertical ventilation to help improve interior conditions. The Incident Commander has assigned you to Roof Division.</p>      <p style="margin-bottom: 8px; line-height: 1.5;">You are expected to:</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;">Verbally walk through the entire operation as if you were executing it live.</li><li style="margin-bottom:4px;">Discuss your size-up of the roof.</li><li style="margin-bottom:4px;">Identify hazards, construction features, and tactical considerations.</li><li style="margin-bottom:4px;">Describe tool placement, ventilation location, cut type, and egress planning.</li><li style="margin-bottom:4px;">Communicate your plan clearly, demonstrating a working knowledge of commercial roof operations and ventilation strategy.</li></ul>      <p style="margin-bottom: 0; line-height: 1.5;">Be thorough, think tactically, and treat this evolution as if it were a live incident.</p>
     </div>
     <div class="box-info">
@@ -873,19 +873,19 @@
       <div id="v4_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 3: Commercial Walk-Through Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Commercial Walk-Through Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v4" placeholder="Record the location used, the area of fire assigned, and the trainee answers. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v4"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v5')">Next: Evolution - Evolution 4: Commercial Heat Hole →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v5')">Next: Evolution - Commercial Heat Hole →</button>
   </div>
 
   <!-- SCREEN: v5 -->
   <div id="scr_v5" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 4: Commercial Heat Hole: Commercial Ventilation: Heat Hole Cut</span>
+      <span>Evolution - Commercial Heat Hole: Commercial Ventilation: Heat Hole Cut</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v5_tested" onclick="setEvoExempt('v5', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v5_exempt" onclick="setEvoExempt('v5', true)">TEST NOT GIVEN</button>
@@ -893,7 +893,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 4 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">Incident Command (IC) has assigned you as Roof Division to perform vertical ventilation on this commercial building. Interior crews are reporting that visibility inside the building is deteriorating, and they are requesting vertical ventilation to assist in fire suppression efforts and improve interior conditions. You will have 30 minutes to complete this evolution.</p>
     </div>
     <div class="box-info">
@@ -905,19 +905,19 @@
       <div id="v5_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 4: Commercial Heat Hole Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Commercial Heat Hole Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v5" placeholder="Document sounding, heat hole cuts, and communication. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v5"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v6')">Next: Evolution - Evolution 5: Defensive Trench Cut →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v6')">Next: Evolution - Defensive Trench Cut →</button>
   </div>
 
   <!-- SCREEN: v6 -->
   <div id="scr_v6" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 5: Defensive Trench Cut: Commercial Ventilation: Defensive Trench Cut</span>
+      <span>Evolution - Defensive Trench Cut: Commercial Ventilation: Defensive Trench Cut</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v6_tested" onclick="setEvoExempt('v6', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v6_exempt" onclick="setEvoExempt('v6', true)">TEST NOT GIVEN</button>
@@ -925,7 +925,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 5 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You have been assigned as Roof Division for a critical incident. Incident Command (IC) has advised that they have determined the fire side of the building is a loss and they will be &ldquo;writing it off.&rdquo; Your directive is to make a trench cut on the roof to prevent fire spread and save the other half of the building.</p>
     </div>
     <div class="box-info">
@@ -937,19 +937,19 @@
       <div id="v6_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 5: Defensive Trench Cut Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Defensive Trench Cut Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v6" placeholder="Record the cut method assigned (with or against construction). Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v6"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_v7')">Next: Evolution - Evolution 6: Residential Valley Cut (Truck 45) →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_v7')">Next: Evolution - Residential Valley Cut (Truck 45) →</button>
   </div>
 
   <!-- SCREEN: v7 -->
   <div id="scr_v7" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 6: Residential Valley Cut (Truck 45): Residential Ventilation in a Valley Using Truck 45</span>
+      <span>Evolution - Residential Valley Cut (Truck 45): Residential Ventilation in a Valley Using Truck 45</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_v7_tested" onclick="setEvoExempt('v7', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_v7_exempt" onclick="setEvoExempt('v7', true)">TEST NOT GIVEN</button>
@@ -957,7 +957,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 6 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 8px; line-height: 1.5;">Upon arrival, IC assigns you to Roof Division on the Bravo side of the building. Your objective is to position Truck 45, deploy its aerial ladder, and access the roof to perform ventilation. You will have one firefighter assigned to assist you in this operation.</p>      <p style="margin-bottom: 0; line-height: 1.5;"><em>Scenario note: For this evaluation, the fire is not in the attic.</em></p>
     </div>
     <div class="box-info">
@@ -969,7 +969,7 @@
       <div id="v7_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 6: Residential Valley Cut (Truck 45) Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Residential Valley Cut (Truck 45) Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_v7" placeholder="Document apparatus placement, ladder work, footing, cuts, and communication. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_v7"></div>
         </div>
@@ -1360,12 +1360,12 @@ function showScreen(screenId, btnElement) {
 function getTaskDetails(taskId) {
   var sectionNames = {
     'v1': "Ventilation Questions",
-    'v2': "Evolution 1: Vertical Ventilation from Truck 45",
-    'v3': "Evolution 2: Residential Valley Cut (Ground Ladders)",
-    'v4': "Evolution 3: Commercial Walk-Through",
-    'v5': "Evolution 4: Commercial Heat Hole",
-    'v6': "Evolution 5: Defensive Trench Cut",
-    'v7': "Evolution 6: Residential Valley Cut (Truck 45)"
+    'v2': "Vertical Ventilation from Truck 45",
+    'v3': "Residential Valley Cut (Ground Ladders)",
+    'v4': "Commercial Walk-Through",
+    'v5': "Commercial Heat Hole",
+    'v6': "Defensive Trench Cut",
+    'v7': "Residential Valley Cut (Truck 45)"
   };
 
   for (var secKey in tasksData) {
@@ -1575,12 +1575,12 @@ function getMajorSection(secKey) {
 
 var MAJOR_SECTIONS = [
   ['v1', "Ventilation Questions"],
-  ['v2', "Evolution 1: Vertical Ventilation from Truck 45"],
-  ['v3', "Evolution 2: Residential Valley Cut (Ground Ladders)"],
-  ['v4', "Evolution 3: Commercial Walk-Through"],
-  ['v5', "Evolution 4: Commercial Heat Hole"],
-  ['v6', "Evolution 5: Defensive Trench Cut"],
-  ['v7', "Evolution 6: Residential Valley Cut (Truck 45)"]
+  ['v2', "Vertical Ventilation from Truck 45"],
+  ['v3', "Residential Valley Cut (Ground Ladders)"],
+  ['v4', "Commercial Walk-Through"],
+  ['v5', "Commercial Heat Hole"],
+  ['v6', "Defensive Trench Cut"],
+  ['v7', "Residential Valley Cut (Truck 45)"]
 ];
 function getUnscoredSections(secScores) {
   var list = [];
@@ -1965,12 +1965,12 @@ function renderSummary() {
 
 
   out += getSecStatusLine('v1', "Ventilation Questions");
-  out += getSecStatusLine('v2', "Evolution 1: Vertical Ventilation from Truck 45");
-  out += getSecStatusLine('v3', "Evolution 2: Residential Valley Cut (Ground Ladders)");
-  out += getSecStatusLine('v4', "Evolution 3: Commercial Walk-Through");
-  out += getSecStatusLine('v5', "Evolution 4: Commercial Heat Hole");
-  out += getSecStatusLine('v6', "Evolution 5: Defensive Trench Cut");
-  out += getSecStatusLine('v7', "Evolution 6: Residential Valley Cut (Truck 45)");
+  out += getSecStatusLine('v2', "Vertical Ventilation from Truck 45");
+  out += getSecStatusLine('v3', "Residential Valley Cut (Ground Ladders)");
+  out += getSecStatusLine('v4', "Commercial Walk-Through");
+  out += getSecStatusLine('v5', "Commercial Heat Hole");
+  out += getSecStatusLine('v6', "Defensive Trench Cut");
+  out += getSecStatusLine('v7', "Residential Valley Cut (Truck 45)");
   out += '</ul>';
 
   var timeRows = '';
@@ -2010,12 +2010,12 @@ function renderSummary() {
   }
 
   out += renderSectionNoteCard('1', "Ventilation Questions", 'notes_v1', exemptSections['v1']);
-  out += renderSectionNoteCard('2', "Evolution 1: Vertical Ventilation from Truck 45", 'notes_v2', exemptSections['v2']);
-  out += renderSectionNoteCard('3', "Evolution 2: Residential Valley Cut (Ground Ladders)", 'notes_v3', exemptSections['v3']);
-  out += renderSectionNoteCard('4', "Evolution 3: Commercial Walk-Through", 'notes_v4', exemptSections['v4']);
-  out += renderSectionNoteCard('5', "Evolution 4: Commercial Heat Hole", 'notes_v5', exemptSections['v5']);
-  out += renderSectionNoteCard('6', "Evolution 5: Defensive Trench Cut", 'notes_v6', exemptSections['v6']);
-  out += renderSectionNoteCard('7', "Evolution 6: Residential Valley Cut (Truck 45)", 'notes_v7', exemptSections['v7']);
+  out += renderSectionNoteCard('2', "Vertical Ventilation from Truck 45", 'notes_v2', exemptSections['v2']);
+  out += renderSectionNoteCard('3', "Residential Valley Cut (Ground Ladders)", 'notes_v3', exemptSections['v3']);
+  out += renderSectionNoteCard('4', "Commercial Walk-Through", 'notes_v4', exemptSections['v4']);
+  out += renderSectionNoteCard('5', "Commercial Heat Hole", 'notes_v5', exemptSections['v5']);
+  out += renderSectionNoteCard('6', "Defensive Trench Cut", 'notes_v6', exemptSections['v6']);
+  out += renderSectionNoteCard('7', "Residential Valley Cut (Truck 45)", 'notes_v7', exemptSections['v7']);
 
   var hasPartNotes = false;
   var partHtml = '<div class="pdf-section-title" style="margin-top:14px; color:#b45309;">ITEMIZED FIELD NOTES & DEDUCTION RATIONALE:</div><ul style="font-size:0.84rem; color:#1e293b; padding-left:18px; line-height:1.6;">';
@@ -2206,12 +2206,12 @@ function clearCanvas(canvasId) {
    EVOLUTION STOPWATCHES (informational; no set time limit)
    ============================================================== */
 var TIMED_SCREENS = {
-  scr_v2: "Evolution 1",
-  scr_v3: "Evolution 2",
-  scr_v4: "Evolution 3",
-  scr_v5: "Evolution 4",
-  scr_v6: "Evolution 5",
-  scr_v7: "Evolution 6"
+  scr_v2: "Vertical Ventilation",
+  scr_v3: "Ground Ladders",
+  scr_v4: "Walk-Through",
+  scr_v5: "Heat Hole",
+  scr_v6: "Trench Cut",
+  scr_v7: "Truck 45 Valley"
 };
 var timers = {};
 var timerResetArmed = null;
@@ -2326,12 +2326,12 @@ try { if (window.self !== window.top) { var pw = document.getElementById("previe
 var SCREEN_ORDER = ['scr_admin','scr_v1','scr_v2','scr_v3','scr_v4','scr_v5','scr_v6','scr_v7','scr_summary'];
 var SCREEN_INFO = {
   scr_v1: { label: "Ventilation Questions", major: 'v1', secs: ['v1'] },
-  scr_v2: { label: "Evolution 1: Vertical Ventilation from Truck 45", major: 'v2', secs: ['v2'] },
-  scr_v3: { label: "Evolution 2: Residential Valley Cut (Ground Ladders)", major: 'v3', secs: ['v3'] },
-  scr_v4: { label: "Evolution 3: Commercial Walk-Through", major: 'v4', secs: ['v4'] },
-  scr_v5: { label: "Evolution 4: Commercial Heat Hole", major: 'v5', secs: ['v5'] },
-  scr_v6: { label: "Evolution 5: Defensive Trench Cut", major: 'v6', secs: ['v6'] },
-  scr_v7: { label: "Evolution 6: Residential Valley Cut (Truck 45)", major: 'v7', secs: ['v7'] }
+  scr_v2: { label: "Vertical Ventilation from Truck 45", major: 'v2', secs: ['v2'] },
+  scr_v3: { label: "Residential Valley Cut (Ground Ladders)", major: 'v3', secs: ['v3'] },
+  scr_v4: { label: "Commercial Walk-Through", major: 'v4', secs: ['v4'] },
+  scr_v5: { label: "Commercial Heat Hole", major: 'v5', secs: ['v5'] },
+  scr_v6: { label: "Defensive Trench Cut", major: 'v6', secs: ['v6'] },
+  scr_v7: { label: "Residential Valley Cut (Truck 45)", major: 'v7', secs: ['v7'] }
 };
 /* Sections made of questions: not every one has to be asked */
 var OPTIONAL_SECTIONS = { v1: true };

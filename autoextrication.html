@@ -678,12 +678,12 @@
 <div class="nav-bar" id="topNav">
   <button class="nav-btn active" onclick="showScreen('scr_admin', this)">1. Admin</button>
   <button class="nav-btn" onclick="showScreen('scr_a1', this)">2. Questions</button>
-  <button class="nav-btn" onclick="showScreen('scr_a2', this)">3. Evo 1 De-Energize</button>
-  <button class="nav-btn" onclick="showScreen('scr_a3', this)">4. Evo 2 Side-Lying</button>
-  <button class="nav-btn" onclick="showScreen('scr_a4', this)">5. Evo 3 Overturned</button>
-  <button class="nav-btn" onclick="showScreen('scr_a5', this)">6. Evo 4 Marrying</button>
-  <button class="nav-btn" onclick="showScreen('scr_a6', this)">7. Evo 5 Full Extrication</button>
-  <button class="nav-btn" onclick="showScreen('scr_a7', this)">8. Evo 6 Rapid Lift</button>
+  <button class="nav-btn" onclick="showScreen('scr_a2', this)">3. De-Energize</button>
+  <button class="nav-btn" onclick="showScreen('scr_a3', this)">4. Side-Lying</button>
+  <button class="nav-btn" onclick="showScreen('scr_a4', this)">5. Overturned</button>
+  <button class="nav-btn" onclick="showScreen('scr_a5', this)">6. Marrying</button>
+  <button class="nav-btn" onclick="showScreen('scr_a6', this)">7. Full Extrication</button>
+  <button class="nav-btn" onclick="showScreen('scr_a7', this)">8. Rapid Lift</button>
   <button class="nav-btn" onclick="showScreen('scr_summary', this)">9. Finish &amp; PDF</button>
 </div></div>
 
@@ -783,13 +783,13 @@
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a2')">Next: Evolution - Evolution 1: De-energization and Hood Access →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a2')">Next: Evolution - De-energization and Hood Access →</button>
   </div>
 
   <!-- SCREEN: a2 -->
   <div id="scr_a2" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 1: De-energization and Hood Access: Vehicle De-energization and Hood Access</span>
+      <span>Evolution - De-energization and Hood Access: Vehicle De-energization and Hood Access</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a2_tested" onclick="setEvoExempt('a2', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a2_exempt" onclick="setEvoExempt('a2', true)">TEST NOT GIVEN</button>
@@ -797,7 +797,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 1 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You have arrived on the scene of a single vehicle collision. You have been directed by your Lieutenant to immediately de-energize the vehicle.</p>
     </div>
     <div class="box-info">
@@ -809,19 +809,19 @@
       <div id="a2_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 1: De-energization and Hood Access Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - De-energization and Hood Access Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a2" placeholder="Document hood access method, de-energization explanation, and any lost points for unlisted issues. Record the actual time..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a2"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a3')">Next: Evolution - Evolution 2: Side-Lying Vehicle Stabilization →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a3')">Next: Evolution - Side-Lying Vehicle Stabilization →</button>
   </div>
 
   <!-- SCREEN: a3 -->
   <div id="scr_a3" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 2: Side-Lying Vehicle Stabilization: Side-Lying Vehicle Stabilization</span>
+      <span>Evolution - Side-Lying Vehicle Stabilization: Side-Lying Vehicle Stabilization</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a3_tested" onclick="setEvoExempt('a3', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a3_exempt" onclick="setEvoExempt('a3', true)">TEST NOT GIVEN</button>
@@ -829,7 +829,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 2 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting one vehicle is on its side with people trapped inside. Upon your arrival, IC directs you to stabilize the vehicle.</p>
     </div>
     <div class="box-info">
@@ -841,19 +841,19 @@
       <div id="a3_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 2: Side-Lying Vehicle Stabilization Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Side-Lying Vehicle Stabilization Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a3" placeholder="Document chocking, strut placement, and strap observations. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a3"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a4')">Next: Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift) →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a4')">Next: Evolution - Overturned Vehicle (Cradle &amp; Lift) →</button>
   </div>
 
   <!-- SCREEN: a4 -->
   <div id="scr_a4" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift): Overturned Vehicle Stabilization &amp; Roof Access (Cradle &amp; Lift)</span>
+      <span>Evolution - Overturned Vehicle (Cradle &amp; Lift): Overturned Vehicle Stabilization &amp; Roof Access (Cradle &amp; Lift)</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a4_tested" onclick="setEvoExempt('a4', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a4_exempt" onclick="setEvoExempt('a4', true)">TEST NOT GIVEN</button>
@@ -861,7 +861,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 3 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting one vehicle on its roof with people trapped inside. Upon your arrival, IC directs you to stabilize the vehicle and remove the roof to get the patient out.</p>
     </div>
     <div class="box-info">
@@ -873,19 +873,19 @@
       <div id="a4_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 3: Overturned Vehicle (Cradle &amp; Lift) Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Overturned Vehicle (Cradle &amp; Lift) Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a4" placeholder="Document cradle set-up, ratcheting, step chock use, and clearance. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a4"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a5')">Next: Evolution - Evolution 4: Marrying Vehicles →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a5')">Next: Evolution - Marrying Vehicles →</button>
   </div>
 
   <!-- SCREEN: a5 -->
   <div id="scr_a5" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 4: Marrying Vehicles: Multi-Vehicle Stabilization (Marrying Vehicles)</span>
+      <span>Evolution - Marrying Vehicles: Multi-Vehicle Stabilization (Marrying Vehicles)</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a5_tested" onclick="setEvoExempt('a5', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a5_exempt" onclick="setEvoExempt('a5', true)">TEST NOT GIVEN</button>
@@ -893,31 +893,31 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 4 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You have been dispatched to a vehicle collision on the roadway. Callers are reporting more than one vehicle involved, with the vehicles stacked or leaning on one another. Upon your arrival, IC directs you to stabilize the vehicles.</p>
     </div>
     <div class="box-info">
       <strong>PROCTOR INSTRUCTIONS:</strong>
-      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 11 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 30 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Note:</strong> The paper form repeats the Evolution 3 scenario (one vehicle on its roof, remove the roof) for this evolution. The scenario above was rewritten to match marrying vehicles. Change it if your Training Division wants different wording.</li><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
+      <p style="margin-bottom: 0; line-height: 1.5;"><strong>Location:</strong> Station 2 grounds<br><strong>Passing Score:</strong> 80% of 11 points, and no Critical Safety fails<br><strong>Time Limit:</strong> 30 minutes</p>      <ul style="padding-left:18px; line-height:1.55;"><li style="margin-bottom:4px;"><strong>Note:</strong> The paper form repeats the Overturned Vehicle scenario (one vehicle on its roof, remove the roof) for this evolution. The scenario above was rewritten to match marrying vehicles. Change it if your Training Division wants different wording.</li><li style="margin-bottom:4px;"><strong>Critical Safety items (red border):</strong> These are the gray tasks on the paper form. Each is Pass / Fail. If marked Fail to Complete, the evolution is an automatic failure.</li><li style="margin-bottom:4px;"><strong>Lost points for unlisted issues:</strong> If the trainee commits a significant safety violation, a critical procedural error, or another substantial omission that is not listed in the task list, document it in the notes box at the bottom with full detail. Deduct the points by scoring the closest related task lower.</li></ul>
     </div>
 
     <div id="a5_container" class="sub-evo-container">
       <div id="a5_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 4: Marrying Vehicles Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Marrying Vehicles Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a5" placeholder="Document how the vehicles were married and the stabilization used. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a5"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a6')">Next: Evolution - Evolution 5: Full Extrication →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a6')">Next: Evolution - Full Extrication →</button>
   </div>
 
   <!-- SCREEN: a6 -->
   <div id="scr_a6" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 5: Full Extrication: Full Extrication</span>
+      <span>Evolution - Full Extrication: Full Extrication</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a6_tested" onclick="setEvoExempt('a6', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a6_exempt" onclick="setEvoExempt('a6', true)">TEST NOT GIVEN</button>
@@ -925,7 +925,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 5 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You are dispatched to an 11-80. Upon arriving at the scene of a complex motor vehicle collision, you observe a passenger vehicle resting on all four wheels, albeit with significant front-end damage.</p>
     </div>
     <div class="box-alert">
@@ -941,19 +941,19 @@
       <div id="a6_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 5: Full Extrication Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Full Extrication Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a6" placeholder="Document stabilization, glass, door, roof, dash work, and the backup tool answers. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a6"></div>
         </div>
       </div>
     </div>
-    <button class="btn-nav-action" onclick="showScreen('scr_a7')">Next: Evolution - Evolution 6: Rapid Vehicle Lift →</button>
+    <button class="btn-nav-action" onclick="showScreen('scr_a7')">Next: Evolution - Rapid Vehicle Lift →</button>
   </div>
 
   <!-- SCREEN: a7 -->
   <div id="scr_a7" class="screen-tab">
     <div class="card-header">
-      <span>Evolution - Evolution 6: Rapid Vehicle Lift: Rapid Vehicle Lift for Patient Entrapment</span>
+      <span>Evolution - Rapid Vehicle Lift: Rapid Vehicle Lift for Patient Entrapment</span>
       <div class="toggle-status-group">
         <button type="button" class="btn-toggle-status active-tested" id="btn_toggle_a7_tested" onclick="setEvoExempt('a7', false)">TESTED</button>
         <button type="button" class="btn-toggle-status" id="btn_toggle_a7_exempt" onclick="setEvoExempt('a7', true)">TEST NOT GIVEN</button>
@@ -961,7 +961,7 @@
     </div>
 
     <div class="box-alert">
-      <strong>EVOLUTION 6 SCENARIO (To Trainee):</strong>
+      <strong>SCENARIO (To Trainee):</strong>
       <p style="margin-bottom: 0; line-height: 1.5;">You are arriving on scene to a vehicle collision where a simulated patient is trapped underneath a vehicle. Time is critical due to potential injuries.</p>
     </div>
     <div class="box-info">
@@ -973,7 +973,7 @@
       <div id="a7_list"></div>
       <div class="card">
         <div class="form-group">
-          <label>Evolution - Evolution 6: Rapid Vehicle Lift Proctor Notes &amp; Section Observations</label>
+          <label>Evolution - Rapid Vehicle Lift Proctor Notes &amp; Section Observations</label>
           <textarea id="notes_a7" placeholder="Document stabilization, lift, and overall safety observations. Record the actual time and any lost points for unlisted issues..." oninput="saveDraft()"></textarea>
           <div class="print-note-mirror" id="mirror_notes_a7"></div>
         </div>
@@ -1320,12 +1320,12 @@ function showScreen(screenId, btnElement) {
 function getTaskDetails(taskId) {
   var sectionNames = {
     'a1': "Auto Extrication Questions",
-    'a2': "Evolution 1: De-energization and Hood Access",
-    'a3': "Evolution 2: Side-Lying Vehicle Stabilization",
-    'a4': "Evolution 3: Overturned Vehicle (Cradle & Lift)",
-    'a5': "Evolution 4: Marrying Vehicles",
-    'a6': "Evolution 5: Full Extrication",
-    'a7': "Evolution 6: Rapid Vehicle Lift"
+    'a2': "De-energization and Hood Access",
+    'a3': "Side-Lying Vehicle Stabilization",
+    'a4': "Overturned Vehicle (Cradle & Lift)",
+    'a5': "Marrying Vehicles",
+    'a6': "Full Extrication",
+    'a7': "Rapid Vehicle Lift"
   };
 
   for (var secKey in tasksData) {
@@ -1535,12 +1535,12 @@ function getMajorSection(secKey) {
 
 var MAJOR_SECTIONS = [
   ['a1', "Auto Extrication Questions"],
-  ['a2', "Evolution 1: De-energization and Hood Access"],
-  ['a3', "Evolution 2: Side-Lying Vehicle Stabilization"],
-  ['a4', "Evolution 3: Overturned Vehicle (Cradle & Lift)"],
-  ['a5', "Evolution 4: Marrying Vehicles"],
-  ['a6', "Evolution 5: Full Extrication"],
-  ['a7', "Evolution 6: Rapid Vehicle Lift"]
+  ['a2', "De-energization and Hood Access"],
+  ['a3', "Side-Lying Vehicle Stabilization"],
+  ['a4', "Overturned Vehicle (Cradle & Lift)"],
+  ['a5', "Marrying Vehicles"],
+  ['a6', "Full Extrication"],
+  ['a7', "Rapid Vehicle Lift"]
 ];
 function getUnscoredSections(secScores) {
   var list = [];
@@ -1925,12 +1925,12 @@ function renderSummary() {
 
 
   out += getSecStatusLine('a1', "Auto Extrication Questions");
-  out += getSecStatusLine('a2', "Evolution 1: De-energization and Hood Access");
-  out += getSecStatusLine('a3', "Evolution 2: Side-Lying Vehicle Stabilization");
-  out += getSecStatusLine('a4', "Evolution 3: Overturned Vehicle (Cradle & Lift)");
-  out += getSecStatusLine('a5', "Evolution 4: Marrying Vehicles");
-  out += getSecStatusLine('a6', "Evolution 5: Full Extrication");
-  out += getSecStatusLine('a7', "Evolution 6: Rapid Vehicle Lift");
+  out += getSecStatusLine('a2', "De-energization and Hood Access");
+  out += getSecStatusLine('a3', "Side-Lying Vehicle Stabilization");
+  out += getSecStatusLine('a4', "Overturned Vehicle (Cradle & Lift)");
+  out += getSecStatusLine('a5', "Marrying Vehicles");
+  out += getSecStatusLine('a6', "Full Extrication");
+  out += getSecStatusLine('a7', "Rapid Vehicle Lift");
   out += '</ul>';
 
   var timeRows = '';
@@ -1970,12 +1970,12 @@ function renderSummary() {
   }
 
   out += renderSectionNoteCard('1', "Auto Extrication Questions", 'notes_a1', exemptSections['a1']);
-  out += renderSectionNoteCard('2', "Evolution 1: De-energization and Hood Access", 'notes_a2', exemptSections['a2']);
-  out += renderSectionNoteCard('3', "Evolution 2: Side-Lying Vehicle Stabilization", 'notes_a3', exemptSections['a3']);
-  out += renderSectionNoteCard('4', "Evolution 3: Overturned Vehicle (Cradle & Lift)", 'notes_a4', exemptSections['a4']);
-  out += renderSectionNoteCard('5', "Evolution 4: Marrying Vehicles", 'notes_a5', exemptSections['a5']);
-  out += renderSectionNoteCard('6', "Evolution 5: Full Extrication", 'notes_a6', exemptSections['a6']);
-  out += renderSectionNoteCard('7', "Evolution 6: Rapid Vehicle Lift", 'notes_a7', exemptSections['a7']);
+  out += renderSectionNoteCard('2', "De-energization and Hood Access", 'notes_a2', exemptSections['a2']);
+  out += renderSectionNoteCard('3', "Side-Lying Vehicle Stabilization", 'notes_a3', exemptSections['a3']);
+  out += renderSectionNoteCard('4', "Overturned Vehicle (Cradle & Lift)", 'notes_a4', exemptSections['a4']);
+  out += renderSectionNoteCard('5', "Marrying Vehicles", 'notes_a5', exemptSections['a5']);
+  out += renderSectionNoteCard('6', "Full Extrication", 'notes_a6', exemptSections['a6']);
+  out += renderSectionNoteCard('7', "Rapid Vehicle Lift", 'notes_a7', exemptSections['a7']);
 
   var hasPartNotes = false;
   var partHtml = '<div class="pdf-section-title" style="margin-top:14px; color:#b45309;">ITEMIZED FIELD NOTES & DEDUCTION RATIONALE:</div><ul style="font-size:0.84rem; color:#1e293b; padding-left:18px; line-height:1.6;">';
@@ -2166,12 +2166,12 @@ function clearCanvas(canvasId) {
    EVOLUTION STOPWATCHES (informational; no set time limit)
    ============================================================== */
 var TIMED_SCREENS = {
-  scr_a2: "Evolution 1",
-  scr_a3: "Evolution 2",
-  scr_a4: "Evolution 3",
-  scr_a5: "Evolution 4",
-  scr_a6: "Evolution 5",
-  scr_a7: "Evolution 6"
+  scr_a2: "De-Energize",
+  scr_a3: "Side-Lying",
+  scr_a4: "Overturned",
+  scr_a5: "Marrying",
+  scr_a6: "Full Extrication",
+  scr_a7: "Rapid Lift"
 };
 var timers = {};
 var timerResetArmed = null;
@@ -2286,12 +2286,12 @@ try { if (window.self !== window.top) { var pw = document.getElementById("previe
 var SCREEN_ORDER = ['scr_admin','scr_a1','scr_a2','scr_a3','scr_a4','scr_a5','scr_a6','scr_a7','scr_summary'];
 var SCREEN_INFO = {
   scr_a1: { label: "Auto Extrication Questions", major: 'a1', secs: ['a1'] },
-  scr_a2: { label: "Evolution 1: De-energization and Hood Access", major: 'a2', secs: ['a2'] },
-  scr_a3: { label: "Evolution 2: Side-Lying Vehicle Stabilization", major: 'a3', secs: ['a3'] },
-  scr_a4: { label: "Evolution 3: Overturned Vehicle (Cradle & Lift)", major: 'a4', secs: ['a4'] },
-  scr_a5: { label: "Evolution 4: Marrying Vehicles", major: 'a5', secs: ['a5'] },
-  scr_a6: { label: "Evolution 5: Full Extrication", major: 'a6', secs: ['a6'] },
-  scr_a7: { label: "Evolution 6: Rapid Vehicle Lift", major: 'a7', secs: ['a7'] }
+  scr_a2: { label: "De-energization and Hood Access", major: 'a2', secs: ['a2'] },
+  scr_a3: { label: "Side-Lying Vehicle Stabilization", major: 'a3', secs: ['a3'] },
+  scr_a4: { label: "Overturned Vehicle (Cradle & Lift)", major: 'a4', secs: ['a4'] },
+  scr_a5: { label: "Marrying Vehicles", major: 'a5', secs: ['a5'] },
+  scr_a6: { label: "Full Extrication", major: 'a6', secs: ['a6'] },
+  scr_a7: { label: "Rapid Vehicle Lift", major: 'a7', secs: ['a7'] }
 };
 /* Sections made of questions: not every one has to be asked */
 var OPTIONAL_SECTIONS = { a1: true };
