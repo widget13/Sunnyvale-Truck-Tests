@@ -73,6 +73,13 @@
 
   #clearOverlay { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.92); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
   #clearOverlay.show { display: flex; }
+  #exportOverlay { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.92); z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+  #exportOverlay.show { display: flex; }
+  #exportOverlay .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  #exportOverlay h2 { font-size: 1.1rem; margin-bottom: 10px; }
+  #exportOverlay p.opt { font-size: 0.82rem; line-height: 1.4; color: #cbd5e1; margin: 6px 0 14px; }
+  #exportOverlay p.warn { color: #fcd34d; }
+  #exportOverlay button { display: block; width: 100%; padding: 14px; border-radius: 6px; border: 0; font-size: 0.95rem; font-weight: 700; color: #fff; }
   #clearOverlay .box { background: #1e293b; border: 2px solid #3b82f6; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%; }
   #clearOverlay h2 { font-size: 1.1rem; margin-bottom: 8px; }
   #clearOverlay p { font-size: 0.9rem; line-height: 1.45; color: #cbd5e1; margin-bottom: 14px; }
@@ -560,7 +567,7 @@
     body.print-full-test #scr_summary { 
       page-break-before: auto;
     }
-    #clearOverlay, #summaryActionCard, #timerDock { display: none !important; }
+    #clearOverlay, #exportOverlay, #summaryActionCard, #timerDock { display: none !important; }
     body.print-full-test .card, body.print-full-test .task-row { 
       background: #ffffff !important; 
       color: #000000 !important; 
@@ -1356,17 +1363,17 @@
       
       <div id="previewPrintWarn" class="box-alert" style="display:none;"><strong>Printing may be blocked in this preview.</strong> If the Export button does nothing, open this file in Safari or Chrome (not inside Claude's preview) and export from there.</div>
       <div class="airdrop-reminder">
-        <strong>📱 Export Instructions (one PDF: summary first, then the full test):</strong>
+        <strong>📱 Export Instructions (one PDF):</strong>
         <ol>
           <li>Review the <strong>Live PDF Document Preview</strong> below (scores, notes, signatures).</li>
-          <li>Tap <strong>"📄 Export Complete Packet"</strong>.</li>
+          <li>Tap <strong>📄 Export PDF</strong> and choose the complete packet or the overview only.</li>
           <li><strong>iPhone:</strong> in the print sheet, pinch outward on the page preview to open the PDF, then tap Share and choose Mail, Messages, or Save to Files.<br><strong>Android:</strong> choose "Save as PDF", then share or email the saved file.</li>
           <li>Confirm the PDF has everything. When you return to this page, tap <strong>"Yes, clear all data"</strong>.</li>
         </ol>
       </div>
       
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-        <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="printFullEvaluationPacket()">📄 Export Complete Packet (Summary + Full Test)</button>
+        <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="showExportChoice()">📄 Export PDF</button>
       </div>
     </div>
 
@@ -1449,7 +1456,7 @@
     </div>
 
     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-      <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="printFullEvaluationPacket()">📄 Export Complete Packet (Summary + Full Test)</button>
+      <button type="button" class="btn-nav-action btn-pdf" style="flex:1; margin-top:0; min-width:240px;" onclick="showExportChoice()">📄 Export PDF</button>
     </div>
       <button class="btn-nav-action btn-reset" onclick="confirmReset()">⚠️ Clear All Data & Reset Test</button>
     </div>
@@ -1471,6 +1478,17 @@
   <button type="button" id="timerToggle" onclick="toggleTimer()">Start</button>
   <button type="button" class="t-stop" id="timerStop" onclick="stopTimer()">Stop</button>
   <button type="button" class="t-reset" id="timerReset" onclick="resetTimer()">Reset</button>
+</div>
+
+<div id="exportOverlay">
+  <div class="box">
+    <h2>What do you want to export?</h2>
+    <button type="button" style="background:#2563eb;" onclick="hideExportChoice(); printFullEvaluationPacket();">Complete packet</button>
+    <p class="opt">The score summary first, then the full test with every task and question.</p>
+    <button type="button" style="background:#0d9488;" onclick="hideExportChoice(); printOverviewOnly();">Overview only</button>
+    <p class="opt warn">This will not show all the missed questions, just an overview of the score.</p>
+    <button type="button" style="background:#475569;" onclick="hideExportChoice()">Cancel</button>
+  </div>
 </div>
 
 <div id="clearOverlay">
@@ -2631,12 +2649,23 @@ function renderSummary() {
   document.getElementById('summaryBody').innerHTML = out;
 }
 
-function saveAsPdf() {
+function showExportChoice() {
+  if (earlyEndBlocksExport()) return;
+  var o = document.getElementById('exportOverlay');
+  if (o) o.classList.add('show');
+}
+function hideExportChoice() {
+  var o = document.getElementById('exportOverlay');
+  if (o) o.classList.remove('show');
+}
+function printOverviewOnly() {
   if (earlyEndBlocksExport()) return;
   document.body.classList.remove('print-full-test');
+  putSummaryFirst(false);
   renderSummary();
   setTimeout(function() {
     window.print();
+    armPrintFallback();
   }, 100);
 }
 
@@ -2677,7 +2706,7 @@ function printFullEvaluationPacket() {
 var packetPending = false;
 var printFallbackAt = 0;
 function afterPrintCleanup() {
-  var wasPacket = document.body.classList.contains('print-full-test');
+  var wasPacket = packetPending;
   packetPending = false;
   document.body.classList.remove('print-full-test');
   putSummaryFirst(false);
