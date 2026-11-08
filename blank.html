@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blank Test Sheet</title>
+<style>
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  body { margin: 0; background: #e5e7eb; color: #000; }
+  .bar { position: sticky; top: 0; z-index: 5; background: #0f172a; color: #f8fafc; padding: 10px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .bar button, .bar a { background: #2563eb; color: #fff; border: 0; border-radius: 6px; padding: 10px 16px; font-size: 0.95rem; font-weight: 700; text-decoration: none; cursor: pointer; }
+  .bar a { background: #475569; }
+  .bar .hint { font-size: 0.78rem; color: #cbd5e1; flex: 1 1 220px; line-height: 1.35; }
+  .sheet { max-width: 820px; margin: 14px auto; background: #fff; padding: 22px 26px; }
+  .sheet * { background: transparent !important; color: #000 !important; text-shadow: none !important; box-shadow: none !important; }
+  .sheet h1 { font-size: 1.35rem; margin: 0 0 2px; }
+  .sheet .sub { font-size: 0.85rem; margin-bottom: 10px; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin: 10px 0 14px; font-size: 0.85rem; }
+  .fields div { border-bottom: 1px solid #000; padding-top: 14px; font-weight: 700; }
+  .sec { page-break-before: always; }
+  .sec h2 { font-size: 1.1rem; border-bottom: 2px solid #000; padding-bottom: 4px; margin: 0 0 8px; }
+  .box-alert, .box-info { border: 1px solid #666 !important; border-left: 4px solid #000 !important; padding: 8px 10px; margin-bottom: 8px; font-size: 0.78rem; line-height: 1.4; page-break-inside: avoid; }
+  .box-alert > strong:first-child, .box-info > strong:first-child { display: block; margin-bottom: 3px; font-size: 0.8rem; }
+  .box-alert ul, .box-info ul { padding-left: 18px; margin: 4px 0; }
+  .card { border: 1px solid #999 !important; padding: 8px 10px; margin-bottom: 8px; font-size: 0.78rem; page-break-inside: avoid; }
+  .card ol { padding-left: 20px; }
+  .sub-evo-header { border: 1px solid #333 !important; background: #eee !important; padding: 5px 8px; margin: 10px 0 6px; font-weight: 800; font-size: 0.85rem; page-break-inside: avoid; }
+  .task-row { border: 1px solid #666 !important; margin-bottom: 6px; padding: 6px 8px; page-break-inside: avoid; display: grid; grid-template-columns: 1fr 74px; gap: 4px 10px; }
+  .task-row.safety-critical { border-left: 5px solid #000 !important; background: #eee !important; }
+  .task-head { grid-column: 1; display: block; }
+  .task-title { font-weight: 800; font-size: 0.85rem; }
+  .task-weight { font-size: 0.7rem; font-weight: 700; display: block; margin-top: 2px; }
+  .task-desc { grid-column: 1; font-size: 0.78rem; line-height: 1.4; }
+  .task-desc ul { padding-left: 18px; margin: 3px 0; }
+  .earn { grid-column: 2; grid-row: 1 / span 3; border: 1px solid #000; min-height: 38px; font-size: 0.65rem; text-align: center; padding-top: 2px; font-weight: 700; align-self: stretch; }
+  .safety-pill { border: 1px solid #000; padding: 0 4px; font-size: 0.65rem; font-weight: 800; margin-right: 4px; text-transform: uppercase; }
+  .fly-note { font-size: 0.72rem; font-style: italic; }
+  .tot { border: 2px solid #000; padding: 8px 10px; margin: 10px 0; font-size: 0.85rem; line-height: 1.8; page-break-inside: avoid; }
+  .lines { border: 1px solid #666; padding: 6px 10px; margin-bottom: 8px; page-break-inside: avoid; font-size: 0.78rem; font-weight: 700; }
+  .lines div { border-bottom: 1px solid #999; height: 24px; }
+  .sig { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 30px; font-size: 0.78rem; }
+  .sig div { border-top: 1px solid #000; padding-top: 3px; }
+  #msg { padding: 30px; text-align: center; font-size: 1rem; }
+  @media print {
+    body { background: #fff; }
+    .bar { display: none; }
+    .sheet { margin: 0; padding: 0; max-width: none; }
+    @page { margin: 12mm; }
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <button type="button" onclick="window.print()">Print / Save as PDF</button>
+  <a href="./">Back to menu</a>
+  <span class="hint">Tap Print / Save as PDF. On iPhone, choose Print, then pinch out on the page preview to turn it into a PDF you can save or share.</span>
+</div>
+<div id="msg">Building the blank sheet...</div>
+<div class="sheet" id="sheet" style="display:none"></div>
+<script>
+(function() {
+  var TESTS = { phase1: 'phase1.html', phase2: 'phase2.html', ventilation: 'ventilation.html', autoextrication: 'autoextrication.html' };
+  var params = new URLSearchParams(location.search);
+  var key = params.get('test');
+  var file = TESTS[key];
+  var msg = document.getElementById('msg');
+  if (!file) { msg.innerHTML = 'Pick a test from the <a href="./">menu</a>.'; return; }
+
+  var frame = document.createElement('iframe');
+  frame.style.cssText = 'position:absolute; left:-9999px; top:0; width:600px; height:900px; border:0;';
+  frame.onload = function() {
+    try { build(frame.contentWindow, frame.contentDocument); }
+    catch (e) { msg.textContent = 'Could not build the blank sheet: ' + e.message; }
+  };
+  frame.src = file;
+  document.body.appendChild(frame);
+
+  function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  function build(w, d) {
+    var order = w.SCREEN_ORDER.filter(function(id) { return id !== 'scr_admin' && id !== 'scr_summary'; });
+    order.forEach(function(id) { w.showScreen(id); });
+    var h1 = d.querySelector('header h1'), sub = d.querySelector('header p');
+    document.title = 'Blank - ' + (h1 ? h1.textContent : 'Test Sheet');
+    var out = '<h1>' + esc(h1 ? h1.textContent : 'Test') + '</h1><div class="sub">' + esc(sub ? sub.textContent : '') + '</div>';
+    out += '<div class="fields"><div>Truck Trainee:</div><div>Date:</div><div>Test Proctor:</div><div>Lieutenant:</div><div>Truck Trainer:</div><div>Overall Result (circle):&nbsp; PASS &nbsp;|&nbsp; FAIL</div></div>';
+    var admin = d.getElementById('scr_admin');
+    if (admin) {
+      admin.querySelectorAll('.box-alert, .box-info').forEach(function(b) { out += '<div class="' + b.className + '">' + clean(b).innerHTML + '</div>'; });
+    }
+    var all = {};
+    for (var k in w.tasksData) w.tasksData[k].forEach(function(t) { all[t.id] = t; });
+
+    order.forEach(function(id, idx) {
+      var scr = d.getElementById(id);
+      var info = w.SCREEN_INFO[id] || { secs: [] };
+      var head = scr.querySelector('.card-header span');
+      out += '<div class="sec"><h2>' + esc(head ? head.textContent : id) + '</h2>';
+      var work = scr.cloneNode(true);
+      work.querySelectorAll('.card-header, .btn-nav-action, .toggle-status-group, textarea, .print-note-mirror, .form-group, .partial-notes-wrap, .fly-prompt-wrap, .print-score-pill, .btn-group, button').forEach(function(n) { n.remove(); });
+      // notes card (now empty) and any leftover empty cards
+      work.querySelectorAll('.card').forEach(function(c) { if (!c.textContent.trim()) c.remove(); });
+      work.querySelectorAll('.task-row').forEach(function(row) {
+        var idEl = scr.querySelector('.task-row'); // placeholder
+      });
+      // map ids from the live DOM (same order) onto the clone
+      var liveRows = scr.querySelectorAll('.task-row'), cloneRows = work.querySelectorAll('.task-row');
+      var possible = 0, hasOpt = false;
+      cloneRows.forEach(function(row, i) {
+        var wrap = liveRows[i].querySelector('[id^="score_wrap_"]');
+        var tid = wrap ? wrap.id.replace('score_wrap_', '') : null;
+        var t = tid ? all[tid] : null;
+        var max = t ? t.max : 0;
+        var q = t && t.isQ;
+        var label = t && t.hasFlyCheck ? '<div class="fly-note">Score only if the trainee flew the aerial ladder on this evolution.</div>' : '';
+        row.insertAdjacentHTML('beforeend', label + '<div class="earn">EARNED<br>&nbsp;<br>/ ' + max + '</div>');
+      });
+      info.secs.forEach(function(sec) {
+        var opt = w.OPTIONAL_SECTIONS && w.OPTIONAL_SECTIONS[sec];
+        (w.tasksData[sec] || []).forEach(function(t) {
+          if (t.isNoteOnly) return;
+          if (opt || t.isQ) { hasOpt = true; return; }
+          possible += t.max;
+        });
+      });
+      out += work.innerHTML.replace(/<script[\s\S]*?<\/script>/g, '');
+      var timed = w.TIMED_SCREENS && w.TIMED_SCREENS[id];
+      out += '<div class="tot"><strong>SECTION TOTAL</strong><br>';
+      if (hasOpt) {
+        out += 'Points earned: ______ &nbsp; out of: ______ &nbsp; (' + (possible ? possible + ' required points + ' : '') + 'the points for each question you asked) &nbsp; Score: ______ %<br>';
+      } else {
+        out += 'Points earned: ______ &nbsp; out of: ' + possible + ' &nbsp; (pass = at least ' + Math.ceil(possible * 0.8) + ') &nbsp; Score: ______ %<br>';
+      }
+      if (timed) out += 'Actual time: ____________ &nbsp;&nbsp;';
+      out += 'Result (circle): &nbsp; PASS &nbsp;|&nbsp; FAIL &nbsp;&nbsp; 80% is needed to pass. Any Critical Safety item marked fail is an automatic fail.</div>';
+      out += '<div class="lines">Proctor notes / reasons for lost points:<div></div><div></div><div></div></div>';
+      out += '</div>';
+    });
+    out += '<div class="sig"><div>Truck Trainee signature</div><div>Test Proctor signature</div><div>Lieutenant signature</div></div>';
+    document.getElementById('sheet').innerHTML = out;
+    document.getElementById('sheet').style.display = 'block';
+    msg.style.display = 'none';
+    frame.remove();
+  }
+  function clean(el) { var c = el.cloneNode(true); c.querySelectorAll('button').forEach(function(n) { n.remove(); }); return c; }
+})();
+</script>
+</body>
+</html>
