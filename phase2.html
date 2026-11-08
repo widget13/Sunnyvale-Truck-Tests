@@ -1587,7 +1587,7 @@ function renderTasks() {
 
       var safetyClass = t.safety ? 'safety-critical' : '';
       var safetyTag = t.safety ? '<span class="safety-pill">Critical Safety</span>' : '';
-      var qTag = t.isQ ? '<span style="color:#60a5fa; font-weight:700; font-size:0.75rem; margin-right:4px;">[QUESTION]</span>' : '';
+      var qTag = t.isQ ? '<span style="color:#60a5fa; font-weight:700; font-size:0.75rem; margin-right:4px;">[' + (t.tagLabel || 'QUESTION') + ']</span>' : '';
 
       html += '<div class="task-row ' + safetyClass + '">';
       html += '  <div class="task-head">';
@@ -1615,8 +1615,13 @@ function renderTasks() {
       // Buttons
       html += '  <div class="btn-group" id="score_wrap_' + t.id + '"' + (t.hasFlyCheck ? ' style="display:none;"' : '') + '>';
       if (isPF) {
-        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', false, true)">Fail to Complete</button>';
-        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, false, true)">Completed (Pass)</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', true)">Fail to Complete</button>';
+        html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_2" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 2, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', true)">Completed (Pass)</button>';
+      } else if (t.max > 2) {
+        for (var sv = 0; sv <= t.max; sv++) {
+          var svLabel = (sv === 0) ? '0 - Fail' : ((sv === t.max) ? (sv + ' - Full') : String(sv));
+          html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_' + sv + '" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', ' + sv + ', ' + t.max + ', ' + ((t.safety && sv === 0) ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', false)">' + svLabel + '</button>';
+        }
       } else {
         html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_0" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 0, ' + t.max + ', ' + (t.safety ? 'true' : 'false') + ', ' + (t.isQ ? 'true' : 'false') + ', false)">0 - Fail</button>';
         html += '    <button type="button" class="btn-score" id="btn_' + t.id + '_1" onclick="recordScore(\'' + sectionKey + '\', \'' + t.id + '\', 1, ' + t.max + ', false, ' + (t.isQ ? 'true' : 'false') + ', false)">1 - Partial</button>';
@@ -1668,24 +1673,32 @@ function savePartialNote(taskId, noteText) {
   saveDraft();
 }
 
+function resetScoreBtns(taskId) {
+  var list = document.querySelectorAll('[id^="btn_' + taskId + '_"]');
+  for (var i = 0; i < list.length; i++) {
+    if (/_clear$/.test(list[i].id)) continue;
+    list[i].className = 'btn-score';
+  }
+}
+function scoreCls(val, max) {
+  if (val === 0) return 'selected-0';
+  if (val >= max) return 'selected-2';
+  return 'selected-1';
+}
+
 function recordScore(sectionKey, taskId, val, max, isSafety, isQ, isPassFail) {
-  var b0 = document.getElementById('btn_' + taskId + '_0');
-  var b1 = document.getElementById('btn_' + taskId + '_1');
-  var b2 = document.getElementById('btn_' + taskId + '_2');
-  if (b0) b0.className = 'btn-score';
-  if (b1) b1.className = 'btn-score';
-  if (b2) b2.className = 'btn-score';
+  resetScoreBtns(taskId);
 
   var selectedBtn = document.getElementById('btn_' + taskId + '_' + val);
   if (selectedBtn) {
-    selectedBtn.className = 'btn-score selected-' + val;
+    selectedBtn.className = 'btn-score ' + scoreCls(val, max);
   }
 
   // Toggle optional deduction / failure notes box
   var partBox = document.getElementById('partial_wrap_' + taskId);
   var lbl = document.getElementById('deduct_lbl_' + taskId);
   if (partBox) {
-    if (val === 0 || val === 1) {
+    if (val < max) {
       partBox.style.display = 'block';
       if (lbl) {
         lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
@@ -1701,12 +1714,7 @@ function recordScore(sectionKey, taskId, val, max, isSafety, isQ, isPassFail) {
 }
 
 function clearScore(taskId) {
-  var b0 = document.getElementById('btn_' + taskId + '_0');
-  var b1 = document.getElementById('btn_' + taskId + '_1');
-  var b2 = document.getElementById('btn_' + taskId + '_2');
-  if (b0) b0.className = 'btn-score';
-  if (b1) b1.className = 'btn-score';
-  if (b2) b2.className = 'btn-score';
+  resetScoreBtns(taskId);
 
   var partBox = document.getElementById('partial_wrap_' + taskId);
   if (partBox) partBox.style.display = 'none';
@@ -1964,11 +1972,11 @@ function restoreDraft() {
       for (var id in userScores) {
         var val = userScores[id].val;
         var btn = document.getElementById('btn_' + id + '_' + val);
-        if (btn) btn.className = 'btn-score selected-' + val;
+        if (btn) btn.className = 'btn-score ' + scoreCls(val, draft.scores[id].max);
         var pBox = document.getElementById('partial_wrap_' + id);
         var lbl = document.getElementById('deduct_lbl_' + id);
         if (pBox) {
-          if (val === 0 || val === 1) {
+          if (val < userScores[id].max) {
             pBox.style.display = 'block';
             if (lbl) {
               lbl.innerText = (val === 0) ? '📝 Failure Rationale / Notes (Optional):' : '📝 Partial Credit Notes (Optional):';
