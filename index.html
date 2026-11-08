@@ -16,6 +16,19 @@
   a.test .name { font-size: 1.1rem; font-weight: 700; }
   a.test .desc { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; line-height: 1.4; }
   .note { margin-top: 20px; font-size: 0.8rem; color: #94a3b8; line-height: 1.5; }
+  details.qr { background: #1e293b; border: 1px solid #334155; border-radius: 8px; margin-top: 18px; }
+  details.qr summary { padding: 16px; font-size: 1.05rem; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.qr summary::-webkit-details-marker { display: none; }
+  details.qr summary::after { content: '+'; font-size: 1.4rem; color: #94a3b8; }
+  details.qr[open] summary::after { content: '\2212'; }
+  .qr-body { padding: 0 16px 16px; }
+  .qr-item { text-align: center; padding: 14px 0; border-top: 1px solid #334155; }
+  .qr-item img { width: 220px; max-width: 70%; background: #fff; padding: 8px; border-radius: 6px; display: block; margin: 0 auto 10px; }
+  .qr-item .qname { font-weight: 700; margin-bottom: 4px; }
+  .qr-item .qurl { font-size: 0.75rem; color: #94a3b8; word-break: break-all; margin-bottom: 10px; }
+  .qr-links a { display: inline-block; margin: 4px; padding: 10px 16px; background: #2563eb; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+  .qr-links a.alt { background: #475569; }
+  .qr-hint { font-size: 0.78rem; color: #94a3b8; line-height: 1.45; padding-bottom: 8px; }
 </style>
 </head>
 <body>
@@ -27,6 +40,25 @@
     <div class="name">Phase 1 Test</div>
     <div class="desc">Truck 45 operator evaluation: eight evolutions, scoring, signatures and PDF packet.</div>
   </a>
+
+  <details class="qr">
+    <summary>QR Codes</summary>
+    <div class="qr-body">
+      <p class="qr-hint">Tap Download PNG to save a code to this phone (it goes to Files or Downloads), then add it to a document. SVG is for printing at any size.</p>
+      <div class="qr-item">
+        <img src="qr/truck-tests-menu.png" alt="QR code for the Truck Tests menu">
+        <div class="qname">Truck Tests menu</div>
+        <div class="qurl">https://widget13.github.io/Sunnyvale-Truck-Tests/</div>
+        <div class="qr-links"><a href="qr/truck-tests-menu.png" download="truck-tests-menu.png">Download PNG</a><a class="alt" href="qr/truck-tests-menu.svg" download="truck-tests-menu.svg">Download SVG</a></div>
+      </div>
+      <div class="qr-item">
+        <img src="qr/phase1-test.png" alt="QR code for the Phase 1 test">
+        <div class="qname">Phase 1 Test</div>
+        <div class="qurl">https://widget13.github.io/Sunnyvale-Truck-Tests/phase1.html</div>
+        <div class="qr-links"><a href="qr/phase1-test.png" download="phase1-test.png">Download PNG</a><a class="alt" href="qr/phase1-test.svg" download="phase1-test.svg">Download SVG</a></div>
+      </div>
+    </div>
+  </details>
 
   <p class="note">Each test saves your entries only on this device while you work. Nothing is sent to a server. Export the PDF, then clear the data when you are done.</p>
 </div>
