@@ -40,12 +40,23 @@
   .savebar { position: fixed; left: 0; right: 0; bottom: 0; background: #020617; border-top: 1px solid #334155; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); display: flex; gap: 8px; justify-content: center; align-items: center; }
   .savebar .count { font-size: 0.8rem; color: #fcd34d; flex: 1; }
   .hidden { display: none !important; }
+  .tabs { display: flex; gap: 6px; margin: 4px 0 12px; position: sticky; top: 0; z-index: 3; background: #0f172a; padding: 8px 0; }
+  .tabs button { flex: 1; background: #1e293b; border: 1px solid #334155; padding: 10px 6px; font-size: 0.82rem; }
+  .tabs button.on { background: #2563eb; border-color: #2563eb; }
+  .find { margin-bottom: 10px; }
+  .tf { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+  .tf.changed { border-color: #f59e0b; }
+  .tf textarea { min-height: 54px; margin-top: 2px; }
+  .tf .k { font-size: 0.68rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; }
+  .grp { margin: 16px 0 6px; font-size: 0.95rem; color: #60a5fa; font-weight: 800; }
+  .tip { font-size: 0.78rem; color: #94a3b8; line-height: 1.45; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <p style="margin:0 0 8px;"><a href="./" style="color:#60a5fa; font-size:0.85rem;">&larr; Back to menu</a></p>
   <h1>Test Editor</h1>
-  <p class="sub">Change the questions and tasks in the tests. This page is not linked from the menu. Saving needs an access token and changes the live tests for everyone.</p>
+  <p class="sub">Change the questions, tasks, and wording in the tests. Saving needs the access token and changes the live tests for everyone.</p>
 
   <div id="msg"></div>
 
@@ -67,6 +78,7 @@
       </select>
       <div class="row"><button type="button" onclick="loadTest()">Open this test</button><button type="button" class="alt" onclick="signOut()">Sign out</button></div>
     </div>
+    <div id="tabs" class="tabs hidden"><button type="button" id="tab_tasks" onclick="setTab('tasks')">Tasks &amp; questions</button><button type="button" id="tab_page" onclick="setTab('page')">Page text</button><button type="button" id="tab_pdf" onclick="setTab('pdf')">PDF &amp; pop-ups</button></div>
     <div id="editor"></div>
   </div>
 </div>
@@ -110,7 +122,7 @@ function signIn() {
     showMain(); say('ok', 'Signed in.');
   }).catch(function(e) { token = ''; say('err', 'Could not sign in: ' + esc(e.message)); });
 }
-function signOut() { storeSet(''); token = ''; data = null; $('main').classList.add('hidden'); $('savebar').classList.add('hidden'); $('login').classList.remove('hidden'); $('editor').innerHTML = ''; say('ok', 'Signed out. The token was removed from this device.'); }
+function signOut() { storeSet(''); token = ''; data = null; $('main').classList.add('hidden'); $('savebar').classList.add('hidden'); $('tabs').classList.add('hidden'); $('login').classList.remove('hidden'); $('editor').innerHTML = ''; say('ok', 'Signed out. The token was removed from this device.'); }
 function showMain() { $('login').classList.add('hidden'); $('main').classList.remove('hidden'); }
 
 /* ---------- reading and writing the tasks block inside a test file ---------- */
@@ -152,7 +164,211 @@ function rebuild(text, obj) {
 }
 function deepEq(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
 
+
 /* ---------- load / render ---------- */
+var units = [], tab = 'tasks', filterQ = '';
+
+/* ============ TEXT SCANNING (page text and PDF/pop-up text) ============ */
+var VOID = { br: 1, hr: 1, img: 1, input: 1, meta: 1, link: 1, source: 1, wbr: 1, area: 1, base: 1, col: 1 };
+var RAWSKIP = { script: 1, style: 1, textarea: 1, canvas: 1, svg: 1, title: 1 };
+var INLINE = { strong: 1, b: 1, em: 1, i: 1 };
+
+function parseHtml(text, from) {
+  var root = { tag: '#root', children: [], attrs: '', openEnd: from, closeStart: text.length, end: text.length };
+  var stack = [root];
+  var re = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:"[^"]*"|'[^']*'|[^'">])*)>|[^<]+|</g, m;
+  re.lastIndex = from;
+  while ((m = re.exec(text))) {
+    var cur = stack[stack.length - 1], tok = m[0];
+    if (tok.slice(0, 4) === '<!--') { cur.children.push({ comment: true, start: m.index, end: m.index + tok.length }); continue; }
+    if (m[2] === undefined) { cur.children.push({ text: true, start: m.index, end: m.index + tok.length, raw: tok }); continue; }
+    var tag = m[2].toLowerCase();
+    if (m[1] === '/') {
+      for (var s = stack.length - 1; s > 0; s--) { if (stack[s].tag === tag) { stack[s].closeStart = m.index; stack[s].end = m.index + tok.length; stack.length = s; break; } }
+      continue;
+    }
+    var node = { tag: tag, start: m.index, openEnd: m.index + tok.length, attrs: m[3] || '', children: [], tagStart: m.index };
+    cur.children.push(node);
+    if (VOID[tag] || /\/\s*$/.test(node.attrs)) { node.closeStart = node.openEnd; node.end = node.openEnd; continue; }
+    if (RAWSKIP[tag]) {
+      var lc = text.toLowerCase(), ci = lc.indexOf('</' + tag, node.openEnd);
+      if (ci < 0) ci = text.length;
+      var ce = text.indexOf('>', ci); ce = ce < 0 ? text.length : ce + 1;
+      node.closeStart = ci; node.end = ce; node.raw = true; re.lastIndex = ce; continue;
+    }
+    stack.push(node);
+  }
+  return root;
+}
+function allConv(list) {
+  for (var k = 0; k < list.length; k++) {
+    var c = list[k];
+    if (c.text) continue;
+    if (c.comment) return false;
+    if (c.tag === 'br') continue;
+    if (INLINE[c.tag] && !c.attrs.trim() && allConv(c.children)) continue;
+    return false;
+  }
+  return true;
+}
+function plainHas(list, text) {
+  for (var k = 0; k < list.length; k++) { var c = list[k]; if (c.text) { if (/[^\s]/.test(c.raw.replace(/&nbsp;/g, ' '))) return true; } else if (!c.comment && plainHas(c.children, text)) return true; }
+  return false;
+}
+function decodeEnt(s) { var t = document.createElement('textarea'); t.innerHTML = s; return t.value; }
+function htmlToDisplay(raw) {
+  var s = raw.replace(/\s+/g, ' ');
+  s = s.replace(/\s*<br\s*\/?>\s*/gi, '\n');
+  s = s.replace(/<(strong|b)>([\s\S]*?)<\/\1>/gi, '**$2**').replace(/<(em|i)>([\s\S]*?)<\/\1>/gi, '__$2__');
+  return decodeEnt(s).replace(/^[\s]+|[\s]+$/g, '');
+}
+function displayToHtml(v) {
+  var s = v.replace(/\r/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  s = s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>').replace(/__([^_\n]+?)__/g, '<em>$1</em>');
+  return s.replace(/\n/g, '<br>');
+}
+function attrEsc(v) { return v.replace(/\r?\n/g, ' ').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+function scanHtmlUnits(text, units, scripts) {
+  var bm = /<body[^>]*>/i.exec(text); if (!bm) return;
+  var root = parseHtml(text, bm.index + bm[0].length);
+  var screen = null;
+  function emit(kind, start, end, raw, node) {
+    var disp = kind === 'attr' ? decodeEnt(raw) : htmlToDisplay(raw);
+    units.push({ kind: kind, start: start, end: end, raw: raw, orig: disp, value: disp, screen: screen, parentAttrs: node ? node.attrs || '' : '' });
+  }
+  (function walk(node, parent) {
+    if (node.raw) { if (node.tag === 'script') scripts.push({ start: node.openEnd, end: node.closeStart, open: node }); return; }
+    var prevScreen = screen;
+    var idm = /\sid\s*=\s*"(scr_[^"]+)"/.exec(' ' + (node.attrs || ''));
+    if (idm) screen = { id: idm[1], label: '' };
+    var pm = /\splaceholder\s*=\s*"([^"]*)"/.exec(node.attrs || '');
+    if (pm && node.tagStart !== undefined) {
+      var tagText = text.slice(node.tagStart, node.openEnd), pi = tagText.indexOf(pm[0].trim());
+      var vs = node.tagStart + pi + pm[0].trim().indexOf('"') + 1;
+      emit('attr', vs, vs + pm[1].length, pm[1], node);
+    }
+    if (node.tag !== '#root' && node.children.length && allConv(node.children) && plainHas(node.children, text)) {
+      emit('html', node.openEnd, node.closeStart, text.slice(node.openEnd, node.closeStart), node);
+      if (screen && !screen.label && parent && /card-header/.test(parent.attrs || '')) screen.label = units[units.length - 1].orig;
+    } else {
+      node.children.forEach(function(c) {
+        if (c.text) { if (/[^\s]/.test(c.raw.replace(/&nbsp;/g, ' '))) emit('text', c.start, c.end, c.raw, node); }
+        else if (!c.comment) walk(c, node);
+      });
+    }
+    if (idm) { if (screen && !screen.label) screen.label = screen.id; screen = prevScreen; }
+  })(root, null);
+}
+
+/* ---- JavaScript string scanner ---- */
+function lexStrings(src) {
+  var out = [], i = 0, n = src.length, prev = '';
+  while (i < n) {
+    var c = src[i], d = src[i + 1];
+    if (c === '/' && d === '/') { var e = src.indexOf('\n', i); if (e < 0) break; i = e; continue; }
+    if (c === '/' && d === '*') { var e2 = src.indexOf('*/', i + 2); if (e2 < 0) break; i = e2 + 2; continue; }
+    if (c === "'" || c === '"') {
+      var q = c, j = i + 1;
+      while (j < n && src[j] !== q) { if (src[j] === '\\') j++; j++; }
+      out.push({ start: i, end: j + 1, quote: q, raw: src.slice(i + 1, j) });
+      i = j + 1; prev = q; continue;
+    }
+    if (c === '`') { var k = i + 1; while (k < n && src[k] !== '`') { if (src[k] === '\\') k++; k++; } i = k + 1; prev = '`'; continue; }
+    if (c === '/') {
+      var word = /([A-Za-z]+)\s*$/.exec(src.slice(Math.max(0, i - 12), i));
+      var isRe = prev === '' || /[(,=:\[!&|?{};+\-*%<>~^]/.test(prev) || (word && /^(return|typeof|case|in|of)$/.test(word[1]));
+      if (isRe) {
+        var r = i + 1, cls = false;
+        while (r < n) { var ch = src[r]; if (ch === '\\') { r += 2; continue; } if (ch === '[') cls = true; else if (ch === ']') cls = false; else if (ch === '/' && !cls) break; else if (ch === '\n') break; r++; }
+        i = r + 1; while (i < n && /[a-z]/i.test(src[i])) i++; prev = 'x'; continue;
+      }
+    }
+    if (!/\s/.test(c)) prev = c;
+    i++;
+  }
+  return out;
+}
+function jsDecode(raw) {
+  return raw.replace(/\\(u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2}|n|r|t|\\|'|"|\n)/g, function(m, g) {
+    if (g[0] === 'u' || g[0] === 'x') return String.fromCharCode(parseInt(g.slice(1), 16));
+    return { n: '\n', r: '\r', t: '\t', '\\': '\\', "'": "'", '"': '"', '\n': '' }[g];
+  });
+}
+function jsEncode(s, q) {
+  s = s.replace(/\\/g, '\\\\').replace(q === "'" ? /'/g : /"/g, '\\' + q).replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+  return s.replace(/<\/(script)/gi, '<\\/$1');
+}
+function looksLikeText(t) {
+  if (t.length < 8 || t.indexOf(' ') < 0) return false;
+  if ((t.match(/[A-Za-z]{2,}/g) || []).length < 2) return false;
+  if (!/[A-Z]|[.,:!?]/.test(t)) return false;
+  if (/[;{}=]|\(\)|^[.#]|\$\{|\\/.test(t)) return false;
+  return true;
+}
+function scanJsUnits(text, units, scripts, skipRanges, nameRanges) {
+  var nameSet = {};
+  scripts.forEach(function(sc) {
+    var code = text.slice(sc.start, sc.end);
+    nameRanges.forEach(function(r) { if (r.start >= sc.start && r.end <= sc.end) lexStrings(text.slice(r.start, r.end)).forEach(function(l) { nameSet[jsDecode(l.raw).trim().toLowerCase()] = 1; }); });
+    lexStrings(code).forEach(function(l) {
+      var abs = sc.start + l.start;
+      if (skipRanges.some(function(r) { return abs >= r.start && abs < r.end; })) return;
+      var dec = jsDecode(l.raw), segs = [];
+      if (dec.indexOf('<') >= 0 && dec.indexOf('>') >= 0) {
+        var re = /<[^>]*>|[^<]+/g, m;
+        while ((m = re.exec(dec))) { if (m[0][0] !== '<') segs.push({ s: m.index, e: m.index + m[0].length }); }
+      } else segs.push({ s: 0, e: dec.length });
+      segs.forEach(function(sg) {
+        var gt = dec.slice(sg.s, sg.e).lastIndexOf('>');
+        if (gt >= 0) sg = { s: sg.s + gt + 1, e: sg.e };
+        var piece = dec.slice(sg.s, sg.e), lead = piece.length - piece.replace(/^\s+/, '').length, core = piece.trim();
+        if (!looksLikeText(core) || nameSet[core.toLowerCase()]) return;
+        units.push({ kind: 'js', start: abs, end: sc.start + l.end, quote: l.quote, dec: dec, s: sg.s + lead, e: sg.s + lead + core.length, orig: core, value: core, screen: null });
+      });
+    });
+  });
+}
+function findRange(text, startMark, endMark) { var i = text.indexOf(startMark); if (i < 0) return null; var j = text.indexOf(endMark, i); return j < 0 ? null : { start: i, end: j + endMark.length }; }
+function scanText(text) {
+  var units = [], scripts = [];
+  var tm = /<title>([^<]*)<\/title>/i.exec(text);
+  if (tm) { var raw = tm[1]; units.push({ kind: 'title', start: tm.index + 7, end: tm.index + 7 + raw.length, raw: raw, orig: decodeEnt(raw), value: decodeEnt(raw), screen: null }); }
+  scanHtmlUnits(text, units, scripts);
+  var tb = findRange(text, START, END);
+  var skip = tb ? [{ start: tb.start, end: tb.end }] : [];
+  var nameRanges = [findRange(text, 'var sectionNames = {', '};'), findRange(text, 'var SCREEN_INFO = {', '};'), findRange(text, 'var TIMED_SCREENS = {', '};'), findRange(text, 'var MAJOR_SECTIONS = [', '];')].filter(Boolean);
+  scripts.forEach(function(sc) { /* scanned below */ });
+  scanJsUnits(text, units, scripts, skip, nameRanges);
+  units.forEach(function(u, i) { u.id = i; });
+  return units;
+}
+function unitChanged(u) { return u.value !== u.orig; }
+function applyUnits(text, units, tasksObj) {
+  var reps = [], byLit = {};
+  units.forEach(function(u) {
+    if (!unitChanged(u)) return;
+    if (u.kind === 'js') { (byLit[u.start] = byLit[u.start] || { u: u, list: [] }).list.push(u); return; }
+    var nr;
+    if (u.kind === 'attr') nr = attrEsc(u.value);
+    else if (u.kind === 'title') nr = u.value.replace(/\r?\n/g, ' ').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    else { var lead = /^\s*/.exec(u.raw)[0], trail = /\s*$/.exec(u.raw)[0]; nr = lead + displayToHtml(u.value) + trail; if (!u.raw.replace(/\s/g, '')) nr = u.raw; }
+    reps.push({ start: u.start, end: u.end, text: nr });
+  });
+  Object.keys(byLit).forEach(function(k) {
+    var g = byLit[k], dec = g.u.dec;
+    g.list.sort(function(a, b) { return b.s - a.s; }).forEach(function(u) { dec = dec.slice(0, u.s) + u.value.replace(/\r?\n/g, ' ') + dec.slice(u.e); });
+    var base = g.u.start;
+    var q = g.u.quote;
+    reps.push({ start: base, end: g.u.end, text: q + jsEncode(dec, q) + q });
+  });
+  if (tasksObj) { var tb = findRange(text, START, END); if (tb) reps.push({ start: tb.start, end: tb.end - END.length, text: serialize(tasksObj) }); }
+  reps.sort(function(a, b) { return b.start - a.start; });
+  reps.forEach(function(r) { text = text.slice(0, r.start) + r.text + text.slice(r.end); });
+  return text;
+}
+
+
 function loadTest() {
   if (dirty && !confirm('You have unsaved changes. Open another test and lose them?')) return;
   file = $('testSel').value; say('', '');
@@ -160,20 +376,28 @@ function loadTest() {
   gh('/contents/' + file + '?ref=' + BRANCH).then(function(r) {
     fileSha = r.sha; fileText = utf8Decode(r.content);
     data = parseBlock(fileText); names = parseNames(fileText);
-    original = JSON.parse(JSON.stringify(data)); dirty = false;
+    original = JSON.parse(JSON.stringify(data)); units = scanText(fileText); dirty = false;
+    $('tabs').classList.remove('hidden'); filterQ = '';
     render();
   }).catch(function(e) { $('editor').innerHTML = ''; say('err', 'Could not open the test: ' + esc(e.message)); });
 }
+function setTab(t) { tab = t; filterQ = ''; render(); window.scrollTo(0, 0); }
 
 function origIds() { var s = {}; Object.keys(original).forEach(function(k) { original[k].forEach(function(t) { s[t.id] = JSON.stringify(t); }); }); return s; }
 function changedCount() {
   var o = origIds(), n = 0, now = {};
   Object.keys(data).forEach(function(k) { data[k].forEach(function(t) { now[t.id] = 1; if (o[t.id] !== JSON.stringify(t)) n++; }); });
   Object.keys(o).forEach(function(id) { if (!now[id]) n++; });
+  units.forEach(function(u) { if (unitChanged(u)) n++; });
   return n;
 }
 function kindOf(t) { return t.isNoteOnly ? 'note' : (t.safety ? 'safety' : (t.isPassFail || t.max === 1 ? 'passfail' : 'scored')); }
 function render() {
+  ['tasks', 'page', 'pdf'].forEach(function(t) { var b = $('tab_' + t); if (b) b.classList.toggle('on', t === tab); });
+  if (tab === 'tasks') renderTasks(); else renderText(tab);
+  updateBar();
+}
+function renderTasks() {
   var o = origIds(), h = '';
   Object.keys(data).forEach(function(k) {
     h += '<div class="sec"><h2>' + esc(names[k] || k) + '</h2>';
@@ -186,7 +410,33 @@ function render() {
     });
     h += '<div class="row"><button type="button" class="alt small" onclick="addTask(\'' + esc(k) + '\')">+ Add a task or question</button></div></div>';
   });
-  $('editor').innerHTML = h; updateBar();
+  $('editor').innerHTML = h;
+}
+function inTab(u) { return tab === 'pdf' ? u.kind === 'js' : u.kind !== 'js'; }
+function renderText(which) {
+  var list = units.filter(inTab), h = '';
+  h += '<div class="tip">' + (which === 'page' ? 'This is the wording on the test pages: briefings, scenarios, proctor instructions, headings, and buttons. Change the words only. Use **double stars** around words to make them bold, and a new line for a line break. The tabs at the top of the test use the section names, so rename those here too if you change a section name.' : 'This is wording that the PDF, the summary, and the pop-up messages put together. Keep each one to a single line, and do not use the &lt; or &gt; symbols. Section names are not listed here; ask for those to be changed.') + '</div>';
+  h += '<input type="text" class="find" id="find" placeholder="Search the text..." value="' + esc(filterQ) + '" oninput="onFind(this.value)">';
+  h += '<div id="tflist">' + textListHtml(list) + '</div>';
+  $('editor').innerHTML = h;
+}
+function textListHtml(list) {
+  var q = filterQ.toLowerCase().trim(), h = '', lastG = null, n = 0;
+  list.forEach(function(u) {
+    if (q && (u.value + ' ' + u.orig).toLowerCase().indexOf(q) < 0) return;
+    var g = u.kind === 'js' ? 'PDF, summary, and pop-up wording' : (u.screen ? (u.screen.id === 'scr_admin' ? 'Admin screen' : (u.screen.id === 'scr_summary' ? 'Finish screen' : u.screen.label)) : 'Page title, header, and pop-ups');
+    if (g !== lastG) { h += '<div class="grp">' + esc(g) + '</div>'; lastG = g; }
+    h += '<div class="tf' + (unitChanged(u) ? ' changed' : '') + '" id="tf_' + u.id + '"><textarea id="tx_' + u.id + '" rows="' + Math.min(10, Math.max(2, Math.ceil(u.value.length / 42) + (u.value.split('\n').length - 1))) + '" oninput="onText(' + u.id + ')">' + esc(u.value) + '</textarea></div>';
+    n++;
+  });
+  return n ? h : '<div class="tip">Nothing found.</div>';
+}
+function onFind(v) { filterQ = v; $('tflist').innerHTML = textListHtml(units.filter(inTab)); }
+function onText(id) {
+  var u = units[id], v = $('tx_' + id).value;
+  u.value = v; dirty = true;
+  var el = $('tf_' + id); if (el) el.classList.toggle('changed', unitChanged(u));
+  updateBar();
 }
 function form(k, i, t) {
   var id = esc(t.id), kind = kindOf(t), h = '';
@@ -232,8 +482,8 @@ function addTask(k) {
   data[k].push(t); dirty = true; rerender([t.id]);
   var el = $('task_' + t.id); if (el) el.scrollIntoView({ block: 'center' });
 }
-function updateBar() { var n = changedCount(); $('savebar').classList.toggle('hidden', !data); $('count').textContent = n ? n + ' change' + (n === 1 ? '' : 's') + ' not saved yet' : 'No changes'; $('saveBtn').disabled = !n; }
-function discard() { if (!dirty || confirm('Throw away all unsaved changes?')) { data = JSON.parse(JSON.stringify(original)); dirty = false; render(); say('', ''); } }
+function updateBar() { var n = data ? changedCount() : 0; $('savebar').classList.toggle('hidden', !data); $('count').textContent = n ? n + ' change' + (n === 1 ? '' : 's') + ' not saved yet' : 'No changes'; $('saveBtn').disabled = !n; }
+function discard() { if (!dirty || confirm('Throw away all unsaved changes?')) { data = JSON.parse(JSON.stringify(original)); units = scanText(fileText); dirty = false; render(); say('', ''); } }
 
 function validate() {
   var ids = {}, probs = [];
@@ -242,7 +492,19 @@ function validate() {
     if (!String(t.title).trim()) probs.push('A task has no title.');
     if (!t.isNoteOnly && !(t.max >= 1)) probs.push('"' + t.title + '" needs points of at least 1.');
   }); });
+  units.forEach(function(u) {
+    if (!unitChanged(u)) return;
+    if (!u.value.trim()) probs.push('A text box was left empty (was: "' + u.orig.slice(0, 40) + '"). Put the old text back or write something.');
+    if (u.kind === 'js' && /[<>]/.test(u.value)) probs.push('The PDF/pop-up text "' + u.value.slice(0, 40) + '..." cannot contain < or > symbols.');
+  });
   return probs;
+}
+function scriptBodies(text) { var out = [], re = /<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/gi, m; while ((m = re.exec(text))) out.push(m[1]); return out; }
+function elementCount(text) { return new DOMParser().parseFromString(text, 'text/html').getElementsByTagName('*').length; }
+function selfCheck(oldText, newText) {
+  if (elementCount(oldText) !== elementCount(newText)) throw new Error('page structure changed');
+  scriptBodies(newText).forEach(function(b) { try { new Function(b); } catch (e) { throw new Error('page code would break: ' + e.message); } });
+  if (!deepEq(parseBlock(newText), data)) throw new Error('task list mismatch');
 }
 function save() {
   var probs = validate(); if (probs.length) { say('err', esc(probs.join(' '))); return; }
@@ -250,13 +512,13 @@ function save() {
   if (!confirm('Save ' + n + ' change' + (n === 1 ? '' : 's') + ' to the live test? Trainers will see it within a couple of minutes.')) return;
   var text;
   try {
-    text = rebuild(fileText, data);
-    if (!deepEq(parseBlock(text), data)) throw new Error('self-check failed');
+    text = applyUnits(fileText, units, deepEq(data, original) ? null : data);
+    selfCheck(fileText, text);
   } catch (e) { say('err', 'Safety check failed, nothing was saved (' + esc(e.message) + ').'); return; }
   $('saveBtn').disabled = true; $('saveBtn').textContent = 'Saving...';
-  gh('/contents/' + file, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Edit ' + file + ' tasks via the test editor (' + n + ' change' + (n === 1 ? '' : 's') + ')', content: utf8Encode(text), sha: fileSha, branch: BRANCH }) })
+  gh('/contents/' + file, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: 'Edit ' + file + ' via the test editor (' + n + ' change' + (n === 1 ? '' : 's') + ')', content: utf8Encode(text), sha: fileSha, branch: BRANCH }) })
   .then(function(r) {
-    fileSha = r.content.sha; fileText = text; original = JSON.parse(JSON.stringify(data)); dirty = false;
+    fileSha = r.content.sha; fileText = text; data = parseBlock(text); original = JSON.parse(JSON.stringify(data)); units = scanText(text); dirty = false;
     $('saveBtn').textContent = 'Save to live test'; render();
     say('ok', 'Saved. The live test updates in about 1 to 2 minutes. If a change does not show, close the page and reopen it. You can undo any save in the repo history on GitHub.');
   }).catch(function(e) {
